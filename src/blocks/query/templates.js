@@ -43,7 +43,7 @@ export const PAGINATION_TEMPLATE = [ 'generateblocks/element',
 				tagName: 'a',
 				content: __( 'Previous', 'generateblocks' ),
 				htmlAttributes: {
-					href: '{previous_posts_page_url}',
+					href: '{{previous_posts_page_url}}',
 				},
 				styles: {
 					...buttonStyles,
@@ -75,7 +75,7 @@ export const PAGINATION_TEMPLATE = [ 'generateblocks/element',
 				tagName: 'a',
 				content: __( 'Next', 'generateblocks' ),
 				htmlAttributes: {
-					href: '{next_posts_page_url}',
+					href: '{{next_posts_page_url}}',
 				},
 				styles: {
 					...buttonStyles,
@@ -117,11 +117,11 @@ export const TEMPLATES = [
 						[
 							[ 'generateblocks/text', {
 								tagName: 'h2',
-								content: '{post_title link:post}',
+								content: '{{post_title link:post}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
-								content: '{modified_date}',
+								content: '{{modified_date}}',
 								styles: {
 									fontSize: '14px',
 								},
@@ -158,7 +158,7 @@ export const TEMPLATES = [
 									fontSize: '20px',
 									marginBottom: '5px',
 								},
-								content: '{post_title link:post}',
+								content: '{{post_title link:post}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -166,7 +166,7 @@ export const TEMPLATES = [
 									marginBottom: '0px',
 									fontSize: '14px',
 								},
-								content: '{modified_date}',
+								content: '{{modified_date}}',
 							} ],
 						],
 					],
@@ -208,7 +208,7 @@ export const TEMPLATES = [
 									fontSize: '30px',
 									marginBottom: '5px',
 								},
-								content: '{post_title link:post}',
+								content: '{{post_title link:post}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -216,7 +216,7 @@ export const TEMPLATES = [
 									marginBottom: '30px',
 									fontSize: '14px',
 								},
-								content: '{modified_date}',
+								content: '{{modified_date}}',
 							} ],
 							[ 'core/post-excerpt', {} ],
 						],
@@ -256,8 +256,8 @@ export const TEMPLATES = [
 							[ 'generateblocks/media', {
 								tagName: 'img',
 								htmlAttributes: {
-									src: '{featured_image_url}',
-									alt: '{post_title}',
+									src: '{{featured_image_url}}',
+									alt: '{{post_title}}',
 								},
 								styles: {
 									marginBottom: '30px',
@@ -269,7 +269,7 @@ export const TEMPLATES = [
 									fontSize: '30px',
 									marginBottom: '5px',
 								},
-								content: '{post_title link:post}',
+								content: '{{post_title link:post}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -277,7 +277,7 @@ export const TEMPLATES = [
 									marginBottom: '30px',
 									fontSize: '14px',
 								},
-								content: '{modified_date}',
+								content: '{{modified_date}}',
 							} ],
 							[ 'core/post-excerpt', {} ],
 						],

@@ -263,6 +263,26 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'Previous Posts URL', 'generateblocks' ),
+				'tag'      => 'previous_posts_page_url',
+				'type'     => 'post',
+				'supports' => [ 'source', 'instant-pagination' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'Next Posts URL', 'generateblocks' ),
+				'tag'      => 'next_posts_page_url',
+				'type'     => 'post',
+				'supports' => [ 'source', 'instant-pagination' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
+			]
+		);
 	}
 
 	/**
@@ -407,7 +427,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		// Match the content inside the curly brackets.
-		preg_match_all( '/\{(.*?)\}/', $content, $matches );
+		preg_match_all( '/\{{(.*?)\}}/', $content, $matches );
 
 		if ( ! empty( $matches ) ) {
 			$inside_brackets = $matches[1];
@@ -435,8 +455,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$content = str_replace( $tag, "{$tag} id:{$fallback_id}", $tag );
 
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
@@ -444,14 +464,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$content = str_replace( $tag, "{$tag}|id:{$fallback_id}", $tag );
 
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} else {
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$tag}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				}

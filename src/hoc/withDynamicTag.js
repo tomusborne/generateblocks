@@ -30,7 +30,7 @@ export function withDynamicTag( WrappedComponent ) {
 		const contentValue = getContentValue();
 
 		useEffect( () => {
-			if ( ! contentValue || ! contentValue.includes( '{' ) ) {
+			if ( ! contentValue || ! contentValue.includes( '{{' ) ) {
 				setDynamicTagValue( false );
 				return;
 			}

@@ -53,7 +53,7 @@ export function Image( {
 		}
 
 		if ( elementAttributes?.src ) {
-			if ( elementAttributes?.src.startsWith( '{' ) ) {
+			if ( elementAttributes?.src.startsWith( '{{' ) ) {
 				return generateblocksBlockMedia.squarePlaceholder;
 			}
 

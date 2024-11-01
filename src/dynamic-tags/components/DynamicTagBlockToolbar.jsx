@@ -14,7 +14,7 @@ function getTags( value, data ) {
 	for ( const key in data ) {
 		const tag = data[ key ].tag;
 		// Create a regular expression to match {tag_name ...}
-		const regex = new RegExp( `\\{${ tag }[^}]*\\}`, 'g' );
+		const regex = new RegExp( `\\{{${ tag }[^}]*\\}}`, 'g' );
 
 		// Find all matches for the current tag
 		const matches = value.match( regex );

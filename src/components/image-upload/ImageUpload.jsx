@@ -52,7 +52,6 @@ export function ImageUpload( {
 							<Button
 								onClick={ open }
 								variant="secondary"
-								size="compact"
 							>
 								{ __( 'Browse', 'generateblocks' ) }
 							</Button>
@@ -63,7 +62,7 @@ export function ImageUpload( {
 				{ allowDynamicTags && (
 					<DynamicTagModal
 						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
-						selectedText={ value?.startsWith( '{' ) ? value : '' }
+						selectedText={ value?.startsWith( '{{' ) ? value : '' }
 						context={ context }
 					/>
 				) }

@@ -41,7 +41,6 @@ export function DynamicTagModal( {
 			aria-expanded={ isOpen }
 			icon={ getIcon( 'database' ) }
 			label={ __( 'Dynamic tags', 'generateblocks' ) }
-			size="compact"
 		/>;
 
 		return (
