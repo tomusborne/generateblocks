@@ -6,13 +6,13 @@ import { addQueryArgs, isURL } from '@wordpress/url';
 import { applyFilters } from '@wordpress/hooks';
 
 import { OpenPanel } from '@edge22/components';
+import { UnitControl } from '@edge22/styles-builder';
 
 import {
 	ApplyFilters,
 	ImageUpload,
 	URLControls,
 	DynamicTagsOnboarder,
-	UnitControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 

@@ -1,11 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { OpenPanel, IconControl } from '@edge22/components';
+import { UnitControl } from '@edge22/styles-builder';
 
 import {
 	ApplyFilters,
 	ColorPickerControls,
-	UnitControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
