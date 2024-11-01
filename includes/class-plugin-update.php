@@ -70,7 +70,7 @@ class GenerateBlocks_Plugin_Update extends GenerateBlocks_Singleton {
 		update_option( 'generateblocks', $settings );
 
 		// Turn on v1 blocks by default for users coming from 1.x.
-		update_option( 'gb_use_v1_blocks', true );
+		update_option( 'gb_use_v1_blocks', true, false );
 	}
 }
 
