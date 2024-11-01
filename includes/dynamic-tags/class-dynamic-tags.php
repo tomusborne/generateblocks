@@ -666,7 +666,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$media_id    = 0;
 					$replacement = $args['og_replacement'];
 
-					if ( is_int( $replacement ) ) {
+					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
 					} elseif ( 'featured_image_url' === $args['tag'] ) {
 						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
@@ -698,7 +698,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
 			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
 
-			if ( $src && $src === $args['tag'] && is_int( $replacement ) ) {
+			if ( $src && $src === $args['full_tag'] && is_numeric( $replacement ) ) {
 				$url = wp_get_attachment_url( $replacement, 'full' );
 
 				if ( $url ) {
