@@ -51,9 +51,9 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 		const innerBlocksCount = useInnerBlocksCount( clientId );
 		const blocksSelection = getBlocksByClientId( clientIds );
 		const hasParentBlock = getBlockRootClientId( clientId );
-		const blocksVersion = parseInt( generateBlocksEditor.activeBlockVersion );
+		const useV1Blocks = generateBlocksEditor.useV1Blocks;
 
-		if ( 1 === blocksVersion ) {
+		if ( useV1Blocks ) {
 			return <BlockEdit { ...props } />;
 		}
 

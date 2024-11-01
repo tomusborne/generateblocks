@@ -75,7 +75,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			}
 		};
 
-		const blocksVersion = parseInt( generateBlocksInfo.activeBlockVersion );
+		const useV1Blocks = generateBlocksInfo.useV1Blocks;
 		let buttons = '';
 
 		if (
@@ -108,7 +108,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>;
 		}
 
-		if ( 1 === blocksVersion ) {
+		if ( useV1Blocks ) {
 			buttons = <>
 				{ buttons }
 				<ToolbarButton
