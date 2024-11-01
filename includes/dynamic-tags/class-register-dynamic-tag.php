@@ -89,13 +89,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 */
 	public static function replace_tags( $content, $block, $instance ) {
 		foreach ( self::$tags as $tag_name => $data ) {
-			$opening_tag = '{' . $tag_name;
+			$opening_tag = '{{' . $tag_name;
 
 			if ( ! generateblocks_str_contains( $content, $opening_tag ) ) {
 				continue;
 			}
 
-			$full_tag = $opening_tag . '}';
+			$full_tag = $opening_tag . '}}';
 			$supports = $data['supports'];
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
@@ -163,7 +163,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 				$content = str_replace( $full_tag, (string) $replacement, $content );
 			} else {
-				$pattern = '/\{' . $tag_name . '(\s+([^}]+))*\}/';
+				$pattern = '/\{{' . $tag_name . '(\s+([^}]+))*\}}/';
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
 
 				foreach ( $matches as $match ) {
