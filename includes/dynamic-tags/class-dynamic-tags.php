@@ -666,7 +666,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$media_id    = 0;
 					$replacement = $args['og_replacement'];
 
-					if ( is_int( $replacement ) ) {
+					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
 					} elseif ( 'featured_image_url' === $args['tag'] ) {
 						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
