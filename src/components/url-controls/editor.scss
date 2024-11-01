@@ -13,3 +13,22 @@
 		}
 	}
 }
+
+
+.components-popover__content {
+	.gb-url-controls {
+		.gb-stack {
+			align-items: center;
+		}
+
+		input[type="text"] {
+			height: 35px !important;
+		}
+
+		.components-button {
+			height: 35px !important;
+			min-height: 35px !important;
+			padding: 0 10px;
+		}
+	}
+}

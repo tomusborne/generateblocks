@@ -52,7 +52,7 @@ export function URLControls( {
 				id="gb-url-controls__link"
 				htmlFor="gb-url-controls__link-input"
 			>
-				<Stack layout="flex" direction="horizontal" wrap={ false } gap="0">
+				<Stack layout="flex" direction="horizontal" wrap={ false } gap="5px">
 					<URLInput
 						id="gb-url-controls__link-input"
 						className={ 'gb-url-controls__link-input' }
