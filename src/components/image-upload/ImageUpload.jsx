@@ -52,7 +52,6 @@ export function ImageUpload( {
 							<Button
 								onClick={ open }
 								variant="secondary"
-								size="compact"
 							>
 								{ __( 'Browse', 'generateblocks' ) }
 							</Button>
