@@ -86,7 +86,6 @@ export function BlockSettings( {
 				panelId="shape"
 			>
 				<IconControl
-					label={ __( 'Icon', 'generateblocks' ) }
 					value={ html }
 					onChange={ ( value ) => setAttributes( { html: value } ) }
 					onClear={ () => setAttributes( { html: '' } ) }

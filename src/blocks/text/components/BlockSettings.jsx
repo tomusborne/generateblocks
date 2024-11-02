@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, BaseControl } from '@wordpress/components';
+import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
+import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -104,7 +104,6 @@ export function BlockSettings( {
 				panelId="icon"
 			>
 				<IconControl
-					label={ __( 'Icon SVG', 'generateblocks' ) }
 					value={ icon }
 					onChange={ ( value ) => {
 						// If the user hasn't done this before, align the icon and text.
@@ -163,7 +162,7 @@ export function BlockSettings( {
 							label={ __( 'Icon Display', 'generateblocks' ) }
 							id="gb-icon-only"
 						>
-							<Checkbox
+							<ToggleControl
 								id="gb-icon-only"
 								label={ __( 'Show the icon by itself', 'generateblocks' ) }
 								checked={ !! iconOnly }
