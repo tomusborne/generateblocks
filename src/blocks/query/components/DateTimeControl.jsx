@@ -1,8 +1,8 @@
 import { BaseControl, DateTimePicker } from '@wordpress/components';
-
+import clsx from 'clsx';
 import './editor.scss';
 
-export function DateTimeControl( { id, label, help, value, onChange } ) {
+export function DateTimeControl( { id, label, help, value, onChange, className = '' } ) {
 	const currentDate = !! value ? new Date( value ) : new Date();
 
 	return (
@@ -10,7 +10,7 @@ export function DateTimeControl( { id, label, help, value, onChange } ) {
 			id={ id }
 			label={ label }
 			help={ help }
-			className="gb-datetime-control"
+			className={ clsx( 'gb-datetime-control', className ) }
 		>
 			<DateTimePicker currentDate={ currentDate } onChange={ onChange } is12Hour={ true } />
 		</BaseControl>

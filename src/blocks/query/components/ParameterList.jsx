@@ -1,3 +1,5 @@
+import { Stack } from '@edge22/components';
+
 import queryParameterOptions from '../query-parameters';
 import { ParameterControl } from './ParameterControl';
 
@@ -13,18 +15,16 @@ export default ( { query, setParameter, removeParameter } ) => {
 	const parameterList = getParametersList( query );
 
 	return (
-		<>
-			<div style={ { marginBottom: '1.33em' } }>
-				{ parameterList && parameterList.map( ( parameter, i ) => (
-					<ParameterControl
-						key={ `${ parameter.id }-${ i }` }
-						parameter={ parameter }
-						query={ query }
-						setParameter={ setParameter }
-						removeParameter={ removeParameter }
-					/>
-				) ) }
-			</div>
-		</>
+		<Stack gap="24px">
+			{ parameterList && parameterList.map( ( parameter, i ) => (
+				<ParameterControl
+					key={ `${ parameter.id }-${ i }` }
+					parameter={ parameter }
+					query={ query }
+					setParameter={ setParameter }
+					removeParameter={ removeParameter }
+				/>
+			) ) }
+		</Stack>
 	);
 };

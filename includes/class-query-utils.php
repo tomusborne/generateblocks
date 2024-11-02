@@ -20,10 +20,11 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 *
 	 * @param array $args The WP_Query args to parse.
 	 * @param int   $page  Current query's page.
+	 * @param array $attributes The query block's attributes. Used for reference in the filters.
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1 ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes ) {
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -32,7 +33,9 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		$query_args = self::map_post_type_attributes( $args );
 
 		if ( isset( $query_args['tax_query'] ) ) {
-			$query_args['tax_query'] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
+			if ( count( $query_args['tax_query'] ) > 1 ) {
+				$query_args['tax_query']['relation'] = 'AND';
+			}
 		}
 
 		// Sticky posts handling.
@@ -53,15 +56,6 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			$query_args['ignore_sticky_posts'] = true;
 			$query_args['post__in'] = $sticky_posts;
 			unset( $query_args['stickyPosts'] );
-		}
-
-		if ( isset( $query_args['tax_query_exclude'] ) ) {
-			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
-			$query_args['tax_query'] = isset( $query_args['tax_query'] )
-				? array_merge( $query_args['tax_query'], $not_in_tax_query )
-				: $not_in_tax_query;
-
-			unset( $query_args['tax_query_exclude'] );
 		}
 
 		// Ensure offset works correctly with pagination.
@@ -99,7 +93,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 *
 		 * @param array @query_args The array of args for the WP_Query.
 		 */
-		return apply_filters( 'generateblocks_query_get_wp_query_args', $query_args );
+		return apply_filters( 'generateblocks_query_get_wp_query_args', $query_args, $attributes );
 	}
 
 	/**

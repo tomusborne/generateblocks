@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { ToggleControl, ComboboxControl, CustomSelectControl } from '@wordpress/components';
+import { ToggleControl, ComboboxControl, BaseControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { Stack } from '@edge22/components';
@@ -8,13 +8,13 @@ import { TaxonomiesSelect } from '@components';
 import { useTaxonomies } from '@hooks';
 
 export function TaxonomyParameterControl( props ) {
-	const { label, placeholder, value, onChange, help } = props;
+	const { label, placeholder, value, onChange, help, postType } = props;
 	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
 	const [ terms, setTerms ] = useState( value.terms );
 	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
-	const [ operator, setOperator ] = useState( 'IN' );
+	const [ operator, setOperator ] = useState( value?.operator );
 
-	const taxonomies = useTaxonomies();
+	const taxonomies = useTaxonomies( postType );
 
 	const isHierarchical = useMemo( () => {
 		const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
@@ -42,10 +42,11 @@ export function TaxonomyParameterControl( props ) {
 				taxonomy,
 				terms,
 				rest,
+				operator,
 				includeChildren: hierarchical ? includeChildren : undefined,
 			} );
 		}
-	}, [ taxonomy, JSON.stringify( terms ), includeChildren ] );
+	}, [ taxonomy, operator, JSON.stringify( terms ), includeChildren ] );
 
 	const taxonomiesOptions = useMemo( () => (
 		taxonomies
@@ -54,7 +55,7 @@ export function TaxonomyParameterControl( props ) {
 	), [ JSON.stringify( taxonomies ) ] );
 
 	return (
-		<Stack gap="12px">
+		<Stack gap="12px" className="gb-tax-query">
 			<ComboboxControl
 				label={ label }
 				placeholder={ placeholder || __( 'Select taxonomy', 'generateblocks' ) }

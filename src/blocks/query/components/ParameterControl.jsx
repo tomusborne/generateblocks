@@ -30,6 +30,7 @@ function attributeValueNormalizer( attribute, value ) {
 export function ParameterControl( { parameter, query, setParameter, removeParameter } ) {
 	const { dependencies = {} } = parameter;
 	const parameterValue = query[ parameter.id ];
+	const postType = query?.post_type ?? 'post';
 
 	const onChangeControl = useCallback( function onChangeControl( newValue ) {
 		setParameter( parameter.id, attributeValueNormalizer( parameter.id, newValue ) );
@@ -45,6 +46,7 @@ export function ParameterControl( { parameter, query, setParameter, removeParame
 		return (
 			<ControlBuilder
 				{ ...parameter }
+				postType={ postType }
 				value={ parameterValue }
 				onChange={ onChangeControl }
 				onClickRemove={ removeParameter }
@@ -54,27 +56,27 @@ export function ParameterControl( { parameter, query, setParameter, removeParame
 	}
 
 	return (
-		<>
-			{ Array.isArray( parameterValue ) && parameterValue.map( ( value, i ) => (
-				<ControlBuilder
-					key={ `${ parameter.id }-${ i }` }
-					value={ parameterValue }
-					onClickRemove={ ( id ) => {
-						parameterValue.splice( i, 1 );
+		Array.isArray( parameterValue ) && parameterValue.map( ( value, i ) => (
+			<ControlBuilder
+				{ ...parameter }
+				key={ `${ parameter.id }-${ i }` }
+				postType={ postType }
+				value={ value }
+				onClickRemove={ ( id ) => {
+					parameterValue.splice( i, 1 );
 
-						if ( parameterValue.length === 0 ) {
-							removeParameter( id );
-						} else {
-							setParameter( parameter.id, [ ...parameterValue ] );
-						}
-					} }
-					onChange={ ( newValue ) => {
-						parameterValue[ i ] = newValue;
+					if ( parameterValue.length === 0 ) {
+						removeParameter( id );
+					} else {
 						setParameter( parameter.id, [ ...parameterValue ] );
-					} }
-					dependencies={ dependenciesValues }
-				/>
-			) ) }
-		</>
+					}
+				} }
+				onChange={ ( newValue ) => {
+					parameterValue[ i ] = newValue;
+					setParameter( parameter.id, [ ...parameterValue ] );
+				} }
+				dependencies={ dependenciesValues }
+			/>
+		) )
 	);
 }

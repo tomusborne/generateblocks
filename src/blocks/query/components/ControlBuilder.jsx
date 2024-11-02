@@ -15,37 +15,45 @@ import {
 import { SelectPostType } from '../../../dynamic-tags/components/SelectPostType'; // @TODO: Move this to a better location
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
-import { DateTimeControl } from './DateTimeControl';
+import { DateQueryControl } from './DateQueryControl';
 
 import getIcon from '@utils/get-icon';
 
-const getParameterControl = ( parameterType ) => {
-	switch ( parameterType ) {
+function ControlComponent( props ) {
+	const {
+		postType,
+		...standardProps
+	} = props;
+
+	console.log( props?.type );
+
+	switch ( props?.type ) {
 		case 'text':
 		case 'number':
-			return DebouncedTextControl;
+			return <DebouncedTextControl { ...standardProps } />;
 		case 'postTypeSelect':
-			return SelectPostType;
+			return <SelectPostType { ...standardProps } />;
 		case 'select':
-			return SimpleSelect;
+			return <SimpleSelect { ...standardProps } />;
 		case 'multiSelect':
-			return SimpleMultiSelect;
+			return <SimpleMultiSelect { ...standardProps } />;
 		case 'authorsSelect':
-			return AuthorsSelect;
+			return <AuthorsSelect { ...standardProps } />;
 		case 'categoriesSelect':
-			return CategoriesSelect;
+			return <CategoriesSelect { ...standardProps } />;
 		case 'tagsSelect':
-			return TagsSelect;
+			return <TagsSelect { ...standardProps } />;
 		case 'taxonomySelect':
-			return TaxonomyParameterControl;
+			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
 		case 'postsSelect':
-			return PostTypeRecordsSelect;
-		case 'dateTimePicker':
-			return DateTimeControl;
+			return <PostTypeRecordsSelect { ...standardProps } />;
+		case 'dateQuery':
+			console.log( 'date query' );
+			return <DateQueryControl { ...standardProps } />;
 		case 'toggleControl':
-			return ToggleControl;
+			return <ToggleControl { ...standardProps } />;
 	}
-};
+}
 
 export function ControlBuilder( props ) {
 	const {
@@ -61,9 +69,9 @@ export function ControlBuilder( props ) {
 		onClickRemove,
 		dependencies,
 		placeholder,
+		postType,
 	} = props;
 
-	const Control = getParameterControl( type );
 	let controlDescription = description;
 
 	if ( 'posts_per_page' === id && ( '-1' === value || parseInt( value ) > parseInt( generateBlocksInfo.queryLoopEditorPostsCap ) ) ) {
@@ -80,26 +88,27 @@ export function ControlBuilder( props ) {
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
 	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
 
-	console.log( label, value );
+	const controlProps = {
+		id,
+		type,
+		label,
+		help: controlDescription,
+		options: selectOptions,
+		value,
+		placeholder: controlPlaceholder,
+		onChange,
+		min: isPostsPerPage ? -1 : undefined,
+		postType,
+		...dependencies,
+	};
 
 	return (
-		<div className={ 'gblocks-parameter-component' }>
-			<Control
-				id={ id }
-				type={ type }
-				label={ label }
-				help={ controlDescription }
-				options={ selectOptions }
-				value={ value }
-				placeholder={ controlPlaceholder }
-				onChange={ onChange }
-				min={ isPostsPerPage ? -1 : undefined }
-				{ ...dependencies }
-			/>
+		<div className={ 'gb-parameter-component' }>
+			<ControlComponent { ...controlProps } />
 			{ ! isSticky && (
 				<Tooltip text={ __( 'Delete parameter', 'generateblocks-pro' ) }>
 					<Button
-						className="gblocks-remove-parameter"
+						className="gb-remove-parameter"
 						onClick={ () => {
 							// eslint-disable-next-line
 							if ( window.confirm( __( 'This will permanently delete this parameter.', 'generateblocks' ) ) ) {

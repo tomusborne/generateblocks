@@ -1,3 +1,4 @@
+@use "sass:math";
 $settings-container-width: 750px;
 
 .gblocks-dashboard-wrap {
@@ -7,7 +8,7 @@ $settings-container-width: 750px;
 
 .gblocks-dashboard-header {
 	$padding-inline: 20px;
-	$padding-inline-half: $padding-inline / 2;
+	$padding-inline-half: math.div($padding-inline, 2);
 	align-items: center;
 	background: #fff;
 	border-bottom: 1px solid #e2e4e7;

@@ -49,8 +49,8 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		type: 'select',
 		default: 'desc',
 		selectOptions: [
-			{ value: 'desc', label: 'DESC' },
-			{ value: 'asc', label: 'ASC' },
+			{ value: 'DESC', label: 'DESC' },
+			{ value: 'ASC', label: 'ASC' },
 		],
 		label: __( 'Order', 'generateblocks' ),
 		description: __( 'Designates the ascending or descending order of the ‘orderby‘ parameter.', 'generateblocks' ),
@@ -79,7 +79,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		type: 'authorsSelect',
 		default: [],
 		dependencies: {
-			filterName: 'generateblocks.editor.query-loop.author',
+			filterName: 'generateblocks.editor.query.author--in',
 		},
 		label: __( 'Authors', 'generateblocks' ),
 		description: __( 'Show posts from authors. Search by name or ID.', 'generateblocks' ),
@@ -90,7 +90,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		type: 'authorsSelect',
 		default: [],
 		dependencies: {
-			filterName: 'generateblocks.editor.query-loop.author-exclude',
+			filterName: 'generateblocks.editor.query.author--not-in',
 		},
 		label: __( 'Exclude authors', 'generateblocks' ),
 		description: __( 'Exclude posts from authors. Search by name or ID.', 'generateblocks' ),
@@ -131,7 +131,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
-			filterName: 'generateblocks.editor.query-loop.include-parent',
+			filterName: 'generateblocks.editor.query.post-parent--in',
 		},
 		label: __( 'Parent', 'generateblocks' ),
 		description: __( 'Show posts from parents. Search by name or ID.', 'generateblocks' ),
@@ -143,7 +143,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
-			filterName: 'generateblocks.editor.query-loop.exclude-parent',
+			filterName: 'generateblocks.editor.query.-post-parent--not-in',
 		},
 		label: __( 'Parent exclude', 'generateblocks' ),
 		description: __( 'Do not show posts from parents. Search by name or ID.', 'generateblocks' ),
@@ -166,7 +166,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
-			filterName: 'generateblocks.editor.query-loop.exclude-posts-select',
+			filterName: 'generateblocks.editor.query.post--not-in',
 		},
 		label: __( 'Exclude posts', 'generateblocks' ),
 		description: __( 'Ensure result set excludes specific posts. Search by name or ID.', 'generateblocks' ),
@@ -187,19 +187,11 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'date_query_after',
-		type: 'dateTimePicker',
-		default: '',
-		label: __( 'After', 'generateblocks' ),
-		description: __( 'Limit response to posts published after a given date.', 'generateblocks' ),
-		group: __( 'Date', 'generateblocks' ),
-	},
-	{
-		id: 'date_query_before',
-		type: 'dateTimePicker',
-		default: '',
-		label: __( 'Before', 'generateblocks' ),
-		description: __( 'Limit response to posts published before a given date.', 'generateblocks' ),
+		id: 'date_query',
+		type: 'dateQuery',
+		default: { before: '', after: '', inclusive: true },
+		label: __( 'Date', 'generateblocks' ),
+		description: __( 'Limit response to posts published before or after a given date.', 'generateblocks' ),
 		group: __( 'Date', 'generateblocks' ),
 	},
 ] );

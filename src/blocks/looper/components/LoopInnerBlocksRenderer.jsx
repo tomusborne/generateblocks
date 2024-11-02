@@ -37,7 +37,7 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-function useWpQuery( shouldRequest = true, query ) {
+function useWpQuery( shouldRequest = true, query, attributes ) {
 	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
 
 	const [ data, setData ] = useState( [] );
@@ -66,6 +66,7 @@ function useWpQuery( shouldRequest = true, query ) {
 					method: 'POST',
 					data: {
 						args,
+						attributes,
 					},
 				} );
 
@@ -90,6 +91,7 @@ export function LoopInnerBlocksRenderer( props ) {
 	const {
 		clientId,
 		context,
+		attributes,
 	} = props;
 	const {
 		'generateblocks/query': query = {},
@@ -102,7 +104,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		queryParams: [],
 	};
 
-	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,

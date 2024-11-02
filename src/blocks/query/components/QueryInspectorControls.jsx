@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { ToggleControl, Notice } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
@@ -42,8 +42,6 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 		return queryTypes.find( ( option ) => option.value === attributes.queryType );
 	}, [ queryTypes, attributes.queryType ] );
 
-	console.log( queryState );
-
 	return (
 		<>
 			<AdvancedSelect
@@ -69,15 +67,6 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 								removeParameter={ removeParameter }
 							/>
 
-							{ true !== queryState?.ignore_sticky_posts && (
-								<Notice status="info">
-									{ __( 'If the query includes sticky posts, the posts_per_page value may not be honored.', 'generateblocks' ) }
-									<a href="https://docs.generateblocks.com">
-										{ __( 'Learn more', 'generateblocks' ) }
-									</a>
-								</Notice>
-							) }
-
 							{ ! displayParameterSelect &&
 								<AddQueryParameterButton onClick={ () => {
 									setDisplayParameterSelect( true );
@@ -88,6 +77,7 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 								<SelectQueryParameter
 									options={ parameterOptions }
 									onChange={ ( option ) => {
+										console.log( option );
 										if (
 											!! option.isRepeatable &&
 											Array.isArray( option.default ) &&

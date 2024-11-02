@@ -41,7 +41,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		];
 
 		if ( self::TYPE_WP_QUERY === $query_type ) {
-			$query_args = GenerateBlocks_Query_Utils::get_wp_query_args( $query_data['args'], $page );
+			$query_args = GenerateBlocks_Query_Utils::get_wp_query_args( $query_data['args'], $page, $attributes );
 			// Override the custom query with the global query if needed.
 			$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
 
@@ -72,6 +72,8 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 
 				// Make the new WP_Query with filtered args.
 				$data = new WP_Query( $query_args );
+
+				error_log( print_r( $query_args, true ) );
 			}
 
 			$query_data = [
