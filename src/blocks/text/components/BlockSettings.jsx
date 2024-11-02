@@ -104,7 +104,6 @@ export function BlockSettings( {
 				panelId="icon"
 			>
 				<IconControl
-					label={ __( 'Icon SVG', 'generateblocks' ) }
 					value={ icon }
 					onChange={ ( value ) => {
 						// If the user hasn't done this before, align the icon and text.
