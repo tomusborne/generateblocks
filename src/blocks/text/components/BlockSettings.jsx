@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
+import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
 
 import {
 	ApplyFilters,
