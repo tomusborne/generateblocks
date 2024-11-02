@@ -3,7 +3,6 @@ import wpDomReady from '@wordpress/dom-ready';
 import './stores.js';
 import './disable-blocks.js';
 import './toolbar-appenders.js';
-import './button-link-toolbar.js';
 import './editor.scss';
 
 wpDomReady( () => {

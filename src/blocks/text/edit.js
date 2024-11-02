@@ -12,7 +12,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
-import { StylesOnboarder, TagNameToolbar } from '@components/index';
+import { LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
@@ -41,6 +41,7 @@ function EditBlock( props ) {
 		icon,
 		iconLocation,
 		iconOnly,
+		htmlAttributes,
 	} = attributes;
 
 	useEffect( () => {
@@ -168,6 +169,13 @@ function EditBlock( props ) {
 				label={ __( 'Choose tag name', 'generateblocks' ) }
 				tagName={ tagName }
 				onChange={ ( value ) => setAttributes( { tagName: value } ) }
+			/>
+
+			<LinkBlockToolbar
+				setAttributes={ setAttributes }
+				htmlAttributes={ htmlAttributes }
+				tagName={ tagName }
+				context={ context }
 			/>
 
 			{ ! iconOnly && (
