@@ -4,7 +4,6 @@ import { createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { ToolbarButton } from '@wordpress/components';
-import { useMemo } from '@wordpress/element';
 
 function captionIcon() {
 	return (
@@ -19,6 +18,7 @@ function captionIcon() {
 function Toolbar( toolbar, { clientId, attributes, name } ) {
 	const {
 		getBlock,
+		getBlocks,
 		getBlockParents,
 	} = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const {
@@ -29,20 +29,7 @@ function Toolbar( toolbar, { clientId, attributes, name } ) {
 		tagName,
 	} = attributes;
 
-	const blockParents = getBlockParents( clientId, true );
-
-	const hasFigure = useMemo( () => {
-		return blockParents.some( ( block ) => {
-			const { name: blockName, attributes: blockAttributes } = getBlock( block );
-
-			return (
-				'generateblocks/element' === blockName &&
-				'figure' === blockAttributes.tagName
-			);
-		} );
-	}, [ blockParents ] );
-
-	if ( 'generateblocks/media' !== name || 'img' !== tagName || hasFigure ) {
+	if ( 'generateblocks/media' !== name || 'img' !== tagName ) {
 		return toolbar;
 	}
 
@@ -54,6 +41,33 @@ function Toolbar( toolbar, { clientId, attributes, name } ) {
 				icon={ captionIcon }
 				label={ __( 'Add Caption', 'generateblocks' ) }
 				onClick={ () => {
+					const blockParents = getBlockParents( clientId, true );
+					const figure = blockParents.filter( ( block ) => {
+						const { name: blockName, attributes: blockAttributes } = getBlock( block );
+
+						return (
+							'generateblocks/element' === blockName &&
+							'figure' === blockAttributes.tagName
+						);
+					} );
+
+					if ( figure?.[ 0 ] ) {
+						const innerBlocks = getBlocks( figure[ 0 ] );
+						const caption = innerBlocks.filter( ( block ) => {
+							const { name: blockName, attributes: blockAttributes } = getBlock( block.clientId );
+
+							return (
+								'generateblocks/text' === blockName &&
+								'figcaption' === blockAttributes.tagName
+							);
+						} );
+
+						if ( caption?.[ 0 ] ) {
+							selectBlock( caption[ 0 ].clientId );
+							return;
+						}
+					}
+
 					const block = getBlock( clientId );
 					const image = createBlock(
 						block.name,
