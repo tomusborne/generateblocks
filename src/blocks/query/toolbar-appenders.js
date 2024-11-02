@@ -1,10 +1,10 @@
-import { BlockControls } from '@wordpress/block-editor';
+import { addFilter } from '@wordpress/hooks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { ToolbarButton } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
-import { PAGINATION_TEMPLATE, NO_RESULTS_TEMPLATE } from '../templates';
+import { PAGINATION_TEMPLATE, NO_RESULTS_TEMPLATE } from './templates';
 
 function noResultsIcon() {
 	return (
@@ -28,28 +28,38 @@ function paginationIcon() {
 	);
 }
 
-export function QueryToolbar( { clientId } ) {
+function QueryToolbar( toolbars, { clientId, name } ) {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
+
+	if ( 'generateblocks/query' !== name ) {
+		return toolbars;
+	}
+
 	return (
-		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton
-					icon={ paginationIcon }
-					label={ __( 'Add Pagination', 'generateblocks' ) }
-					onClick={ () => {
-						insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
-					} }
-					showTooltip
-				/>
-				<ToolbarButton
-					icon={ noResultsIcon }
-					label={ __( 'Add No Results', 'generateblocks' ) }
-					onClick={ () => {
-						insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
-					} }
-					showTooltip
-				/>
-			</ToolbarGroup>
-		</BlockControls>
+		<>
+			{ toolbars }
+			<ToolbarButton
+				icon={ paginationIcon }
+				label={ __( 'Add Pagination', 'generateblocks' ) }
+				onClick={ () => {
+					insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+				} }
+				showTooltip
+			/>
+			<ToolbarButton
+				icon={ noResultsIcon }
+				label={ __( 'Add No Results', 'generateblocks' ) }
+				onClick={ () => {
+					insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
+				} }
+				showTooltip
+			/>
+		</>
 	);
 }
+
+addFilter(
+	'generateblocks.editor.toolbarAppenders',
+	'generateblocks.query.addToolbarAppenders',
+	QueryToolbar
+);

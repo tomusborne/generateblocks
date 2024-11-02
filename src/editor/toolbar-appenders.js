@@ -1,5 +1,5 @@
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { addFilter } from '@wordpress/hooks';
+import { addFilter, applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
@@ -29,7 +29,7 @@ function AddOuterContainerIcon() {
 	);
 }
 
-const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
+const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		const {
 			name,
@@ -121,6 +121,12 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			/>
 		</>;
 
+		buttons = applyFilters(
+			'generateblocks.editor.toolbarAppenders',
+			buttons,
+			props
+		);
+
 		return (
 			<>
 				{ !! buttons &&
@@ -135,10 +141,10 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>
 		);
 	};
-}, 'withContainerAppenders' );
+}, 'withToolbarAppenders' );
 
 addFilter(
 	'editor.BlockEdit',
 	'generateblocks/blockControls/containerAppenders',
-	withContainerAppenders
+	withToolbarAppenders
 );

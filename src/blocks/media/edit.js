@@ -9,7 +9,6 @@ import { useImageFunctions } from './hooks/useImageFunctions.js';
 import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
 import RootElement from '../../components/root-element/index.js';
-import { AddCaption } from './components/AddCaption.jsx';
 import { BlockSettings } from './components/BlockSettings';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
@@ -170,11 +169,6 @@ function EditBlock( props ) {
 
 	return (
 		<>
-			<AddCaption
-				clientId={ clientId }
-				tagName={ tagName }
-			/>
-
 			<InspectorControls>
 				<StylesOnboarder />
 				<BlockStyles

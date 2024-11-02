@@ -1,9 +1,9 @@
+import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { BlockControls, store as blockEditorStore } from '@wordpress/block-editor';
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { useMemo } from '@wordpress/element';
+import { store as blockEditorStore } from '@wordpress/block-editor';
+import { ToolbarButton } from '@wordpress/components';
 
 function captionIcon() {
 	return (
@@ -15,71 +15,94 @@ function captionIcon() {
 	);
 }
 
-export function AddCaption( { clientId, tagName } ) {
+function Toolbar( toolbar, { clientId, attributes, name } ) {
 	const {
 		getBlock,
+		getBlocks,
 		getBlockParents,
 	} = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const {
 		replaceBlock,
 		selectBlock,
 	} = useDispatch( blockEditorStore );
+	const {
+		tagName,
+	} = attributes;
 
-	const blockParents = getBlockParents( clientId, true );
-
-	const hasFigure = useMemo( () => {
-		return blockParents.some( ( block ) => {
-			const { name, attributes } = getBlock( block );
-
-			return (
-				'generateblocks/element' === name &&
-				'figure' === attributes.tagName
-			);
-		} );
-	}, [ blockParents ] );
-
-	if ( 'img' !== tagName || hasFigure ) {
-		return null;
+	if ( 'generateblocks/media' !== name || 'img' !== tagName ) {
+		return toolbar;
 	}
 
 	return (
-		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton
-					className="gblocks-add-new-button"
-					icon={ captionIcon }
-					label={ __( 'Add Caption', 'generateblocks' ) }
-					onClick={ () => {
-						const block = getBlock( clientId );
-						const image = createBlock(
-							block.name,
-							block.attributes
-						);
-						const caption = createBlock(
-							'generateblocks/text',
-							{
-								content: '',
-								tagName: 'figcaption',
-							}
-						);
-						const newChildBlocks = [
-							image,
-							caption,
-						];
-						const newBlocks = createBlock(
-							'generateblocks/element',
-							{
-								tagName: 'figure',
-							},
-							newChildBlocks
-						);
+		<>
+			{ toolbar }
+			<ToolbarButton
+				className="gblocks-add-new-button"
+				icon={ captionIcon }
+				label={ __( 'Add Caption', 'generateblocks' ) }
+				onClick={ () => {
+					const blockParents = getBlockParents( clientId, true );
+					const figure = blockParents.filter( ( block ) => {
+						const { name: blockName, attributes: blockAttributes } = getBlock( block );
 
-						replaceBlock( clientId, newBlocks );
-						selectBlock( caption.clientId );
-					} }
-					showTooltip
-				/>
-			</ToolbarGroup>
-		</BlockControls>
+						return (
+							'generateblocks/element' === blockName &&
+							'figure' === blockAttributes.tagName
+						);
+					} );
+
+					if ( figure?.[ 0 ] ) {
+						const innerBlocks = getBlocks( figure[ 0 ] );
+						const caption = innerBlocks.filter( ( block ) => {
+							const { name: blockName, attributes: blockAttributes } = getBlock( block.clientId );
+
+							return (
+								'generateblocks/text' === blockName &&
+								'figcaption' === blockAttributes.tagName
+							);
+						} );
+
+						if ( caption?.[ 0 ] ) {
+							selectBlock( caption[ 0 ].clientId );
+							return;
+						}
+					}
+
+					const block = getBlock( clientId );
+					const image = createBlock(
+						block.name,
+						block.attributes
+					);
+					const caption = createBlock(
+						'generateblocks/text',
+						{
+							content: '',
+							tagName: 'figcaption',
+						}
+					);
+					const newChildBlocks = [
+						image,
+						caption,
+					];
+					const newBlocks = createBlock(
+						'generateblocks/element',
+						{
+							tagName: 'figure',
+						},
+						newChildBlocks
+					);
+
+					replaceBlock( clientId, newBlocks );
+					selectBlock( caption.clientId );
+				} }
+				showTooltip
+			/>
+		</>
 	);
 }
+
+addFilter(
+	'generateblocks.editor.toolbarAppenders',
+	'generateblocks.media.addToolbarAppenders',
+	Toolbar
+);
