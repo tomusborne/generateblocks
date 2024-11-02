@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, BaseControl } from '@wordpress/components';
+import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
@@ -163,7 +163,7 @@ export function BlockSettings( {
 							label={ __( 'Icon Display', 'generateblocks' ) }
 							id="gb-icon-only"
 						>
-							<Checkbox
+							<ToggleControl
 								id="gb-icon-only"
 								label={ __( 'Show the icon by itself', 'generateblocks' ) }
 								checked={ !! iconOnly }
