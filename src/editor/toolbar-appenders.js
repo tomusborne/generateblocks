@@ -131,9 +131,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			<>
 				{ !! buttons &&
 					<BlockControls group="parent">
-						<ToolbarGroup>
-							{ buttons }
-						</ToolbarGroup>
+						{ buttons }
 					</BlockControls>
 				}
 
