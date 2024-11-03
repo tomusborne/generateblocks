@@ -2,10 +2,10 @@
 Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
-Requires at least: 5.9
-Tested up to: 6.6
+Requires at least: 6.5
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,31 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 2.0.0 =
+* New: All blocks re-written from scratch for better performance and control
+* New: Version 1 blocks still exist where used and function normally
+* New: Version 1 blocks can be enabled by default with simple filter
+* New: Element block - replaces the Container and Grid blocks
+* New: Element blocks comes with Container and Grid variations in the block inserter
+* New: Text block - replaces the Headline and Button blocks
+* New: Text blocks comes with Headline, Text, and Button variations in the block inserter
+* New: Query block - replaces the Query Loop block
+* New: Looper block - replaces the Grid block inside of the Query block
+* New: Loop Item block - replaces the Post Template (Container) in the Query block
+* New: No Results block - add content that displays if no Query results are found
+* New: Page Numbers block - add page numbers for pagination in your Query block
+* New: Shape block - add any SVG shape to your pages
+* New: Media block - replaces the Image block
+* New: Local blocks now have the full styles builder found in GB Pro Global Styles
+* New: Local blocks can now be designed at any breakpoint or nested rule
+* New: Filter block design options in the editor based on whether they have a value
+* New: Filter block design options in the editor based on whether they're inheriting a value
+* New: Dynamic tags system. Insert dynamic data anywhere in your blocks
+* New: Multiple dynamic tags can be inserted into a single block
+* New: --gb-container-width CSS variable for getting the global max-width
+* Performance: Local blocks now generate their CSS and HTML as you build in the editor
+* Performance: Blocks are output as static HTML/CSS on the frontend for better performance
 
 = 1.9.1 =
 * Fix: Patterns not loading properly in Chrome
