@@ -1,4 +1,4 @@
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { ToolbarButton } from '@wordpress/components';
 import { addFilter, applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -131,9 +131,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			<>
 				{ !! buttons &&
 					<BlockControls group="parent">
-						<ToolbarGroup>
-							{ buttons }
-						</ToolbarGroup>
+						{ buttons }
 					</BlockControls>
 				}
 
