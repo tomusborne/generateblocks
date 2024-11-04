@@ -25,8 +25,6 @@ function ControlComponent( props ) {
 		...standardProps
 	} = props;
 
-	console.log( props?.type );
-
 	switch ( props?.type ) {
 		case 'text':
 		case 'number':
@@ -48,7 +46,6 @@ function ControlComponent( props ) {
 		case 'postsSelect':
 			return <PostTypeRecordsSelect { ...standardProps } />;
 		case 'dateQuery':
-			console.log( 'date query' );
 			return <DateQueryControl { ...standardProps } />;
 		case 'toggleControl':
 			return <ToggleControl { ...standardProps } />;

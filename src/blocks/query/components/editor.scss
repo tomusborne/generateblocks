@@ -33,10 +33,16 @@ $label-margin-bottom: 12px;
 	}
 
 	.components-base-control__field > .components-base-control__label {
-		font-weight: bold;
 		margin-bottom: $label-margin-bottom;
 	}
 
+	.components-toggle-group-control {
+		min-height: 35px;
+	}
+
+	&__toggle.components-button {
+		padding-left: 0;
+	}
 }
 
 .gb-parameter-component {

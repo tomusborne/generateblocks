@@ -77,7 +77,6 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 								<SelectQueryParameter
 									options={ parameterOptions }
 									onChange={ ( option ) => {
-										console.log( option );
 										if (
 											!! option.isRepeatable &&
 											Array.isArray( option.default ) &&

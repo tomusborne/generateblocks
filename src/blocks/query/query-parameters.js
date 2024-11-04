@@ -189,9 +189,11 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	{
 		id: 'date_query',
 		type: 'dateQuery',
-		default: { before: '', after: '', inclusive: true },
 		label: __( 'Date', 'generateblocks' ),
 		description: __( 'Limit response to posts published before or after a given date.', 'generateblocks' ),
 		group: __( 'Date', 'generateblocks' ),
+		default: [],
+		isRepeatable: true,
+		repeatableDefaultValue: { before: new Date().toLocaleString(), after: '', inclusive: true },
 	},
 ] );
