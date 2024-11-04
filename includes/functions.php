@@ -2001,37 +2001,6 @@ function generateblocks_use_v1_blocks() {
 }
 
 /**
- * Register a block script.
- * This deregisters the script registered by block.json and registers it with our custom deps.
- *
- * @param string $block_name The block name.
- * @param array  $variables The variables to localize.
- */
-function generateblocks_register_block_script( $block_name, $variables = [] ) {
-	wp_deregister_script( 'generateblocks-' . $block_name . '-editor-script' );
-	$block_assets = generateblocks_get_enqueue_assets( 'blocks/' . $block_name . '/index' );
-	wp_register_script(
-		'generateblocks-' . $block_name . '-editor-script',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks/' . $block_name . '/index.js',
-		array_merge( $block_assets['dependencies'], [ 'wp-editor' ] ),
-		$block_assets['version'],
-		false
-	);
-
-	$capitlized_block_name = str_replace(
-		'-',
-		'',
-		ucwords( $block_name, '-' )
-	);
-
-	wp_localize_script(
-		'generateblocks-' . $block_name . '-editor-script',
-		'generateblocksBlock' . $capitlized_block_name,
-		$variables
-	);
-}
-
-/**
  * Add custom attributes to a block.
  *
  * @since 2.0.0
