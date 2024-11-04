@@ -286,6 +286,27 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get allowed blocks.
+	 *
+	 * @return array
+	 */
+	public function get_allowed_blocks() {
+		return apply_filters(
+			'generateblocks_dynamic_tags_allowed_blocks',
+			[
+				'generateblocks/element',
+				'generateblocks/loop-item',
+				'generateblocks/looper',
+				'generateblocks/media',
+				'generateblocks/query',
+				'generateblocks/query-page-numbers',
+				'generateblocks/shape',
+				'generateblocks/text',
+			]
+		);
+	}
+
+	/**
 	 * Replace tags.
 	 *
 	 * @param string $content The content.
@@ -294,7 +315,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public function replace_tags( $content, $block, $instance ) {
-		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
+		$block_name = $block['blockName'] ?? '';
+
+		if ( $block_name && in_array( $block_name, $this->get_allowed_blocks(), true ) ) {
+			return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
+		}
+
+		return $content;
 	}
 
 	/**
