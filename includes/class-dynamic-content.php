@@ -270,7 +270,6 @@ class GenerateBlocks_Dynamic_Content {
 	public static function get_post_meta( $attributes ) {
 		if ( isset( $attributes['metaFieldName'] ) ) {
 			$meta_value = get_post_meta( self::get_source_id( $attributes ), $attributes['metaFieldName'], true );
-
 			$value = (
 				is_string( $meta_value ) ||
 				is_integer( $meta_value ) ||
@@ -584,7 +583,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$html_attributes = array(
-			'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : null,
+			'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : '',
 			'class' => implode( ' ', $classes ),
 		);
 
