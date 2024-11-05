@@ -46,11 +46,11 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
 				panelId="link-destination"
 			>
 				<URLControls
+					label={ __( 'Link Destination', 'generateblocks' ) }
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
 					context={ context }
@@ -59,7 +59,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>

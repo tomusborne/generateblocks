@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { BaseControl, ToggleControl } from '@wordpress/components';
+import { BaseControl, ToggleControl, useBaseControlProps } from '@wordpress/components';
 import { URLInput } from '@wordpress/block-editor';
 import { useEffect } from '@wordpress/element';
 
@@ -45,16 +45,16 @@ export function URLControls( {
 		}
 	}, [ target, rel ] );
 
+	const { baseControlProps, controlProps } = useBaseControlProps( {
+		label,
+	} );
+
 	return (
 		<div className="gb-url-controls components-base-control">
-			<BaseControl
-				label={ label }
-				id="gb-url-controls__link"
-				htmlFor="gb-url-controls__link-input"
-			>
+			<BaseControl { ...baseControlProps }>
 				<Stack layout="flex" direction="horizontal" wrap={ false } gap="5px">
 					<URLInput
-						id="gb-url-controls__link-input"
+						{ ...controlProps }
 						className={ 'gb-url-controls__link-input' }
 						value={ url }
 						onChange={ ( value ) => {
