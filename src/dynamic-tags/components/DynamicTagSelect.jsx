@@ -164,7 +164,7 @@ function getVisibleTags( dynamicTags, context ) {
 }
 
 function getLinkToKeySourceId( linkTo, postRecord, postId, userId, termId ) {
-	if ( linkTo.includes( 'author' ) && postRecord ) {
+	if ( linkTo?.includes( 'author' ) && postRecord ) {
 		return postRecord?.post_author;
 	}
 
@@ -172,15 +172,15 @@ function getLinkToKeySourceId( linkTo, postRecord, postId, userId, termId ) {
 }
 
 function getLinkToType( linkTo ) {
-	if ( linkTo.includes( 'term' ) ) {
+	if ( linkTo?.includes( 'term' ) ) {
 		return 'term';
 	}
 
-	if ( linkTo.includes( 'author' ) ) {
+	if ( linkTo?.includes( 'author' ) ) {
 		return 'author';
 	}
 
-	if ( linkTo.includes( 'user' ) ) {
+	if ( linkTo?.includes( 'user' ) ) {
 		return 'user';
 	}
 
@@ -250,11 +250,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
-		if ( 'author' === dynamicTagType || linkTo.includes( 'author' ) ) {
+		if ( 'author' === dynamicTagType || linkTo?.includes( 'author' ) ) {
 			load.push( 'author' );
-		} else if ( 'comment' === dynamicTagType || linkTo.includes( 'comment' ) ) {
+		} else if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		} else if ( 'term' === dynamicTagType || linkTo.includes( 'term' ) ) {
+		} else if ( 'term' === dynamicTagType || linkTo?.includes( 'term' ) ) {
 			load.push( 'terms' );
 		} else if ( 'post' === dynamicTagType ) {
 			load.push( 'post' );
@@ -546,7 +546,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const interactiveTagNames = [ 'a', 'button' ];
 	const supportsLink = dynamicTagSupports.includes( 'link' );
 	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
-	const showLinkToKey = showLinkTo && ( linkTo.includes( 'meta' ) || linkTo.includes( 'option' ) );
+	const showLinkToKey = showLinkTo && ( linkTo?.includes( 'meta' ) || linkTo?.includes( 'option' ) );
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
 			return [];
