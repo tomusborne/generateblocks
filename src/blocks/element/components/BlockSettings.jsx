@@ -63,11 +63,11 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
 				panelId="link-destination"
 			>
 				<URLControls
+					label={ __( 'Link Destination', 'generateblocks' ) }
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
 					context={ context }
@@ -76,7 +76,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Grid', 'generateblocks' ) }
 				shouldRender={
 					'grid' === getStyleValue( 'display' ) &&
 					(
@@ -150,7 +149,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>
@@ -180,17 +178,22 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Shapes', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="shapes"
 			>
-				<Button
-					variant="secondary"
-					size="compact"
-					onClick={ () => setOpenShapeLibrary( true ) }
+				<BaseControl
+					label={ __( 'Shape', 'generateblocks' ) }
+					id="shape"
 				>
-					{ __( 'Open Shape Library', 'generateblocks' ) }
-				</Button>
+					<Button
+						variant="secondary"
+						size="compact"
+						onClick={ () => setOpenShapeLibrary( true ) }
+						style={ { display: 'block' } }
+					>
+						{ __( 'Open Shape Library', 'generateblocks' ) }
+					</Button>
+				</BaseControl>
 
 				{ !! openShapeLibrary && (
 					<IconModal
@@ -243,11 +246,11 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Inline Background Image', 'generateblocks' ) }
 				shouldRender={ 'container' === getElementType( tagName ) && '' === currentAtRule }
 				panelId="inline-background-image"
 			>
 				<InlineBackgroundImage
+					label={ __( 'Inline Background Image', 'generateblocks' ) }
 					htmlAttributes={ htmlAttributes }
 					setAttributes={ setAttributes }
 					styles={ styles }

@@ -37,7 +37,6 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				panelId="settings"
 			>
 				<RangeControl

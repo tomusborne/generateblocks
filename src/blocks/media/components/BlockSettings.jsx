@@ -141,7 +141,6 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>

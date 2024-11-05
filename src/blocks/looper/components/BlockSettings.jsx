@@ -43,13 +43,13 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
 				panelId="design"
 			>
 				<GridColumnSelector
+					label={ __( 'Layout', 'generateblocks' ) }
 					value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
 					onClick={ ( value ) => {
 						onStyleChange( 'display', 'grid', currentAtRule );
@@ -60,7 +60,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				panelId="settings"
 			>
 				<TagNameControl
