@@ -194,6 +194,6 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Date', 'generateblocks' ),
 		default: [],
 		isRepeatable: true,
-		repeatableDefaultValue: { before: new Date().toLocaleString(), after: '', inclusive: true },
+		repeatableDefaultValue: { before: new Date().toLocaleString(), inclusive: true },
 	},
 ] );

@@ -46,6 +46,7 @@ export function DateQueryControl( { id, value, onChange } ) {
 
 	const onAfterChange = useCallback( function onAfterChange( newValue ) {
 		const newDate = new Date( newValue );
+
 		const newDateQuery = {
 			...dateQuery,
 			hour: newDate.getHours(),
