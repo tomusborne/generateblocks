@@ -193,20 +193,20 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const allTags = generateBlocksEditor?.dynamicTags;
 	const availableTags = getVisibleTags( allTags, context );
 	const imageSizeOptions = useMemo( () => {
-		const imageSizes = generateBlocksInfo?.imageSizes ?? [];
+		const imageSizes = Array.isArray( generateBlocksInfo?.imageSizes )
+			? generateBlocksInfo.imageSizes
+			: Object.values( generateBlocksInfo?.imageSizes ?? {} );
 
-		return [
-			...imageSizes.map( ( size ) => {
-				const sanitizedSizeLabel = size
-					.replace( '-', ' ' )
-					.replace( '_', ' ' );
+		return imageSizes.map( ( size ) => {
+			const sanitizedSizeLabel = size
+				.replace( '-', ' ' )
+				.replace( '_', ' ' );
 
-				return {
-					value: size,
-					label: sanitizedSizeLabel.charAt( 0 ).toUpperCase() + sanitizedSizeLabel.slice( 1 ),
-				};
-			} ),
-		];
+			return {
+				value: size,
+				label: sanitizedSizeLabel.charAt( 0 ).toUpperCase() + sanitizedSizeLabel.slice( 1 ),
+			};
+		} );
 	}, [] );
 
 	// State.
