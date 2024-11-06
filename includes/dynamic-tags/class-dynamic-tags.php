@@ -535,7 +535,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		foreach ( $post_types as $post_type ) {
 			$args = array(
 				'post_type'      => $post_type,
-				'posts_per_page' => 10,
+				'posts_per_page' => 20,
 				's'              => $search,
 			);
 
