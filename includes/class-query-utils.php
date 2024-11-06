@@ -88,18 +88,19 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			$query_args['post_status'] = 'publish';
 		}
 
-		if ( is_array( $query_args['date_query'] ) ) {
+		$date_query = $query_args['date_query'] ?? false;
+		if ( is_array( $date_query ) ) {
 			$query_args['date_query'] = array_map(
 				function( $query ) {
 					$query = array_filter(
 						$query,
 						function( $value ) {
-							 return ! empty( $value );
+							return ! empty( $value );
 						}
 					);
 					return $query;
 				},
-				$query_args['date_query']
+				$query_args['date_query'] ?? []
 			);
 		}
 
