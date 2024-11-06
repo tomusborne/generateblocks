@@ -514,7 +514,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request The request.
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
-		$search = $request->get_param( 'search' );
+		$search        = $request->get_param( 'search' );
+		$id            = $request->get_param( 'id' );
+
 		$post_types = array_merge(
 			[
 				'post',
@@ -536,6 +538,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'posts_per_page' => 10,
 				's'              => $search,
 			);
+
+			if ( $id ) {
+				$args['post__not_in'] = [ $id ];
+			}
 
 			$posts = get_posts( $args );
 			$items = [
