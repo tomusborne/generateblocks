@@ -14,6 +14,7 @@ export function Image( {
 	isSelected,
 	clientId,
 	linkHtmlAttributes,
+	attributes,
 } ) {
 	const imageRef = useRef();
 	const [
@@ -126,6 +127,7 @@ export function Image( {
 					onSelectImage={ onSelectImage }
 					onSelectURL={ onSelectURL }
 					onUploadError={ onUploadError }
+					uniqueId={ attributes?.uniqueId ?? '' }
 				/>
 			) }
 		</>
