@@ -10,6 +10,7 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses';
+import { withSetBlockAttributes } from '@hoc/withSetBlockAttributes';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '', key = content ) => (
 	<Tag key={ key } className={ `page-numbers ${ extraClass }` }>
@@ -142,6 +143,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withSetBlockAttributes,
 	withHtmlAttributes,
 	withStyles,
 	withUniqueId

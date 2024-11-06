@@ -14,6 +14,7 @@ import { BlockStylesBuilder } from '@components/index';
 import './editor.scss';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses';
+import { withSetBlockAttributes } from '@hoc/withSetBlockAttributes';
 
 function EditBlock( props ) {
 	const {
@@ -102,6 +103,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withSetBlockAttributes,
 	withHtmlAttributes,
 	withStyles,
 	withUniqueId

@@ -14,6 +14,7 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
+import { withSetBlockAttributes } from '@hoc/withSetBlockAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -212,6 +213,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withSetBlockAttributes,
 	withHtmlAttributes,
 	withStyles,
 	withDynamicTag,

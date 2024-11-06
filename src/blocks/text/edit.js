@@ -16,6 +16,7 @@ import { LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/i
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
+import { withSetBlockAttributes } from '@hoc/withSetBlockAttributes';
 
 function EditBlock( props ) {
 	const {
@@ -235,6 +236,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withSetBlockAttributes,
 	withHtmlAttributes,
 	withStyles,
 	withDynamicTag,

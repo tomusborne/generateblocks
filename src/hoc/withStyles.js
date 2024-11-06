@@ -11,7 +11,7 @@ import {
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
-function getSelector( blockName, uniqueId ) {
+export function getSelector( blockName, uniqueId ) {
 	const selectors = {
 		'generateblocks/text': 'text',
 		'generateblocks/element': 'element',
@@ -111,13 +111,6 @@ export function withStyles( WrappedComponent ) {
 			atRule,
 			setAtRule,
 			defaultAtRules,
-		} );
-
-		useGenerateCSSEffect( {
-			selector,
-			styles: frontendStyles,
-			setAttributes,
-			getCss,
 		} );
 
 		useStyleSelectorEffect( {

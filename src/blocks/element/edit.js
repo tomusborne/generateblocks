@@ -11,6 +11,7 @@ import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { BlockAppender } from '@components';
+import { withSetBlockAttributes } from '@hoc/withSetBlockAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -123,6 +124,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withSetBlockAttributes,
 	withHtmlAttributes,
 	withStyles,
 	withUniqueId
