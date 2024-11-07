@@ -543,10 +543,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request The request.
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
-		$search        = $request->get_param( 'search' );
-		$id            = $request->get_param( 'id' );
+		$search     = $request->get_param( 'search' );
+		$id         = $request->get_param( 'id' );
+		$post_types = $request->get_param( 'post_type' );
 
-		$post_types = array_merge(
+		$available_post_types = array_merge(
 			[
 				'post',
 				'page',
@@ -561,7 +562,20 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		);
 		$result = [];
 
-		foreach ( $post_types as $post_type ) {
+		if ( $post_types ) {
+			$available_post_types = array_filter(
+				$available_post_types,
+				function ( $post_type ) use ( $post_types ) {
+					if ( is_array( $post_types ) ) {
+						return in_array( $post_type, $post_types, true );
+					}
+
+					return $post_type === $post_types;
+				}
+			);
+		}
+
+		foreach ( $available_post_types as $post_type ) {
 			$args = array(
 				'post_type'      => $post_type,
 				'posts_per_page' => 20,
