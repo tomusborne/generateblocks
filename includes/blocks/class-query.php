@@ -72,8 +72,6 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 
 				// Make the new WP_Query with filtered args.
 				$data = new WP_Query( $query_args );
-
-				error_log( print_r( $query_args, true ) );
 			}
 
 			$query_data = [
