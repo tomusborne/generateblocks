@@ -28,6 +28,7 @@ registerBlockVariation(
 				height: 'auto',
 				maxWidth: '100%',
 				objectFit: 'cover',
+				width: 'auto',
 			},
 		},
 		isActive: ( blockAttributes ) => 'img' === blockAttributes.tagName,
