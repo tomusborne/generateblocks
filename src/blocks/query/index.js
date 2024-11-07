@@ -3,6 +3,7 @@ import { Edit } from './edit';
 import metadata from './block.json';
 import { getIcon } from '@utils';
 import { Save } from './save';
+import './toolbar-appenders';
 
 registerBlockType( metadata, {
 	edit: Edit,

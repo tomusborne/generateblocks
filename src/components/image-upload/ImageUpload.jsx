@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { BaseControl, Button, TextControl } from '@wordpress/components';
+import { BaseControl, Button, TextControl, useBaseControlProps } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Stack } from '@edge22/components';
 import { DynamicTagModal } from '../../dynamic-tags';
@@ -16,11 +16,12 @@ export function ImageUpload( {
 	onInsertDynamicTag,
 	context,
 } ) {
+	const { baseControlProps, controlProps } = useBaseControlProps( {
+		label,
+	} );
+
 	return (
-		<BaseControl
-			label={ label }
-			id=""
-		>
+		<BaseControl { ...baseControlProps }>
 			<Stack
 				className="gb-image-upload-stack"
 				layout="flex"
@@ -30,6 +31,7 @@ export function ImageUpload( {
 			>
 				{ !! showInput && (
 					<TextControl
+						{ ...controlProps }
 						value={ value }
 						onChange={ ( newValue ) => onInsert( newValue ) }
 						style={ { marginBottom: 0 } }

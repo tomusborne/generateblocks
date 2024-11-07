@@ -24,6 +24,22 @@ function generateblocks_register_dashboard() {
 		'generateblocks_do_dashboard'
 	);
 
+	$show_upgrade_menu = apply_filters(
+		'generateblocks_show_upgrade_menu',
+		! defined( 'GENERATEBLOCKS_PRO_VERSION' )
+	);
+
+	if ( $show_upgrade_menu ) {
+		add_submenu_page(
+			'generateblocks',
+			__( 'Upgrade', 'generateblocks' ),
+			__( 'Upgrade', 'generateblocks' ),
+			'manage_options',
+			'generateblocks-upgrade',
+			'generateblocks_do_dashboard'
+		);
+	}
+
 	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
 }
 
@@ -69,7 +85,6 @@ function generateblocks_enqueue_dashboard_scripts() {
 			'gbpVersion'    => defined( 'GENERATEBLOCKS_PRO_VERSION' )
 				? GENERATEBLOCKS_PRO_VERSION
 				: false,
-			'blocksVersion' => generateblocks_get_active_block_version(),
 		)
 	);
 
@@ -172,6 +187,14 @@ function generateblocks_dashboard_navigation() {
 		)
 	);
 
+	if ( ! defined( 'GENERATEBLOCKS_PRO_VERSION' ) ) {
+		$tabs['pro'] = array(
+			'name'  => __( 'Get Pro', 'generateblocks' ),
+			'url'   => 'https://generatepress.com/blocks/',
+			'class' => '',
+		);
+	}
+
 	// Don't print any markup if we only have one tab.
 	if ( count( $tabs ) === 1 ) {
 		return;
@@ -223,4 +246,19 @@ function generateblocks_do_dashboard() {
 			<div id="gblocks-dashboard" />
 		</div>
 	<?php
+}
+
+add_action( 'admin_init', 'generateblocks_do_upgrade_redirect' );
+/**
+ * Redirect to the sales page when landing on the upgrade page.
+ */
+function generateblocks_do_upgrade_redirect() {
+	if ( empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return;
+	}
+
+	if ( 'generateblocks-upgrade' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_redirect( 'https://generatepress.com/blocks' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+		exit;
+	}
 }

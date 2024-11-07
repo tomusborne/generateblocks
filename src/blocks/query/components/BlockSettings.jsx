@@ -1,5 +1,3 @@
-import { __ } from '@wordpress/i18n';
-
 import { OpenPanel } from '@edge22/components';
 
 import {
@@ -35,7 +33,6 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Query Parameters', 'generateblocks' ) }
 				panelId="query-parameters"
 			>
 				<QueryInspectorControls
@@ -45,7 +42,6 @@ export function BlockSettings( {
 			</OpenPanel>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				panelId="settings"
 			>
 				<TagNameControl

@@ -286,6 +286,27 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get allowed blocks.
+	 *
+	 * @return array
+	 */
+	public function get_allowed_blocks() {
+		return apply_filters(
+			'generateblocks_dynamic_tags_allowed_blocks',
+			[
+				'generateblocks/element',
+				'generateblocks/loop-item',
+				'generateblocks/looper',
+				'generateblocks/media',
+				'generateblocks/query',
+				'generateblocks/query-page-numbers',
+				'generateblocks/shape',
+				'generateblocks/text',
+			]
+		);
+	}
+
+	/**
 	 * Replace tags.
 	 *
 	 * @param string $content The content.
@@ -294,7 +315,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public function replace_tags( $content, $block, $instance ) {
-		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
+		$block_name = $block['blockName'] ?? '';
+
+		if ( $block_name && in_array( $block_name, $this->get_allowed_blocks(), true ) ) {
+			return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
+		}
+
+		return $content;
 	}
 
 	/**
@@ -516,7 +543,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request The request.
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
-		$search = $request->get_param( 'search' );
+		$search        = $request->get_param( 'search' );
+		$id            = $request->get_param( 'id' );
+
 		$post_types = array_merge(
 			[
 				'post',
@@ -535,9 +564,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		foreach ( $post_types as $post_type ) {
 			$args = array(
 				'post_type'      => $post_type,
-				'posts_per_page' => 10,
+				'posts_per_page' => 20,
 				's'              => $search,
 			);
+
+			if ( $id ) {
+				$args['post__not_in'] = [ $id ];
+			}
 
 			$posts = get_posts( $args );
 			$items = [
@@ -695,7 +728,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$media_id    = 0;
 					$replacement = $args['og_replacement'];
 
-					if ( is_int( $replacement ) ) {
+					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
 					} elseif ( 'featured_image_url' === $args['tag'] ) {
 						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
@@ -727,7 +760,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
 			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
 
-			if ( $src && $src === $args['tag'] && is_int( $replacement ) ) {
+			if ( $src && $src === $args['full_tag'] && is_numeric( $replacement ) ) {
 				$url = wp_get_attachment_url( $replacement, 'full' );
 
 				if ( $url ) {

@@ -1,11 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
+import { Flex, FlexBlock } from '@wordpress/components';
+
 import { OpenPanel, IconControl } from '@edge22/components';
+import { UnitControl } from '@edge22/styles-builder';
 
 import {
 	ApplyFilters,
 	ColorPickerControls,
-	UnitControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -81,12 +83,11 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Shape', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="shape"
 			>
 				<IconControl
-					label={ __( 'Icon', 'generateblocks' ) }
+					label={ __( 'Shape', 'generateblocks' ) }
 					value={ html }
 					onChange={ ( value ) => setAttributes( { html: value } ) }
 					onClear={ () => setAttributes( { html: '' } ) }
@@ -100,25 +101,30 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
 				panelId="design"
 			>
-				<UnitControl
-					id="width"
-					label={ __( 'Width', 'generateblocks' ) }
-					value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
-					onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule, 'svg' ) }
-				/>
+				<Flex>
+					<FlexBlock>
+						<UnitControl
+							id="width"
+							label={ __( 'Width', 'generateblocks' ) }
+							value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule, 'svg' ) }
+						/>
+					</FlexBlock>
 
-				<UnitControl
-					id="height"
-					label={ __( 'Height', 'generateblocks' ) }
-					value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
-					onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule, 'svg' ) }
-				/>
+					<FlexBlock>
+						<UnitControl
+							id="height"
+							label={ __( 'Height', 'generateblocks' ) }
+							value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule, 'svg' ) }
+						/>
+					</FlexBlock>
+				</Flex>
 
 				<ColorPickerControls
 					items={ shapeColorControls }
@@ -130,7 +136,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			/>

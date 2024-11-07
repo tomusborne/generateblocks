@@ -61,7 +61,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			} else {
 				/**
 				 * Allow users to filter the query args for a custom WP Query. This is ignored
-				 * if the query is inherited from the current
+				 * if the query is inherited from the current template.
 				 */
 				$query_args = apply_filters(
 					'generateblocks_query_wp_query_args',

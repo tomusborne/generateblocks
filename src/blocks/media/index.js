@@ -6,6 +6,7 @@ import { Save } from './save';
 import { transforms } from './transforms';
 import getIcon from '@utils/get-icon';
 
+import './toolbar-appenders';
 import './editor.scss';
 
 registerBlockType( metadata, {
@@ -27,6 +28,7 @@ registerBlockVariation(
 				height: 'auto',
 				maxWidth: '100%',
 				objectFit: 'cover',
+				width: 'auto',
 			},
 		},
 		isActive: ( blockAttributes ) => 'img' === blockAttributes.tagName,

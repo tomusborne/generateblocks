@@ -1991,62 +1991,13 @@ function generateblocks_str_starts_with( $string, $prefix ) {
 }
 
 /**
- * Check if we should show our legacy blocks.
+ * Check if we're using the v1 blocks.
  *
  * @since 2.0.0
  * @return bool
  */
-function generateblocks_get_active_block_version() {
-	$block_version = 2;
-
-	if (
-		defined( 'GENERATEBLOCKS_PRO_VERSION' )
-		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0-alpha.1', '<' )
-	) {
-		$block_version = 1;
-	}
-
-	$legacy_global_styles = get_option( 'generateblocks_global_styles', [] );
-
-	if ( ! empty( $legacy_global_styles ) ) {
-		$block_version = 1;
-	}
-
-	return apply_filters(
-		'generateblocks_active_block_version',
-		(int) $block_version
-	);
-}
-
-/**
- * Register a block script.
- * This deregisters the script registered by block.json and registers it with our custom deps.
- *
- * @param string $block_name The block name.
- * @param array  $variables The variables to localize.
- */
-function generateblocks_register_block_script( $block_name, $variables = [] ) {
-	wp_deregister_script( 'generateblocks-' . $block_name . '-editor-script' );
-	$block_assets = generateblocks_get_enqueue_assets( 'blocks/' . $block_name . '/index' );
-	wp_register_script(
-		'generateblocks-' . $block_name . '-editor-script',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks/' . $block_name . '/index.js',
-		array_merge( $block_assets['dependencies'], [ 'wp-editor' ] ),
-		$block_assets['version'],
-		false
-	);
-
-	$capitlized_block_name = str_replace(
-		'-',
-		'',
-		ucwords( $block_name, '-' )
-	);
-
-	wp_localize_script(
-		'generateblocks-' . $block_name . '-editor-script',
-		'generateblocksBlock' . $capitlized_block_name,
-		$variables
-	);
+function generateblocks_use_v1_blocks() {
+	return get_option( 'gb_use_v1_blocks', false );
 }
 
 /**

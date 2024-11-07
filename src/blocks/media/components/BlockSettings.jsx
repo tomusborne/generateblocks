@@ -6,13 +6,13 @@ import { addQueryArgs, isURL } from '@wordpress/url';
 import { applyFilters } from '@wordpress/hooks';
 
 import { OpenPanel } from '@edge22/components';
+import { UnitControl, Control } from '@edge22/styles-builder';
 
 import {
 	ApplyFilters,
 	ImageUpload,
 	URLControls,
 	DynamicTagsOnboarder,
-	UnitControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -141,13 +141,12 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>
 				<ImageUpload
 					context={ context }
-					value={ htmlAttributes?.src }
+					value={ htmlAttributes?.src ?? '' }
 					onInsert={ ( value ) => {
 						const newHtmlAttributes = {
 							...htmlAttributes,
@@ -196,9 +195,9 @@ export function BlockSettings( {
 								setAttributes( {
 									htmlAttributes: {
 										...htmlAttributes,
-										src: imageData?.full_url,
-										width: imageData?.width,
-										height: imageData?.height,
+										src: imageData?.full_url ?? '',
+										width: imageData?.width ?? '',
+										height: imageData?.height ?? '',
 									},
 								} );
 
@@ -208,9 +207,9 @@ export function BlockSettings( {
 							setAttributes( {
 								htmlAttributes: {
 									...htmlAttributes,
-									src: imageData?.sizes[ value ]?.url,
-									width: imageData?.sizes[ value ]?.width,
-									height: imageData?.sizes[ value ]?.height,
+									src: imageData?.sizes[ value ]?.url ?? '',
+									width: imageData?.sizes[ value ]?.width ?? '',
+									height: imageData?.sizes[ value ]?.height ?? '',
 								},
 							} );
 						} }
@@ -219,27 +218,34 @@ export function BlockSettings( {
 
 				<Flex>
 					<FlexBlock>
-						<UnitControl
+						<Control
+							as={ UnitControl }
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
 							value={ getStyleValue( 'width', currentAtRule ) }
 							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
+							alwaysVisible={ true }
+							cssProp="width"
 						/>
 					</FlexBlock>
 
 					<FlexBlock>
-						<UnitControl
+						<Control
+							as={ UnitControl }
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
 							value={ getStyleValue( 'height', currentAtRule ) }
 							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
+							alwaysVisible={ true }
+							cssProp="height"
 						/>
 					</FlexBlock>
 				</Flex>
 
-				<TextControl
+				<Control
+					as={ TextControl }
 					label={ __( 'Alt text', 'generateblocks' ) }
-					value={ htmlAttributes?.alt }
+					value={ htmlAttributes?.alt ?? '' }
 					onChange={ ( value ) => {
 						setAttributes( {
 							htmlAttributes: {
@@ -248,6 +254,8 @@ export function BlockSettings( {
 							},
 						} );
 					} }
+					alwaysVisible={ true }
+					cssProp={ false }
 				/>
 			</OpenPanel>
 

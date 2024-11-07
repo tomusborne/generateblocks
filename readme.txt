@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 6.5
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 1.9.2
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -107,8 +107,6 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: --gb-container-width CSS variable for getting the global max-width
 * Performance: Local blocks now generate their CSS and HTML as you build in the editor
 * Performance: Blocks are output as static HTML/CSS on the frontend for better performance
-
-= 1.9.2 =
 
 = 1.9.1 =
 * Fix: Patterns not loading properly in Chrome

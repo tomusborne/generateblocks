@@ -2,8 +2,8 @@ import wpDomReady from '@wordpress/dom-ready';
 
 import './stores.js';
 import './disable-blocks.js';
-import './container-toolbar-appenders.js';
-import './button-link-toolbar.js';
+import './toolbar-appenders.js';
+import './global-max-width.js';
 import './editor.scss';
 
 wpDomReady( () => {

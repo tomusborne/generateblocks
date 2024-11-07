@@ -1,5 +1,5 @@
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { addFilter } from '@wordpress/hooks';
+import { ToolbarButton } from '@wordpress/components';
+import { addFilter, applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
@@ -29,7 +29,7 @@ function AddOuterContainerIcon() {
 	);
 }
 
-const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
+const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		const {
 			name,
@@ -51,9 +51,9 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 		const innerBlocksCount = useInnerBlocksCount( clientId );
 		const blocksSelection = getBlocksByClientId( clientIds );
 		const hasParentBlock = getBlockRootClientId( clientId );
-		const blocksVersion = parseInt( generateBlocksEditor.activeBlockVersion );
+		const useV1Blocks = generateBlocksEditor.useV1Blocks;
 
-		if ( 1 === blocksVersion ) {
+		if ( useV1Blocks ) {
 			return <BlockEdit { ...props } />;
 		}
 
@@ -121,13 +121,17 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			/>
 		</>;
 
+		buttons = applyFilters(
+			'generateblocks.editor.toolbarAppenders',
+			buttons,
+			props
+		);
+
 		return (
 			<>
 				{ !! buttons &&
 					<BlockControls group="parent">
-						<ToolbarGroup>
-							{ buttons }
-						</ToolbarGroup>
+						{ buttons }
 					</BlockControls>
 				}
 
@@ -135,10 +139,10 @@ const withContainerAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>
 		);
 	};
-}, 'withContainerAppenders' );
+}, 'withToolbarAppenders' );
 
 addFilter(
 	'editor.BlockEdit',
 	'generateblocks/blockControls/containerAppenders',
-	withContainerAppenders
+	withToolbarAppenders
 );

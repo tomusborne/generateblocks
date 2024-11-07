@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { ToolbarGroup, ToolbarButton, Dropdown } from '@wordpress/components';
+import { ToolbarButton, Dropdown } from '@wordpress/components';
 import { BlockControls } from '@wordpress/block-editor';
 import { link } from '@wordpress/icons';
 import { URLControls } from '../../components/url-controls';
@@ -16,31 +16,29 @@ export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes, cont
 	const url = htmlAttributes?.href ?? '';
 
 	return (
-		<BlockControls>
-			<ToolbarGroup>
-				<Dropdown
-					contentClassName="gblocks-button-link-dropdown"
-					popoverProps={ POPOVER_PROPS }
-					renderToggle={ ( { isOpen, onToggle } ) => (
-						<ToolbarButton
-							icon={ link }
-							label={ ! url ? __( 'Add Link', 'generateblocks' ) : __( 'Change Link', 'generateblocks' ) }
-							onClick={ onToggle }
-							aria-expanded={ isOpen }
-							isPressed={ !! url }
+		<BlockControls group="inline">
+			<Dropdown
+				contentClassName="gblocks-button-link-dropdown"
+				popoverProps={ POPOVER_PROPS }
+				renderToggle={ ( { isOpen, onToggle } ) => (
+					<ToolbarButton
+						icon={ link }
+						label={ ! url ? __( 'Add Link', 'generateblocks' ) : __( 'Change Link', 'generateblocks' ) }
+						onClick={ onToggle }
+						aria-expanded={ isOpen }
+						isPressed={ !! url }
+					/>
+				) }
+				renderContent={ () => (
+					<>
+						<URLControls
+							htmlAttributes={ htmlAttributes }
+							setAttributes={ setAttributes }
+							context={ context }
 						/>
-					) }
-					renderContent={ () => (
-						<>
-							<URLControls
-								htmlAttributes={ htmlAttributes }
-								setAttributes={ setAttributes }
-								context={ context }
-							/>
-						</>
-					) }
-				/>
-			</ToolbarGroup>
+					</>
+				) }
+			/>
 		</BlockControls>
 	);
 }

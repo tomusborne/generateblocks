@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, BaseControl } from '@wordpress/components';
+import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
+import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -67,11 +67,11 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
 				panelId="link-destination"
 			>
 				<URLControls
+					label={ __( 'Link Destination', 'generateblocks' ) }
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
 					context={ context }
@@ -80,7 +80,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>
@@ -99,12 +98,11 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				title={ __( 'Icon', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="icon"
 			>
 				<IconControl
-					label={ __( 'Icon SVG', 'generateblocks' ) }
+					label={ __( 'Icon', 'generateblocks' ) }
 					value={ icon }
 					onChange={ ( value ) => {
 						// If the user hasn't done this before, align the icon and text.
@@ -163,7 +161,7 @@ export function BlockSettings( {
 							label={ __( 'Icon Display', 'generateblocks' ) }
 							id="gb-icon-only"
 						>
-							<Checkbox
+							<ToggleControl
 								id="gb-icon-only"
 								label={ __( 'Show the icon by itself', 'generateblocks' ) }
 								checked={ !! iconOnly }

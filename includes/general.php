@@ -91,7 +91,7 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'activeBlockVersion' => generateblocks_get_active_block_version(),
+			'useV1Blocks' => generateblocks_use_v1_blocks(),
 		)
 	);
 
@@ -264,7 +264,7 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks-editor',
 		'generateBlocksEditor',
 		[
-			'activeBlockVersion' => generateblocks_get_active_block_version(),
+			'useV1Blocks'        => generateblocks_use_v1_blocks(),
 			'dynamicTags'        => $tag_list,
 			'hasGPFontLibrary'   => function_exists( 'generatepress_is_module_active' )
 				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
