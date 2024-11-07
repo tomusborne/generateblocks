@@ -89,6 +89,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		}
 
 		$date_query = $query_args['date_query'] ?? false;
+
 		if ( is_array( $date_query ) ) {
 			$query_args['date_query'] = array_map(
 				function( $query ) {

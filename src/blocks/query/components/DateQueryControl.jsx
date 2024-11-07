@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useState, useCallback } from '@wordpress/element';
-import { BaseControl, Button } from '@wordpress/components';
+import { BaseControl, ToggleControl } from '@wordpress/components';
 
 import { Stack } from '@edge22/components';
 
@@ -24,18 +24,15 @@ export function DateQueryControl( { id, value, onChange } ) {
 	).toLocaleString();
 
 	const onBeforeChange = useCallback( function onBeforeChange( newValue ) {
-		const newDate = new Date( newValue );
 		const newDateQuery = {
 			...dateQuery,
-			hour: newDate.getHours(),
-			minute: newDate.getMinutes(),
-			second: newDate.getSeconds(),
-			before: {
-				day: newDate.getDay(),
-				month: newDate.getMonth(),
-				year: newDate.getFullYear(),
-			},
 		};
+
+		if ( newValue ) {
+			newDateQuery.before = newValue;
+		} else {
+			delete newDateQuery.before;
+		}
 
 		setDateQuery( newDateQuery );
 
@@ -45,19 +42,15 @@ export function DateQueryControl( { id, value, onChange } ) {
 	}, [ setDateQuery, onChange ] );
 
 	const onAfterChange = useCallback( function onAfterChange( newValue ) {
-		const newDate = new Date( newValue );
-
 		const newDateQuery = {
 			...dateQuery,
-			hour: newDate.getHours(),
-			minute: newDate.getMinutes(),
-			second: newDate.getSeconds(),
-			after: {
-				day: newDate.getDay(),
-				month: newDate.getMonth(),
-				year: newDate.getFullYear(),
-			},
 		};
+
+		if ( newValue ) {
+			newDateQuery.after = newValue;
+		} else {
+			delete newDateQuery.after;
+		}
 
 		setDateQuery( newDateQuery );
 
@@ -74,24 +67,17 @@ export function DateQueryControl( { id, value, onChange } ) {
 			__nextHasNoMarginBottom
 		>
 			<Stack gap="12px" className="gb-date-query__inner">
-				<Button
-					className="gb-date-query__toggle"
-					size="small"
-					variant="link"
-					onClick={ () => {
+				<ToggleControl
+					label={ __( 'Before', 'generateblocks' ) }
+					onChange={ () => {
 						const newIncludeBefore = ! includeBefore;
 						setIncludeBefore( newIncludeBefore );
 
 						// If the new value is false, clear the before value.
 						onBeforeChange( newIncludeBefore ? new Date() : '' );
 					} }
-				>
-					{ includeBefore
-						? __( 'Remove Before', 'generateblocks' )
-						: __( 'Add Before', 'generateblocks' )
-					}
-				</Button>
-				<br />
+					checked={ includeBefore }
+				/>
 				{ includeBefore && (
 					<DateTimeControl
 						id={ `${ id }-before` }
@@ -101,23 +87,17 @@ export function DateQueryControl( { id, value, onChange } ) {
 						onChange={ onBeforeChange }
 					/>
 				) }
-				<Button
-					className="gb-date-query__toggle"
-					size="small"
-					variant="link"
-					onClick={ () => {
+				<ToggleControl
+					label={ __( 'After', 'generateblocks' ) }
+					onChange={ () => {
 						const newIncludeAfter = ! includeAfter;
 						setIncludeAfter( newIncludeAfter );
 
-						// If the new value is false, clear the after value.
-						onAfterChange( newIncludeAfter ? new Date().toLocaleString() : '' );
+						// If the new value is false, clear the before value.
+						onBeforeChange( newIncludeAfter ? new Date() : '' );
 					} }
-				>
-					{ includeAfter
-						? __( 'Remove After', 'generateblocks' )
-						: __( 'Add After', 'generateblocks' )
-					}
-				</Button>
+					checked={ includeAfter }
+				/>
 				{ includeAfter && (
 					<DateTimeControl
 						id={ `${ id }-after` }

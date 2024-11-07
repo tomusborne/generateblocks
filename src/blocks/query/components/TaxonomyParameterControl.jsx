@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { ToggleControl, ComboboxControl, BaseControl } from '@wordpress/components';
+import { ToggleControl, ComboboxControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { Stack } from '@edge22/components';

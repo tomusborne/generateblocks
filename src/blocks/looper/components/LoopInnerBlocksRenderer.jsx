@@ -9,12 +9,9 @@ import { Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
-import { useWarnOnChange } from '@wordpress/compose';
 import apiFetch from '@wordpress/api-fetch';
 
 import { useDebouncedCallback } from 'use-debounce';
-
-import { normalizeRepeatableArgs, removeEmpty } from '@utils/index';
 
 const DISALLOWED_KEYS = [ 'post_password', 'password' ];
 

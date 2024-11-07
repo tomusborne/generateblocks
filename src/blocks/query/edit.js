@@ -30,10 +30,7 @@ function EditBlock( props ) {
 	const {
 		tagName,
 		showTemplateSelector,
-		query,
 	} = attributes;
-
-	console.dir( query );
 
 	const classNames = getBlockClasses(
 		'gb-query',
