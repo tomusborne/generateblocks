@@ -44,7 +44,7 @@ function ControlComponent( props ) {
 		case 'taxonomySelect':
 			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
 		case 'postsSelect':
-			return <PostTypeRecordsSelect { ...standardProps } />;
+			return <PostTypeRecordsSelect postType={ postType } { ...standardProps } />;
 		case 'dateQuery':
 			return <DateQueryControl { ...standardProps } />;
 		case 'toggleControl':
