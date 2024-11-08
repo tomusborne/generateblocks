@@ -1,1 +1,72 @@
-(()=>{const e="a[data-gb-prefetch][href]",t={};document.body.addEventListener("mouseenter",(function(r){const n=r.target.closest(e);if(n){var o;if(null!==(o=t[n.href])&&void 0!==o&&o)return;const e=document.createElement("link");e.rel="prefetch",e.href=n.href,document.head.appendChild(e),t[n.href]=!0}}),!0),document.addEventListener("click",(t=>{const r=t.target.closest(e);if(r&&r.href){const e=r.getAttribute("data-gb-router-target");if(!e)return;t.preventDefault();const n=r.href;(function(e){return fetch(e).then((e=>{if(!e.ok)throw new Error("Network error");return e.text()})).catch((e=>{console.error("Error fetching prefetched page:",e)}))})(n).then((t=>{!function(e="",t=""){const r=document.querySelector(`[data-gb-router-region="${e}"]`);if(!r||!t)throw new Error("Missing container or prefetched content");const n=r.parentNode.querySelector(".gb-query-loop-pagination"),o=document.createElement("div");o.innerHTML=t;const c=o.querySelector(`[data-gb-router-region="${e}"]`),i=c.parentNode.querySelector(".gb-query-loop-pagination");c&&r?(r.innerHTML=c.innerHTML,r.scrollIntoView({behavior:"smooth",block:"start"}),n.innerHTML=i.innerHTML):console.error("Unable to update posts container: Missing elements")}(e,t),history.pushState(null,"",n)}))}}))})();
+/******/ (() => { // webpackBootstrap
+/*!************************************!*\
+  !*** ./src/blocks/query/looper.js ***!
+  \************************************/
+const SELECTOR = 'a[data-gb-prefetch][href]';
+function fetchPrefetchedPage(url) {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error('Network error');
+    }
+    return response.text();
+  }).catch(error => {
+    console.error('Error fetching prefetched page:', error); // eslint-disable-line no-console
+  });
+}
+function updatePostsContainer(region = '', prefetchedContent = '') {
+  const container = document.querySelector(`[data-gb-router-region="${region}"]`);
+  if (!container || !prefetchedContent) {
+    throw new Error('Missing container or prefetched content');
+  }
+  const paginationContainer = container.parentNode.querySelector('.gb-query-loop-pagination');
+  const prefetchedContainer = document.createElement('div');
+  prefetchedContainer.innerHTML = prefetchedContent;
+  const prefetchedPosts = prefetchedContainer.querySelector(`[data-gb-router-region="${region}"]`);
+  const pagination = prefetchedPosts.parentNode.querySelector('.gb-query-loop-pagination');
+  if (prefetchedPosts && container) {
+    container.innerHTML = prefetchedPosts.innerHTML;
+    container.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+    paginationContainer.innerHTML = pagination.innerHTML;
+  } else {
+    console.error('Unable to update posts container: Missing elements'); // eslint-disable-line no-console
+  }
+}
+const store = {};
+document.body.addEventListener('mouseenter', function (e) {
+  const prefetchLink = e.target.closest(SELECTOR);
+  if (prefetchLink) {
+    var _store$prefetchLink$h;
+    const isStored = (_store$prefetchLink$h = store[prefetchLink.href]) !== null && _store$prefetchLink$h !== void 0 ? _store$prefetchLink$h : false;
+    if (isStored) {
+      return;
+    }
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = prefetchLink.href;
+    document.head.appendChild(link);
+    store[prefetchLink.href] = true;
+  }
+}, true);
+document.addEventListener('click', e => {
+  const target = e.target.closest(SELECTOR);
+  if (target && target.href) {
+    const region = target.getAttribute('data-gb-router-target');
+    if (!region) {
+      return;
+    }
+    e.preventDefault(); // Prevent default link behavior
+    const url = target.href;
+    fetchPrefetchedPage(url).then(prefetchedContent => {
+      // Update the list of posts with content from the prefetched page
+      updatePostsContainer(region, prefetchedContent);
+      // Navigate to the prefetched URL using History API
+      history.pushState(null, '', url);
+    });
+  }
+});
+/******/ })()
+;
+//# sourceMappingURL=looper.js.map

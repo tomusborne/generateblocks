@@ -15,18 +15,38 @@ import { useDebouncedCallback } from 'use-debounce';
 
 const DISALLOWED_KEYS = [ 'post_password', 'password' ];
 
-function BlockPreview( { blocks } ) {
+function BlockPreview( { blocks, isHidden } ) {
+	const style = {
+		display: isHidden ? 'none' : undefined,
+	};
+
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
+		props: {
+			style,
+			className: 'gb-loop-preview',
+		},
 	} );
 
-	return blockPreviewProps.children;
+	return isHidden ? <div { ...blockPreviewProps } /> : blockPreviewProps.children;
 }
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
-function setIsBlockPreview( innerBlocks ) {
+function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
 	return innerBlocks.map( ( block ) => {
+		const { clientId = '' } = block;
+
+		const activeBlock = document.getElementById( `block-${ clientId }` );
+
+		const isActiveBlock = activeBlock
+			? activeBlock?.dataset?.contextPostId === contextPostId
+			: false;
+
+		if ( isActiveBlock ) {
+			return block;
+		}
+
 		const newInnerBlocks = setIsBlockPreview( block.innerBlocks );
 		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
 
@@ -134,10 +154,11 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const [ innerBlockData, setInnerBlockData ] = useState( [] );
+	const [ activeBlockContextId, setActiveBlockContextId ] = useState();
 
 	useEffect( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, [] );
+	}, [ getSelectedBlock ] );
 
 	const debounced = useDebouncedCallback( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
@@ -147,17 +168,37 @@ export function LoopInnerBlocksRenderer( props ) {
 		'core/paragraph',
 		'core/heading',
 		'core/button',
-		'generateblocks/headline',
-		'generateblocks/button',
+		'generateblocks/text',
 	];
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
 			renderAppender: false,
+			blockContext: context,
 		},
 		innerBlockData
 	);
+	useEffect( () => {
+		function handleToggle( e ) {
+			const target = e.target.closest( '.gb-block-preview__toggle' );
+
+			if ( target ) {
+				const contextId = target?.dataset?.contextPostId ?? '';
+				setActiveBlockContextId( contextId );
+
+				setInnerBlockData(
+					setIsBlockPreview( innerBlocks, contextId )
+				);
+			}
+		}
+
+		document.addEventListener( 'click', handleToggle );
+
+		return () => {
+			document.removeEventListener( 'click', handleToggle );
+		};
+	}, [ innerBlocks, activeBlockContextId ] );
 
 	useEffect( () => {
 		const selectedBlock = getSelectedBlock();
@@ -221,18 +262,19 @@ export function LoopInnerBlocksRenderer( props ) {
 	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
+		const isActive = loopItemContext.postId ===
+			( parseInt( activeBlockContextId, 10 ) || loopItemsContext[ 0 ]?.postId );
 
 		return (
 			<BlockContextProvider
 				key={ key }
 				value={ loopItemContext }
 			>
-				{ 0 === index
-					? innerBlocksProps.children
-					: (
-						<MemoizedBlockPreview blocks={ innerBlockData } />
-					)
-				}
+				{ isActive && innerBlocksProps.children }
+				<MemoizedBlockPreview
+					blocks={ innerBlockData }
+					isHidden={ isActive }
+				/>
 			</BlockContextProvider>
 		);
 	} ) : innerBlocksProps.children;
