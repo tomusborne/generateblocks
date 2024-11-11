@@ -14,6 +14,7 @@ export function URLControls( {
 	attributesName = 'htmlAttributes',
 	label = __( 'Link', 'generateblocks' ),
 	context,
+	tagName,
 } ) {
 	const url = htmlAttributes?.href ?? '';
 	const target = htmlAttributes?.target ?? '';
@@ -79,6 +80,7 @@ export function URLControls( {
 						} }
 						selectedText={ url.startsWith( '{{' ) ? url : '' }
 						context={ context }
+						tagName={ tagName }
 					/>
 				</Stack>
 			</BaseControl>
