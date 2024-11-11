@@ -59,7 +59,7 @@
 	"usesContext": [
 		"generateblocks/queryData",
 		"generateblocks/queryType",
-		"generateblocks/instantPagination"
+		"generateblocks/paginationType"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [

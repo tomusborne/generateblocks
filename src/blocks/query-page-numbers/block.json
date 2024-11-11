@@ -57,7 +57,7 @@
 		"generateblocks/queryType",
 		"generateblocks/query",
 		"generateblocks/queryId",
-		"generateblocks/instantPagination",
+		"generateblocks/paginationType",
 		"generateblocks/loopIndex",
 		"generateblocks/loopItem"
 	]

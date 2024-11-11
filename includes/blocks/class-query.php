@@ -92,7 +92,8 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		$query_id           = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] : 'query';
 		$page_key           = $query_id . '-page';
 		$page               = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$instant_pagination = $attributes['instantPagination'] ?? true;
+		$pagination_type    = $attributes['paginationType'] ?? '';
+		$instant_pagination = 'instant' === $pagination_type;
 		$query_type         = $attributes['queryType'] ?? self::TYPE_WP_QUERY;
 		$query_data         = self::get_query_data(
 			$query_type,
