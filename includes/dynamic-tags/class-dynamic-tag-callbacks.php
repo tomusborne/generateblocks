@@ -574,18 +574,32 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$taxonomy  = $options['tax'] ?? '';
 		$separator = ! empty( $options['sep'] ) ? $options['sep'] : '';
-		$before    = $options['before'] ?? '';
-		$after     = $options['after'] ?? '';
 		$link      = empty( $options['link'] ) ? false : (bool) $options['link'];
-		$output    = get_the_term_list( $id, $taxonomy, $before, $separator, $after );
+		$terms     = get_the_terms( $id, $taxonomy );
 
-		if ( is_wp_error( $output ) ) {
-			return 'error';
+		if ( ! $terms ) {
+			return self::output( '', $options, $instance );
 		}
 
-		if ( ! $link ) {
-			$output = wp_strip_all_tags( $output );
+		$list_items = [];
+
+		foreach ( $terms as $term ) {
+			if ( $link ) {
+				$link = get_term_link( $term, $taxonomy );
+
+				if ( is_wp_error( $link ) ) {
+					continue;
+				}
+
+				$list_items[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+
+				$list_items = apply_filters( "term_links-{$taxonomy}", $list_items ); // phpcs:ignore
+			} else {
+				$list_items[] = "<span>{$term->name}</span>";
+			}
 		}
+
+		$output = implode( $separator, $list_items );
 
 		return self::output( $output, $options, $instance );
 	}

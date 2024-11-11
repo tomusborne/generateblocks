@@ -44,6 +44,7 @@ export function BlockSettings( {
 	const {
 		linkHtmlAttributes,
 		mediaId,
+		tagName,
 	} = attributes;
 
 	const {
@@ -177,6 +178,7 @@ export function BlockSettings( {
 					htmlAttributes={ linkHtmlAttributes }
 					attributesName="linkHtmlAttributes"
 					context={ context }
+					tagName={ tagName }
 				/>
 
 				{ applyFilters(
