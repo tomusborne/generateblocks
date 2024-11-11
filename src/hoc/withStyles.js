@@ -115,6 +115,7 @@ export function withStyles( WrappedComponent ) {
 
 		useGenerateCSSEffect( {
 			selector,
+			getSelector,
 			styles: frontendStyles,
 			setAttributes,
 			getCss,
