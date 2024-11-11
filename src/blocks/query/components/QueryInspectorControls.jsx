@@ -44,13 +44,15 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<AdvancedSelect
-				value={ selectedQueryType }
-				options={ queryTypes }
-				onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
-				label={ __( 'Query Type', 'generateblocks' ) }
-				help={ selectedQueryType?.help }
-			/>
+			{ queryTypes.length > 1 && (
+				<AdvancedSelect
+					value={ selectedQueryType }
+					options={ queryTypes }
+					onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
+					label={ __( 'Query Type', 'generateblocks' ) }
+					help={ selectedQueryType?.help }
+				/>
+			) }
 			{ 'WP_Query' === attributes.queryType && (
 				<>
 					<ToggleControl
