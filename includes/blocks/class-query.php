@@ -41,31 +41,17 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		];
 
 		if ( self::TYPE_WP_QUERY === $query_type ) {
-			$query_args = GenerateBlocks_Query_Utils::get_wp_query_args( $query_data['args'], $page, $attributes );
 			// Override the custom query with the global query if needed.
 			$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
 
 			if ( $use_global_query ) {
 				global $wp_query;
 
-				if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
-					// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
-					unset( $query_args['offset'] );
-					$query_args = wp_parse_args( $wp_query->query_vars, $query_args );
-
-					if ( empty( $query_args['post_type'] ) && is_singular() ) {
-						$query_args['post_type'] = get_post_type( get_the_ID() );
-					}
-				}
 				$data = $wp_query;
 			} else {
-				/**
-				 * Allow users to filter the query args for a custom WP Query. This is ignored
-				 * if the query is inherited from the current template.
-				 */
-				$query_args = apply_filters(
-					'generateblocks_query_wp_query_args',
-					$query_args,
+				$query_args = GenerateBlocks_Query_Utils::get_wp_query_args(
+					$query_data['args'],
+					$page,
 					$attributes,
 					$block
 				);
@@ -92,9 +78,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		 *
 		 * @return array An array of query data.
 		 */
-		$query_data = apply_filters( 'generateblocks_query_data', $query_data, $query_type, $attributes, $block, $page );
-
-		return $query_data;
+		return apply_filters( 'generateblocks_query_data', $query_data, $query_type, $attributes, $block, $page );
 	}
 
 	/**

@@ -18,13 +18,14 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	/**
 	 * Helper function that optimizes the query attribute from the Query block.
 	 *
-	 * @param array $args The WP_Query args to parse.
-	 * @param int   $page  Current query's page.
-	 * @param array $attributes The query block's attributes. Used for reference in the filters.
+	 * @param array          $args The WP_Query args to parse.
+	 * @param int            $page  Current query's page.
+	 * @param array          $attributes The query block's attributes. Used for reference in the filters.
+	 * @param WP_Block|array $block The current block.
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [] ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block ) {
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -106,11 +107,36 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		}
 
 		/**
-		 * Filter the final result of get_query_args.
+		 * Legacy filter for v1 query args compatibility.
+		 *
+		 * @deprecated 2.0.0.
+		 *
+		 * @param array    $query_args The query arguments.
+		 * @param array    $attributes An array of block attributes.
+		 * @param WP_Block $block The block instance.
+		 *
+		 * @return array The modified query arguments.
+		 */
+		$query_args = apply_filters(
+			'generateblocks_query_loop_args',
+			$query_args,
+			$attributes,
+			$block
+		);
+
+		/**
+		 * Filter the final calculated query args.
 		 *
 		 * @param array @query_args The array of args for the WP_Query.
+		 * @param array $attributes The block attributes.
+		 * @param WP_Block|array $block The current block.
 		 */
-		return apply_filters( 'generateblocks_query_get_wp_query_args', $query_args, $attributes );
+		return apply_filters(
+			'generateblocks_query_wp_query_args',
+			$query_args,
+			$attributes,
+			$block
+		);
 	}
 
 	/**

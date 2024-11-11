@@ -54,7 +54,7 @@ function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
 	} );
 }
 
-function useWpQuery( shouldRequest = true, query, attributes ) {
+function useWpQuery( shouldRequest = true, query, attributes, block ) {
 	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
 
 	const [ data, setData ] = useState( [] );
@@ -84,6 +84,7 @@ function useWpQuery( shouldRequest = true, query, attributes ) {
 					data: {
 						args,
 						attributes,
+						block,
 					},
 				} );
 
@@ -110,6 +111,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		context,
 		attributes,
 	} = props;
+
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
@@ -120,8 +122,8 @@ export function LoopInnerBlocksRenderer( props ) {
 		hasResolvedData: false,
 		queryParams: [],
 	};
-
-	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes );
+	const { getSelectedBlock } = useSelect( blockEditorStore );
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes, getSelectedBlock() );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
@@ -151,8 +153,6 @@ export function LoopInnerBlocksRenderer( props ) {
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
-
-	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const [ innerBlockData, setInnerBlockData ] = useState( [] );
 	const [ activeBlockContextId, setActiveBlockContextId ] = useState();
 

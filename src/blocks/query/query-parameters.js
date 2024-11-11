@@ -143,7 +143,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
-			filterName: 'generateblocks.editor.query.-post-parent--not-in',
+			filterName: 'generateblocks.editor.query.post-parent--not-in',
 		},
 		label: __( 'Parent exclude', 'generateblocks' ),
 		description: __( 'Do not show posts from parents. Search by name or ID.', 'generateblocks' ),
