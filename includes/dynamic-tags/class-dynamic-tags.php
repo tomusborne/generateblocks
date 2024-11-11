@@ -260,6 +260,20 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
+				'visibility'  => [
+					'attributes' => [
+						[
+							'name'    => 'tagName',
+							'value'   => [
+								'a',
+								'button',
+								'img',
+								'picture',
+							],
+							'compare' => 'NOT_IN',
+						],
+					],
+				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
@@ -514,7 +528,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request The request.
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
-		$search = $request->get_param( 'search' );
+		$search        = $request->get_param( 'search' );
+		$id            = $request->get_param( 'id' );
+
 		$post_types = array_merge(
 			[
 				'post',
@@ -533,9 +549,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		foreach ( $post_types as $post_type ) {
 			$args = array(
 				'post_type'      => $post_type,
-				'posts_per_page' => 10,
+				'posts_per_page' => 20,
 				's'              => $search,
 			);
+
+			if ( $id ) {
+				$args['post__not_in'] = [ $id ];
+			}
 
 			$posts = get_posts( $args );
 			$items = [

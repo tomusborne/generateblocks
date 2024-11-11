@@ -7,6 +7,7 @@ export function ImagePlaceholder( props ) {
 		onSelectImage,
 		onSelectURL,
 		onUploadError,
+		uniqueId,
 	} = props;
 
 	const placeholder = <MediaPlaceholder
@@ -24,6 +25,7 @@ export function ImagePlaceholder( props ) {
 
 	return <div
 		className="gblocks-image__placeholder"
+		data-gb-id={ uniqueId }
 	>
 		{ placeholder }
 	</div>;

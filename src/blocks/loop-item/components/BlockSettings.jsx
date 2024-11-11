@@ -54,6 +54,7 @@ export function BlockSettings( {
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
 					context={ context }
+					tagName={ tagName }
 				/>
 			</OpenPanel>
 
