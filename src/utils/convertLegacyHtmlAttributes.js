@@ -1,4 +1,4 @@
-export function convertLegacyHtmlAttributes( oldHtmlAttributes ) {
+export function convertLegacyHtmlAttributes( oldHtmlAttributes = [] ) {
 	let newHtmlAttributes = {};
 
 	if ( oldHtmlAttributes.length > 0 ) {
