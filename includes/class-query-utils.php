@@ -25,7 +25,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = new stdClass() ) {
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
