@@ -143,7 +143,7 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	} );
 }
 
-function getVisibleTags( dynamicTags, context ) {
+function getVisibleTags( dynamicTags, context, attributes ) {
 	return dynamicTags.filter( ( tag ) => {
 		const { visibility = true } = tag;
 
@@ -157,6 +157,38 @@ function getVisibleTags( dynamicTags, context ) {
 
 		if ( visibility?.context ) {
 			return visibility.context.every( ( key ) => context?.[ key ] );
+		}
+
+		if ( Array.isArray( visibility?.attributes ) ) {
+			return visibility.attributes.every( ( attribute ) => {
+				const { value, name = '', compare = '===' } = attribute;
+
+				if ( ! name || undefined === value ) {
+					return true;
+				}
+
+				const attributeValue = attributes?.[ name ] ?? '';
+
+				switch ( compare ) {
+					case 'IN':
+						if ( Array.isArray( attributeValue ) ) {
+							return attributeValue.includes( value );
+						}
+
+						return value.includes( attributeValue );
+					case 'NOT_IN':
+						if ( Array.isArray( attributeValue ) ) {
+							return ! attributeValue.includes( value );
+						}
+
+						return ! value.includes( attributeValue );
+					case '!==':
+						return attributeValue !== value;
+					case '===':
+					default:
+						return attributeValue === value;
+				}
+			} );
 		}
 
 		return true;
@@ -191,7 +223,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const currentLoopItem = context?.[ 'generateblocks/loopItem' ] ?? {};
 	const queryType = context?.[ 'generateblocks/queryType' ] ?? 'WP_Query';
 	const allTags = generateBlocksEditor?.dynamicTags;
-	const availableTags = getVisibleTags( allTags, context );
+	const availableTags = getVisibleTags( allTags, context, { tagName } );
 	const imageSizeOptions = useMemo( () => {
 		const imageSizes = Array.isArray( generateBlocksInfo?.imageSizes )
 			? generateBlocksInfo.imageSizes
