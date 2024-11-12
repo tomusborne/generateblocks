@@ -12,7 +12,7 @@ import {
 	DebouncedTextControl,
 	SimpleMultiSelect,
 } from '@components';
-import { SelectPostType } from '../../../dynamic-tags/components/SelectPostType'; // @TODO: Move this to a better location
+import { SelectPostType } from '@edge22/components';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
