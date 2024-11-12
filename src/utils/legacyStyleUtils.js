@@ -133,6 +133,22 @@ export function convertLocalToStyles( attributeData, blockAttributes, hoverSelec
 				} else {
 					result.backgroundImage = gradientValue;
 				}
+			} else if ( 'iconStyles' === attributeName ) {
+				const iconStyles = blockAttributes.iconStyles;
+
+				if ( iconStyles.width ) {
+					result[ '.gb-shape svg' ] = {
+						...result[ '.gb-shape svg' ],
+						width: iconStyles.width,
+					};
+				}
+
+				if ( iconStyles.height ) {
+					result[ '.gb-shape svg' ] = {
+						...result[ '.gb-shape svg' ],
+						height: iconStyles.height,
+					};
+				}
 			} else if ( cleanedAttributeName ) {
 				// Handle default case
 				result[ cleanedAttributeName ] = blockAttributes[ attributeName ];

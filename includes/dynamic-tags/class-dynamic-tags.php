@@ -260,6 +260,20 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
+				'visibility'  => [
+					'attributes' => [
+						[
+							'name'    => 'tagName',
+							'value'   => [
+								'a',
+								'button',
+								'img',
+								'picture',
+							],
+							'compare' => 'NOT_IN',
+						],
+					],
+				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
