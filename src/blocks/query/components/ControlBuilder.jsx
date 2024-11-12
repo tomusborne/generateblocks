@@ -83,7 +83,7 @@ export function ControlBuilder( props ) {
 		: undefined;
 
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
-	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
+	const isPostsPerPage = 'number' === type && 'posts_per_page' === id;
 
 	const controlProps = {
 		id,
