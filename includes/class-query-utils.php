@@ -71,7 +71,8 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = new stdClass() ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
+
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -157,9 +158,9 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 *
 		 * @deprecated 2.0.0.
 		 *
-		 * @param array    $query_args The query arguments.
-		 * @param array    $attributes An array of block attributes.
-		 * @param WP_Block $block The block instance.
+		 * @param array           $query_args The query arguments.
+		 * @param array           $attributes An array of block attributes.
+		 * @param WP_Block|object $block The block instance.
 		 *
 		 * @return array The modified query arguments.
 		 */
@@ -167,7 +168,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			'generateblocks_query_loop_args',
 			$query_args,
 			$attributes,
-			$block
+			null === $block ? new stdClass() : $block
 		);
 
 		/**
