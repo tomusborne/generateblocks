@@ -15,6 +15,52 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.9.0
  */
 class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
+
+	/**
+	 * Initialize the class.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+	}
+
+	/**
+	 * Register REST routes.
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes() {
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-wp-query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_wp_query' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function get_wp_query( $request ) {
+		$args       = $request->get_param( 'args' );
+		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$attributes = $request->get_param( 'attributes' ) ?? [];
+
+		$query = new WP_Query(
+			self::get_wp_query_args( $args, $page, $attributes )
+		);
+
+		return rest_ensure_response( $query );
+	}
+
 	/**
 	 * Helper function that optimizes the query attribute from the Query block.
 	 *
@@ -188,3 +234,5 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		);
 	}
 }
+
+GenerateBlocks_Query_Utils::get_instance()->init();
