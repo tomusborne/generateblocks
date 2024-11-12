@@ -14,7 +14,6 @@ import HtmlAnchor from './html-anchor';
 import IconPicker from './icon-picker';
 import IconWrapper from './icon-wrapper';
 import { ImageUpload } from './image-upload';
-import { ControlBuilder, DateTimePickerControl } from './inspector-controls';
 import { LinkBlockToolbar } from './link-block-toolbar';
 import LinkControl from './link-control';
 import MigrateInnerContainer from './migrate-inner-container';
@@ -45,11 +44,8 @@ import { NoticePanel } from './notice-panel/NoticePanel';
 import { OnboardNotice } from './onboard-notice/OnboardNotice';
 import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 import { BlockAppender } from './block-appender/BlockAppender';
-import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
-import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 
 export {
-	AddQueryParameterButton,
 	AdvancedSelect,
 	AlignmentMatrix,
 	ApplyFilters,
@@ -60,8 +56,6 @@ export {
 	ColorGroup,
 	ColorPickerControls,
 	ColorPickerGroup,
-	ControlBuilder,
-	DateTimePickerControl,
 	DebouncedTextControl,
 	DimensionsControl,
 	DynamicTagsOnboarder,
@@ -87,7 +81,6 @@ export {
 	PostTypeRecordsSelect,
 	RangeControl,
 	RootElement,
-	SelectQueryParameter,
 	SimpleMultiSelect,
 	SimpleSelect,
 	StylesOnboarder,
