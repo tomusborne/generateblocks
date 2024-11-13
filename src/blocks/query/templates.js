@@ -127,7 +127,7 @@ export const TEMPLATES = [
 								},
 							} ],
 							[ 'generateblocks/text', {
-								tagName: 'div',
+								tagName: 'p',
 								content: '{{post_excerpt}}',
 							} ],
 						],
@@ -222,7 +222,7 @@ export const TEMPLATES = [
 								content: '{{modified_date}}',
 							} ],
 							[ 'generateblocks/text', {
-								tagName: 'div',
+								tagName: 'p',
 								content: '{{post_excerpt}}',
 							} ],
 						],
@@ -286,7 +286,7 @@ export const TEMPLATES = [
 								content: '{{modified_date}}',
 							} ],
 							[ 'generateblocks/text', {
-								tagName: 'div',
+								tagName: 'p',
 								content: '{{post_excerpt}}',
 							} ],
 						],
