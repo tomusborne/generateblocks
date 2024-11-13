@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 
 	const TYPE_WP_QUERY = 'WP_Query';
+	const TYPE_INSTANT_PAGINATION = 'instant';
 
 	/**
 	 * Keep track of all blocks of this type on the page.
@@ -105,7 +106,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		$page_key           = $query_id . '-page';
 		$page               = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$pagination_type    = $attributes['paginationType'] ?? '';
-		$instant_pagination = 'instant' === $pagination_type;
+		$instant_pagination = self::TYPE_INSTANT_PAGINATION === $pagination_type;
 		$query_type         = $attributes['queryType'] ?? self::TYPE_WP_QUERY;
 		$query_data         = self::get_query_data(
 			$query_type,

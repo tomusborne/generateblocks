@@ -620,7 +620,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function before_tag_replace( $content, $args ) {
 		if ( in_array( 'instant-pagination', $args['supports'], true ) ) {
 			$pagination_type    = $args['instance']->context['generateblocks/paginationType'] ?? '';
-			$instant_pagination = 'instant' === $pagination_type;
+			$instant_pagination = GenerateBlocks_Block_Query::TYPE_INSTANT_PAGINATION === $pagination_type;
 			$query_id           = $args['instance']->context['generateblocks/queryId'] ?? '';
 
 			if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
