@@ -1,7 +1,7 @@
-import AdvancedSelect from '../advanced-select';
+import AdvancedSelect from '@components/advanced-select';
 import { __ } from '@wordpress/i18n';
 
-const groupBy = function( arr, key, common ) {
+function groupBy( arr, key, common ) {
 	const currentGroups = {};
 	return arr.reduce( ( grouped, obj ) => {
 		const groupKey = obj[ key ] || common;
@@ -15,9 +15,9 @@ const groupBy = function( arr, key, common ) {
 
 		return grouped;
 	}, [] );
-};
+}
 
-export default ( props ) => {
+export function SelectQueryParameter( props ) {
 	return (
 		<AdvancedSelect
 			id={ 'gblocks-select-query-parameters' }
@@ -30,4 +30,4 @@ export default ( props ) => {
 			options={ groupBy( props.options, 'group', 'Other' ) }
 		/>
 	);
-};
+}

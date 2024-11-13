@@ -395,10 +395,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/get-posts',
+			'/get-wp-query',
 			[
-				'methods'  => 'GET',
-				'callback' => [ $this, 'get_latest_posts' ],
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_wp_query' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
@@ -520,69 +520,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return rest_ensure_response( $replacements );
-	}
-
-	/**
-	 * Get all of our posts in all public post types.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 */
-	public function get_latest_posts( WP_REST_Request $request ) {
-		$search        = $request->get_param( 'search' );
-		$id            = $request->get_param( 'id' );
-
-		$post_types = array_merge(
-			[
-				'post',
-				'page',
-			],
-			get_post_types(
-				[
-					'public'   => true,
-					'_builtin' => false,
-				],
-				'names'
-			)
-		);
-		$result = [];
-
-		foreach ( $post_types as $post_type ) {
-			$args = array(
-				'post_type'      => $post_type,
-				'posts_per_page' => 20,
-				's'              => $search,
-			);
-
-			if ( $id ) {
-				$args['post__not_in'] = [ $id ];
-			}
-
-			$posts = get_posts( $args );
-			$items = [
-				'value' => '',
-				'label' => __( 'No posts found', 'generateblocks' ),
-			];
-
-			if ( ! empty( $posts ) ) {
-				$items = array_map(
-					function ( $post ) {
-						return [
-							'value' => (string) $post->ID,
-							'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
-						];
-					},
-					$posts
-				);
-
-				$result[] = [
-					'id' => $post_type,
-					'label' => ucfirst( $post_type ),
-					'items' => $items,
-				];
-			}
-		}
-
-		return rest_ensure_response( $result );
 	}
 
 	/**

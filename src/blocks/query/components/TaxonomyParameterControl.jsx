@@ -1,17 +1,20 @@
-import SimpleSelect from '../../simple-select';
-import TaxonomiesSelect from '../../taxonomies-select';
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { useTaxonomies } from '../../../hooks';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, ComboboxControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-export default function TaxonomyParameterControl( props ) {
-	const { label, placeholder, value, onChange, help } = props;
+import { Stack } from '@edge22/components';
+
+import { TaxonomiesSelect } from '@components';
+import { useTaxonomies } from '@hooks';
+
+export function TaxonomyParameterControl( props ) {
+	const { label, placeholder, value, onChange, help, postType } = props;
 	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
 	const [ terms, setTerms ] = useState( value.terms );
 	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
+	const [ operator, setOperator ] = useState( value?.operator );
 
-	const taxonomies = useTaxonomies();
+	const taxonomies = useTaxonomies( postType );
 
 	const isHierarchical = useMemo( () => {
 		const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
@@ -39,10 +42,11 @@ export default function TaxonomyParameterControl( props ) {
 				taxonomy,
 				terms,
 				rest,
+				operator,
 				includeChildren: hierarchical ? includeChildren : undefined,
 			} );
 		}
-	}, [ taxonomy, JSON.stringify( terms ), includeChildren ] );
+	}, [ taxonomy, operator, JSON.stringify( terms ), includeChildren ] );
 
 	const taxonomiesOptions = useMemo( () => (
 		taxonomies
@@ -51,15 +55,14 @@ export default function TaxonomyParameterControl( props ) {
 	), [ JSON.stringify( taxonomies ) ] );
 
 	return (
-		<>
-			<SimpleSelect
-				wrapperStyles={ { marginBottom: '8px' } }
+		<Stack gap="12px" className="gb-tax-query">
+			<ComboboxControl
 				label={ label }
 				placeholder={ placeholder || __( 'Select taxonomy', 'generateblocks' ) }
 				options={ taxonomiesOptions }
 				value={ taxonomy }
-				onChange={ ( option ) => {
-					setTaxonomy( option.value );
+				onChange={ ( newValue ) => {
+					setTaxonomy( newValue );
 					setTerms( [] );
 				} }
 			/>
@@ -82,7 +85,22 @@ export default function TaxonomyParameterControl( props ) {
 						} }
 						help={ terms.length === 0 ? __( 'You must select at least one term. Search by name or ID.', 'generateblocks' ) : help }
 					/>
-
+					<ComboboxControl
+						label={ __( 'Include or exclude', 'generateblocks' ) }
+						value={ operator }
+						options={ [
+							{
+								value: 'IN',
+								label: __( 'Include', 'generateblocks' ),
+							},
+							{
+								value: 'NOT IN',
+								label: __( 'Exclude', 'generateblocks' ),
+							},
+						] }
+						onChange={ setOperator }
+						help={ __( 'Choose to include or exclude the selected taxonomy terms' ) }
+					/>
 					{ isHierarchical &&
 						<ToggleControl
 							checked={ includeChildren }
@@ -92,6 +110,6 @@ export default function TaxonomyParameterControl( props ) {
 					}
 				</>
 			}
-		</>
+		</Stack>
 	);
 }

@@ -9,10 +9,10 @@
     "version": "1.0.0",
     "textdomain": "generateblocks",
     "attributes": {
-        "uniqueId": {
-            "type": "string",
-			"default": ""
-        },
+			"uniqueId": {
+				"type": "string",
+				"default": ""
+			},
 		"tagName": {
 			"type": "string",
 			"default": "",

@@ -9,23 +9,44 @@ import { Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import apiFetch from '@wordpress/api-fetch';
 
 import { useDebouncedCallback } from 'use-debounce';
 
-import { normalizeRepeatableArgs, removeEmpty } from '@utils/index';
+const DISALLOWED_KEYS = [ 'post_password', 'password' ];
 
-function BlockPreview( { blocks } ) {
+function BlockPreview( { blocks, isHidden } ) {
+	const style = {
+		display: isHidden ? 'none' : undefined,
+	};
+
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
+		props: {
+			style,
+			className: 'gb-loop-preview',
+		},
 	} );
 
-	return blockPreviewProps.children;
+	return isHidden ? <div { ...blockPreviewProps } /> : blockPreviewProps.children;
 }
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
-function setIsBlockPreview( innerBlocks ) {
+function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
 	return innerBlocks.map( ( block ) => {
+		const { clientId = '' } = block;
+
+		const activeBlock = document.getElementById( `block-${ clientId }` );
+
+		const isActiveBlock = activeBlock
+			? activeBlock?.dataset?.contextPostId === contextPostId
+			: false;
+
+		if ( isActiveBlock ) {
+			return block;
+		}
+
 		const newInnerBlocks = setIsBlockPreview( block.innerBlocks );
 		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
 
@@ -33,69 +54,76 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-function useWpQuery( shouldRequest = true, query ) {
-	const normalizedQuery = useMemo( () => {
-		return normalizeRepeatableArgs( removeEmpty( query ) );
-	}, [ JSON.stringify( query ) ] );
+function useWpQuery( shouldRequest = true, query, attributes, block ) {
+	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
 
-	return useSelect( ( select ) => {
+	const [ data, setData ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( true );
+
+	useEffect( () => {
 		if ( ! shouldRequest ) {
-			return null;
+			return;
 		}
-		const {
-			getEntityRecords,
-			isResolving,
-			hasFinishedResolution,
-			canUser,
-		} = select( coreStore );
 
-		/**
-		 * Include capabilities check for 'update' and 'settings'
-		 * to determine if the user can update settings.
-		 */
-		const queryParams = [
-			'postType',
-			query.post_type || 'post',
-			canUser( 'update', 'settings' )
-				? normalizedQuery
-				: {
-					...normalizedQuery,
-					status: 'publish',
-				},
-		];
-
-		return {
-			data: getEntityRecords( ...queryParams ),
-			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
-			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
-			queryParams,
+		const args = {
+			...query,
+			post_type: query.post_type || 'post',
 		};
-	}, [ JSON.stringify( normalizedQuery ) ] );
+
+		if ( canUser && ! canUser( 'update', 'settings' ) ) {
+			args.post_status = 'publish';
+		}
+
+		async function fetchPosts() {
+			setIsLoading( true );
+
+			try {
+				const response = await apiFetch( {
+					path: '/generateblocks/v1/get-wp-query',
+					method: 'POST',
+					data: {
+						args,
+						attributes,
+						block,
+					},
+				} );
+
+				const { posts = [] } = response;
+				setData( posts );
+			} catch ( error ) {
+				console.error( 'Error fetching post record:', error ); // eslint-disable-line no-console
+			} finally {
+				setIsLoading( false );
+			}
+		}
+
+		fetchPosts();
+	}, [ query ] );
+
+	const result = { data, isResolvingData: isLoading, hasResolvedData: data?.length > 0 };
+
+	return shouldRequest ? result : null;
 }
 
 export function LoopInnerBlocksRenderer( props ) {
 	const {
 		clientId,
 		context,
+		attributes,
 	} = props;
+
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
 	} = context;
-	const [ dataState, setDataState ] = useState( {
-		data: [],
+	let dataState = {
+		data: null,
 		isResolvingData: true,
 		hasResolvedData: false,
 		queryParams: [],
-	} );
-
-	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
-
-	useEffect( () => {
-		if ( null !== wpQuery ) {
-			setDataState( { ...wpQuery } );
-		}
-	}, [ wpQuery ] );
+	};
+	const { getSelectedBlock } = useSelect( blockEditorStore );
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes, getSelectedBlock() );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
@@ -104,37 +132,33 @@ export function LoopInnerBlocksRenderer( props ) {
 		props,
 	} );
 
-	useEffect( () => {
-		if ( null !== wpQuery ) {
-			setDataState( { ...wpQuery } );
-		} else if ( null !== otherQuery && null === wpQuery ) {
-			setDataState( { ...otherQuery } );
-		} else {
-			setDataState( {
-				data: [],
-				isResolvingData: false,
-				hasResolvedData: true,
-				queryParams: [],
-			} );
-		}
-	}, [ otherQuery, wpQuery ] );
+	if ( null !== wpQuery ) {
+		dataState = ( { ...wpQuery } );
+	} else if ( null !== otherQuery && null === wpQuery ) {
+		dataState = ( { ...otherQuery } );
+	} else {
+		dataState = {
+			data: [],
+			isResolvingData: false,
+			hasResolvedData: false,
+		};
+	}
 
 	const {
 		data,
 		isResolvingData,
 		hasResolvedData,
 	} = dataState;
-	const hasData = ! isResolvingData && hasResolvedData && data?.length;
+
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
-
-	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const [ innerBlockData, setInnerBlockData ] = useState( [] );
+	const [ activeBlockContextId, setActiveBlockContextId ] = useState();
 
 	useEffect( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, [] );
+	}, [ getSelectedBlock ] );
 
 	const debounced = useDebouncedCallback( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
@@ -144,17 +168,37 @@ export function LoopInnerBlocksRenderer( props ) {
 		'core/paragraph',
 		'core/heading',
 		'core/button',
-		'generateblocks/headline',
-		'generateblocks/button',
+		'generateblocks/text',
 	];
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
 			renderAppender: false,
+			blockContext: context,
 		},
 		innerBlockData
 	);
+	useEffect( () => {
+		function handleToggle( e ) {
+			const target = e.target.closest( '.gb-block-preview__toggle' );
+
+			if ( target ) {
+				const contextId = target?.dataset?.contextPostId ?? '';
+				setActiveBlockContextId( contextId );
+
+				setInnerBlockData(
+					setIsBlockPreview( innerBlocks, contextId )
+				);
+			}
+		}
+
+		document.addEventListener( 'click', handleToggle );
+
+		return () => {
+			document.removeEventListener( 'click', handleToggle );
+		};
+	}, [ innerBlocks, activeBlockContextId ] );
 
 	useEffect( () => {
 		const selectedBlock = getSelectedBlock();
@@ -172,8 +216,8 @@ export function LoopInnerBlocksRenderer( props ) {
 	}, [ JSON.stringify( innerBlocks ) ] );
 
 	const loopItemsContext = useMemo( () => {
-		if ( hasData && Array.isArray( data ) ) {
-			let perPage = query?.per_page ?? 10;
+		if ( hasResolvedData && Array.isArray( data ) ) {
+			let perPage = query?.posts_per_page ?? 10;
 
 			if ( -1 === perPage ) {
 				perPage = data.length;
@@ -183,6 +227,14 @@ export function LoopInnerBlocksRenderer( props ) {
 
 			return items.map( ( item, index ) => {
 				const { ID = null, id = null, type = 'post' } = item;
+
+				// Remove any disallowed or hidden keys
+				for ( const itemKey in item ) {
+					if ( DISALLOWED_KEYS.includes( itemKey ) || itemKey.startsWith( '_' ) ) {
+						delete item[ itemKey ];
+					}
+				}
+
 				return {
 					postType: type,
 					postId: id ? id : ID,
@@ -201,27 +253,28 @@ export function LoopInnerBlocksRenderer( props ) {
 			},
 			'generateblocks/loopIndex': 1,
 		} ];
-	}, [ data, hasData, query?.per_page ] );
+	}, [ data, hasResolvedData, query?.per_page ] );
 
-	if ( isResolvingData || ! hasResolvedData ) {
+	if ( isResolvingData ) {
 		return ( <Spinner /> );
 	}
 
 	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
+		const isActive = loopItemContext.postId ===
+			( parseInt( activeBlockContextId, 10 ) || loopItemsContext[ 0 ]?.postId );
 
 		return (
 			<BlockContextProvider
 				key={ key }
 				value={ loopItemContext }
 			>
-				{ 0 === index
-					? innerBlocksProps.children
-					: (
-						<MemoizedBlockPreview blocks={ innerBlockData } />
-					)
-				}
+				{ isActive && innerBlocksProps.children }
+				<MemoizedBlockPreview
+					blocks={ innerBlockData }
+					isHidden={ isActive }
+				/>
 			</BlockContextProvider>
 		);
 	} ) : innerBlocksProps.children;

@@ -1,5 +1,7 @@
-import queryParameterOptions from '../../query-loop/query-parameters';
-import ParameterControl from '../../../components/inspector-controls/parameter-list/ParameterControl';
+import { Stack } from '@edge22/components';
+
+import queryParameterOptions from '../query-parameters';
+import { ParameterControl } from './ParameterControl';
 
 const getParametersList = ( query ) => {
 	const options = queryParameterOptions.filter( ( param ) => param.isSticky );
@@ -9,22 +11,20 @@ const getParametersList = ( query ) => {
 	) ).filter( Boolean ) );
 };
 
-export default ( { query, setParameter, removeParameter } ) => {
+export function ParameterList( { query, setParameter, removeParameter } ) {
 	const parameterList = getParametersList( query );
 
 	return (
-		<>
-			<div style={ { marginBottom: '1.33em' } }>
-				{ parameterList && parameterList.map( ( parameter ) => (
-					<ParameterControl
-						key={ parameter.id }
-						parameter={ parameter }
-						query={ query }
-						setParameter={ setParameter }
-						removeParameter={ removeParameter }
-					/>
-				) ) }
-			</div>
-		</>
+		<Stack gap="24px">
+			{ parameterList && parameterList.map( ( parameter, i ) => (
+				<ParameterControl
+					key={ `${ parameter.id }-${ i }` }
+					parameter={ parameter }
+					query={ query }
+					setParameter={ setParameter }
+					removeParameter={ removeParameter }
+				/>
+			) ) }
+		</Stack>
 	);
-};
+}

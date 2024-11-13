@@ -33,38 +33,37 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 	 * @return array Array of query data including the data for looping and no_results.
 	 */
 	public static function get_query_data( $query_type, $attributes, $block, $page ) {
-		$query_data = [
+		$original_args = $attributes['query'] ?? [];
+		$query_data    = [
 			'data'       => [],
 			'no_results' => true,
-			'args'       => $attributes['query'] ?? [],
+			'args'       => $original_args,
 		];
 
 		if ( self::TYPE_WP_QUERY === $query_type ) {
-			$query_args = GenerateBlocks_Query_Utils::get_query_args( $block, $page );
 			// Override the custom query with the global query if needed.
 			$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
 
 			if ( $use_global_query ) {
 				global $wp_query;
 
-				if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
-					// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
-					unset( $query_args['offset'] );
-					$query_args = wp_parse_args( $wp_query->query_vars, $query_args );
-
-					if ( empty( $query_args['post_type'] ) && is_singular() ) {
-						$query_args['post_type'] = get_post_type( get_the_ID() );
-					}
+				/*
+				* If already in the main query loop, duplicate the query instance to not tamper with the main instance.
+				* Since this is a nested query, it should start at the beginning, therefore rewind posts.
+				* Otherwise, the main query loop has not started yet and this block is responsible for doing so.
+				*/
+				if ( in_the_loop() ) {
+					$data = clone $wp_query;
+					$data->rewind_posts();
+				} else {
+					$data = $wp_query;
 				}
-				$data = $wp_query;
+
+				$query_args = $data->query_vars;
 			} else {
-				/**
-				 * Allow users to filter the query args for a custom WP Query. This is ignored
-				 * if the query is inherited from the current template.
-				 */
-				$query_args = apply_filters(
-					'generateblocks_query_wp_query_args',
-					$query_args,
+				$query_args = GenerateBlocks_Query_Utils::get_wp_query_args(
+					$query_data['args'],
+					$page,
 					$attributes,
 					$block
 				);
@@ -91,9 +90,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		 *
 		 * @return array An array of query data.
 		 */
-		$query_data = apply_filters( 'generateblocks_query_data', $query_data, $query_type, $attributes, $block, $page );
-
-		return $query_data;
+		return apply_filters( 'generateblocks_query_data', $query_data, $query_type, $attributes, $block, $page );
 	}
 
 	/**

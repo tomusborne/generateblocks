@@ -55,6 +55,7 @@
 		"generateblocks/queryData",
 		"generateblocks/queryType",
 		"generateblocks/loopIndex",
-		"generateblocks/loopItem"
+		"generateblocks/loopItem",
+		"postId"
 	]
 }

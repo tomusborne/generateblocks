@@ -60,6 +60,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 		const {
 			attributes,
 			setAttributes,
+			context,
 		} = props;
 
 		const {
@@ -75,6 +76,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			...otherAttributes,
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
+			'data-context-post-id': context?.postId ?? 0,
 		};
 		const frontendHtmlAttributes = useMemo( () => {
 			if ( Array.isArray( htmlAttributes ) ) {

@@ -5,8 +5,10 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import { SelectQueryParameter, AdvancedSelect, AddQueryParameterButton } from '@components';
-import ParameterList from './ParameterList';
+import { AdvancedSelect } from '@components';
+import { SelectQueryParameter } from './SelectQueryParameter';
+import { AddQueryParameterButton } from './AddQueryParameterButton';
+import { ParameterList } from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
 import queryParameterOptions from '../query-parameters';
 
@@ -44,13 +46,15 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<AdvancedSelect
-				value={ selectedQueryType }
-				options={ queryTypes }
-				onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
-				label={ __( 'Query Type', 'generateblocks' ) }
-				help={ selectedQueryType?.help }
-			/>
+			{ queryTypes.length > 1 && (
+				<AdvancedSelect
+					value={ selectedQueryType }
+					options={ queryTypes }
+					onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
+					label={ __( 'Query Type', 'generateblocks' ) }
+					help={ selectedQueryType?.help }
+				/>
+			) }
 			{ 'WP_Query' === attributes.queryType && (
 				<>
 					<ToggleControl

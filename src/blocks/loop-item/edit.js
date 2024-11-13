@@ -1,5 +1,5 @@
 import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
-import { useEffect, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -22,12 +22,17 @@ function EditBlock( props ) {
 		onStyleChange,
 		editorHtmlAttributes,
 		styles,
+		context,
 	} = props;
 
 	const {
 		tagName,
 		isBlockPreview = false,
 	} = attributes;
+
+	if ( ! tagName ) {
+		setAttributes( { tagName: 'div' } );
+	}
 
 	const classNames = getBlockClasses(
 		'gb-loop-item',
@@ -41,19 +46,11 @@ function EditBlock( props ) {
 	if ( isBlockPreview ) {
 		classNames.push( 'gb-block-preview' );
 	}
+	const blockProps = useBlockProps( {
+		className: classNames.join( ' ' ).trim(),
+		...editorHtmlAttributes,
+	} );
 
-	useEffect( () => {
-		if ( ! tagName ) {
-			setAttributes( { tagName: 'div' } );
-		}
-	}, [ tagName ] );
-
-	const blockProps = useBlockProps(
-		{
-			className: classNames.join( ' ' ).trim(),
-			...editorHtmlAttributes,
-		}
-	);
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
@@ -66,6 +63,11 @@ function EditBlock( props ) {
 			),
 		}
 	);
+
+	const {
+		children: innerBlocksChildren,
+		...otherInnerBlocksProps
+	} = innerBlocksProps;
 
 	const TagName = tagName || 'div';
 	const shortcuts = useMemo( () => {
@@ -118,7 +120,21 @@ function EditBlock( props ) {
 					) }
 				/>
 			</InspectorControls>
-			<TagName { ...innerBlocksProps } />
+			<TagName { ...otherInnerBlocksProps }>
+				{ innerBlocksChildren }
+				{ isBlockPreview && (
+					<button
+						className="gb-block-preview__toggle"
+						data-block-id={ clientId }
+						data-context-post-id={ context?.postId ?? 0 }
+						onClick={ () => {
+							setAttributes( { isBlockPreview: false } );
+						} }
+						type="button"
+						aria-label={ __( 'Set this block as active', 'generateblocks' ) }
+					/>
+				) }
+			</TagName>
 		</>
 	);
 }
