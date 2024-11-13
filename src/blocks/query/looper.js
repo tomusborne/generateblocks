@@ -13,6 +13,15 @@ function fetchPrefetchedPage( url ) {
 		} );
 }
 
+function scrollIfNeeded( container ) {
+	const rect = container.getBoundingClientRect();
+	const isTopInView = rect.top >= 0 && rect.top <= ( window.innerHeight || document.documentElement.clientHeight );
+
+	if ( ! isTopInView ) {
+		container.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+	}
+}
+
 function updatePostsContainer( region = '', prefetchedContent = '' ) {
 	const container = document.querySelector( `[data-gb-router-region="${ region }"]` );
 	if ( ! container || ! prefetchedContent ) {
@@ -28,7 +37,7 @@ function updatePostsContainer( region = '', prefetchedContent = '' ) {
 
 	if ( prefetchedPosts && container ) {
 		container.innerHTML = prefetchedPosts.innerHTML;
-		container.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+		scrollIfNeeded( container );
 		paginationContainer.innerHTML = pagination.innerHTML;
 	} else {
 		console.error( 'Unable to update posts container: Missing elements' ); // eslint-disable-line no-console
