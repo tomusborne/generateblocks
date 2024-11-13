@@ -113,6 +113,14 @@ export function withStyles( WrappedComponent ) {
 			defaultAtRules,
 		} );
 
+		useGenerateCSSEffect( {
+			selector,
+			styles: frontendStyles,
+			setAttributes,
+			getCss,
+			css,
+		} );
+
 		useStyleSelectorEffect( {
 			isSelected,
 			currentStyle,
