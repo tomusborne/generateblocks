@@ -85,7 +85,7 @@
     "generateblocks/queryType",
     "generateblocks/inheritQuery",
     "generateblocks/queryId",
-    "generateblocks/instantPagination",
+    "generateblocks/paginationType",
     "generateblocks/loopIndex",
     "generateblocks/loopItem"
   ],
