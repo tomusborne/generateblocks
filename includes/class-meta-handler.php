@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.0.0
  */
 class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
+
+	const DISALLOWED_KEYS = [
+		'post_password',
+		'password',
+	];
+
 	/**
 	 * Initialize all hooks.
 	 *
@@ -118,7 +124,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Parse a dynamic tag key and retrieve a value from it.
+	 * Recursive or single value retrieval.
 	 *
 	 * @param string     $key The key from the parent value for retrieval.
 	 * @param string|int $parent_value The parent value to check the key against.
@@ -127,8 +133,6 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_value( $key, $parent_value, $single_only = true, $fallback = '' ) {
-		$parts = explode( '.', $key );
-
 		// Stop here if the key is empty.
 		if ( empty( $key ) ) {
 			if ( $single_only ) {
@@ -140,6 +144,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			return self::is_array_or_object( $parent_value ) ? $parent_value : $fallback;
 		}
 
+		$parts     = explode( '.', $key );
 		$sub_value = self::maybe_get_property( $parent_value, $parts[0], $single_only );
 
 		if ( self::is_array_or_object( $sub_value ) ) {
@@ -175,7 +180,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		$key_parts = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
-		if ( empty( $key ) ) {
+		if ( empty( $key ) || in_array( $parent_name, self::DISALLOWED_KEYS, true ) ) {
 			return '';
 		}
 

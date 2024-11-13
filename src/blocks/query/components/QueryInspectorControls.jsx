@@ -5,8 +5,10 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import { SelectQueryParameter, AdvancedSelect, AddQueryParameterButton } from '@components';
-import ParameterList from './ParameterList';
+import { AdvancedSelect } from '@components';
+import { SelectQueryParameter } from './SelectQueryParameter';
+import { AddQueryParameterButton } from './AddQueryParameterButton';
+import { ParameterList } from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
 import queryParameterOptions from '../query-parameters';
 

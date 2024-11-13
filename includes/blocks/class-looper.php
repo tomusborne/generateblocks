@@ -21,6 +21,32 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Sanitize a loop item's data for security.
+	 *
+	 * @param array|object $loop_item The loop item to sanitize.
+	 * @return array|object The sanitized loop item.
+	 */
+	public static function sanitize_loop_item( $loop_item ) {
+
+		$disallowed_keys = GenerateBlocks_Meta_Handler::DISALLOWED_KEYS ?? [];
+
+		foreach ( $disallowed_keys as $key ) {
+
+			if ( is_object( $loop_item ) ) {
+				if ( isset( $loop_item->$key ) ) {
+					unset( $loop_item->$key );
+				}
+			} elseif ( is_array( $loop_item ) ) {
+				if ( isset( $loop_item[ $key ] ) ) {
+					unset( $loop_item[ $key ] );
+				}
+			}
+		}
+
+		return $loop_item;
+	}
+
+	/**
 	 * Render the repeater items for the Looper block.
 	 *
 	 * @param  array    $attributes Block attributes.
@@ -96,7 +122,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 							'postId'                   => get_the_ID(),
 							'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
-							'generateblocks/loopItem'  => $post,
+							'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
 						)
 					)
 				)->render( array( 'dynamic' => false ) );

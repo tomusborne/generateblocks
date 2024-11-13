@@ -22,7 +22,7 @@ registerBlockVariation(
 			showTemplateSelector: true,
 			query: {
 				post_type: 'post',
-				per_page: 10,
+				posts_per_page: 10,
 			},
 		},
 		innerBlocks: [],

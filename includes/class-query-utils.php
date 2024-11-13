@@ -15,39 +15,78 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.9.0
  */
 class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
+
 	/**
-	 * Helper function that constructs a WP_Query args array from
-	 * a `Query` block properties.
+	 * Initialize the class.
 	 *
-	 * @param WP_Block $block Block instance.
-	 * @param int      $page  Current query's page.
-	 *
-	 * @todo: https://github.com/WordPress/wordpress-develop/blob/44e308c12e68b5c6b63845fd84369ba36985e193/src/wp-includes/blocks.php#L1126
+	 * @return void
 	 */
-	public static function get_query_args( $block, $page ) {
-		$query_attributes = is_array( $block->parsed_block['attrs'] ) && isset( $block->parsed_block['attrs']['query'] )
-			? $block->parsed_block['attrs']['query']
-			: [];
+	public function init() {
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+	}
+
+	/**
+	 * Register REST routes.
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes() {
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-wp-query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_wp_query' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function get_wp_query( $request ) {
+		$args       = $request->get_param( 'args' );
+		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$attributes = $request->get_param( 'attributes' ) ?? [];
+
+		$query = new WP_Query(
+			self::get_wp_query_args( $args, $page, $attributes )
+		);
+
+		return rest_ensure_response( $query );
+	}
+
+	/**
+	 * Helper function that optimizes the query attribute from the Query block.
+	 *
+	 * @param array          $args The WP_Query args to parse.
+	 * @param int            $page  Current query's page.
+	 * @param array          $attributes The query block's attributes. Used for reference in the filters.
+	 * @param WP_Block|array $block The current block.
+	 *
+	 * @return array $query_args The optimized WP_Query args array.
+	 */
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
 
 		// Set up our pagination.
-		$query_attributes['paged'] = $page;
+		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
+			$args['paged'] = $page;
+		}
 
-		$query_args = self::map_post_type_attributes( $query_attributes );
+		$query_args = self::map_post_type_attributes( $args );
 
 		if ( isset( $query_args['tax_query'] ) ) {
-			$query_args['tax_query'] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
+			if ( count( $query_args['tax_query'] ) > 1 ) {
+				$query_args['tax_query']['relation'] = 'AND';
+			}
 		}
 
-		if ( isset( $query_args['date_query_after'] ) || isset( $query_args['date_query_before'] ) ) {
-			$query_args['date_query'] = self::normalize_date_query_attributes(
-				isset( $query_args['date_query_after'] ) ? $query_args['date_query_after'] : null,
-				isset( $query_args['date_query_before'] ) ? $query_args['date_query_before'] : null
-			);
-
-			unset( $query_args['date_query_after'] );
-			unset( $query_args['date_query_before'] );
-		}
-
+		// Sticky posts handling.
 		if ( isset( $query_args['stickyPosts'] ) && 'ignore' === $query_args['stickyPosts'] ) {
 			$query_args['ignore_sticky_posts'] = true;
 			unset( $query_args['stickyPosts'] );
@@ -67,21 +106,15 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			unset( $query_args['stickyPosts'] );
 		}
 
-		if ( isset( $query_args['tax_query_exclude'] ) ) {
-			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
-			$query_args['tax_query'] = isset( $query_args['tax_query'] )
-				? array_merge( $query_args['tax_query'], $not_in_tax_query )
-				: $not_in_tax_query;
-
-			unset( $query_args['tax_query_exclude'] );
-		}
-
+		// Ensure offset works correctly with pagination.
+		$posts_per_page = (int) $query_args['posts_per_page'] ?? get_option( 'posts_per_page', -1 );
 		if (
 			isset( $query_args['posts_per_page'] ) &&
-			is_numeric( $query_args['posts_per_page'] )
+			is_numeric( $query_args['posts_per_page'] ) &&
+			$posts_per_page > -1
 		) {
-			$per_page = intval( $query_args['posts_per_page'] );
-			$offset   = 0;
+
+			$offset = 0;
 
 			if (
 				isset( $query_args['offset'] ) &&
@@ -90,20 +123,67 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$offset = absint( $query_args['offset'] );
 			}
 
-			$query_args['offset'] = ( $per_page * ( $page - 1 ) ) + $offset;
-			$query_args['posts_per_page'] = $per_page;
+			$query_args['offset']         = ( $posts_per_page * ( $page - 1 ) ) + $offset;
+			$query_args['posts_per_page'] = $posts_per_page;
 		}
 
+		$post_status = $query_args['post_status'] ?? 'publish';
 		if (
-			isset( $query_args['post_status'] ) &&
-			'publish' !== $query_args['post_status'] &&
+			'publish' !== $post_status &&
 			! current_user_can( 'read_private_posts' )
 		) {
 			// If the user can't read private posts, we'll force the post status to be public.
 			$query_args['post_status'] = 'publish';
 		}
 
-		return $query_args;
+		$date_query = $query_args['date_query'] ?? false;
+
+		if ( is_array( $date_query ) ) {
+			$query_args['date_query'] = array_map(
+				function( $query ) {
+					$query = array_filter(
+						$query,
+						function( $value ) {
+							return ! empty( $value );
+						}
+					);
+					return $query;
+				},
+				$query_args['date_query'] ?? []
+			);
+		}
+
+		/**
+		 * Legacy filter for v1 query args compatibility.
+		 *
+		 * @deprecated 2.0.0.
+		 *
+		 * @param array           $query_args The query arguments.
+		 * @param array           $attributes An array of block attributes.
+		 * @param WP_Block|object $block The block instance.
+		 *
+		 * @return array The modified query arguments.
+		 */
+		$query_args = apply_filters(
+			'generateblocks_query_loop_args',
+			$query_args,
+			$attributes,
+			null === $block ? new stdClass() : $block
+		);
+
+		/**
+		 * Filter the final calculated query args.
+		 *
+		 * @param array @query_args The array of args for the WP_Query.
+		 * @param array $attributes The block attributes.
+		 * @param WP_Block|array $block The current block.
+		 */
+		return apply_filters(
+			'generateblocks_query_wp_query_args',
+			$query_args,
+			$attributes,
+			$block
+		);
 	}
 
 	/**
@@ -154,26 +234,6 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			$raw_tax_query
 		);
 	}
-
-	/**
-	 * Normalize the date query attributes to be used in the WP_Query
-	 *
-	 * @param string|null $after The after date.
-	 * @param string|null $before The before date.
-	 *
-	 * @return array
-	 */
-	public static function normalize_date_query_attributes( $after = null, $before = null ) {
-		$result = array( 'inclusive' => true );
-
-		if ( generateblocks_is_valid_date( $after ) ) {
-			$result['after'] = $after;
-		}
-
-		if ( generateblocks_is_valid_date( $before ) ) {
-			$result['before'] = $before;
-		}
-
-		return $result;
-	}
 }
+
+GenerateBlocks_Query_Utils::get_instance()->init();
