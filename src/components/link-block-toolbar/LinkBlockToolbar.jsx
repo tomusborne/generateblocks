@@ -35,6 +35,7 @@ export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes, cont
 							htmlAttributes={ htmlAttributes }
 							setAttributes={ setAttributes }
 							context={ context }
+							tagName={ tagName }
 						/>
 					</>
 				) }

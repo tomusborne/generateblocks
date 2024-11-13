@@ -260,6 +260,20 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
+				'visibility'  => [
+					'attributes' => [
+						[
+							'name'    => 'tagName',
+							'value'   => [
+								'a',
+								'button',
+								'img',
+								'picture',
+							],
+							'compare' => 'NOT_IN',
+						],
+					],
+				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
@@ -373,18 +387,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'methods'  => 'POST',
 				'callback' => [ $this, 'get_dynamic_tag_replacements' ],
-				'permission_callback' => function() {
-					return current_user_can( 'edit_posts' );
-				},
-			]
-		);
-
-		register_rest_route(
-			'generateblocks/v1',
-			'/get-posts', // TODO: Update this properly once this PR is up by editing SelectPost in components.
-			[
-				'methods'  => 'GET',
-				'callback' => [ $this, 'get_latest_posts' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
@@ -518,100 +520,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return rest_ensure_response( $replacements );
-	}
-
-	/**
-	 * Gets posts and returns an array of WP_Post objects.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 */
-	public function get_wp_query( $request ) {
-		$args       = $request->get_param( 'args' );
-		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
-		$attributes = $request->get_param( 'attributes' ) ?? [];
-
-		$query = new WP_Query(
-			GenerateBlocks_Query_Utils::get_wp_query_args( $args, $page, $attributes )
-		);
-
-		return rest_ensure_response( $query );
-	}
-
-	/**
-	 * Get all of our posts in all public post types.
-	 *
-	 * @param WP_REST_Request $request The request.
-	 */
-	public function get_latest_posts( WP_REST_Request $request ) {
-		$search     = $request->get_param( 'search' );
-		$id         = $request->get_param( 'id' );
-		$post_types = $request->get_param( 'post_type' );
-
-		$available_post_types = array_merge(
-			[
-				'post',
-				'page',
-			],
-			get_post_types(
-				[
-					'public'   => true,
-					'_builtin' => false,
-				],
-				'names'
-			)
-		);
-		$result = [];
-
-		if ( $post_types ) {
-			$available_post_types = array_filter(
-				$available_post_types,
-				function ( $post_type ) use ( $post_types ) {
-					if ( is_array( $post_types ) ) {
-						return in_array( $post_type, $post_types, true );
-					}
-
-					return $post_type === $post_types;
-				}
-			);
-		}
-
-		foreach ( $available_post_types as $post_type ) {
-			$args = array(
-				'post_type'      => $post_type,
-				'posts_per_page' => 20,
-				's'              => $search,
-			);
-
-			if ( $id ) {
-				$args['post__not_in'] = [ $id ];
-			}
-
-			$posts = get_posts( $args );
-			$items = [
-				'value' => '',
-				'label' => __( 'No posts found', 'generateblocks' ),
-			];
-
-			if ( ! empty( $posts ) ) {
-				$items = array_map(
-					function ( $post ) {
-						return [
-							'value' => (string) $post->ID,
-							'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
-						];
-					},
-					$posts
-				);
-
-				$result[] = [
-					'id' => $post_type,
-					'label' => ucfirst( $post_type ),
-					'items' => $items,
-				];
-			}
-		}
-
-		return rest_ensure_response( $result );
 	}
 
 	/**

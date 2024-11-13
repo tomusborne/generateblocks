@@ -1,7 +1,7 @@
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-export default ( props ) => {
+export function AddQueryParameterButton( props ) {
 	return (
 		<div style={ { marginBottom: '1.33em' } }>
 			<Button
@@ -11,4 +11,4 @@ export default ( props ) => {
 			/>
 		</div>
 	);
-};
+}

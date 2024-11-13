@@ -70,7 +70,7 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 			post_type: query.post_type || 'post',
 		};
 
-		if ( ! canUser( 'update', 'settings' ) ) {
+		if ( canUser && ! canUser( 'update', 'settings' ) ) {
 			args.post_status = 'publish';
 		}
 

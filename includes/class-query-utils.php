@@ -15,6 +15,52 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.9.0
  */
 class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
+
+	/**
+	 * Initialize the class.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+	}
+
+	/**
+	 * Register REST routes.
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes() {
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-wp-query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_wp_query' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function get_wp_query( $request ) {
+		$args       = $request->get_param( 'args' );
+		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$attributes = $request->get_param( 'attributes' ) ?? [];
+
+		$query = new WP_Query(
+			self::get_wp_query_args( $args, $page, $attributes )
+		);
+
+		return rest_ensure_response( $query );
+	}
+
 	/**
 	 * Helper function that optimizes the query attribute from the Query block.
 	 *
@@ -25,7 +71,8 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = new stdClass() ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
+
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -111,9 +158,9 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 *
 		 * @deprecated 2.0.0.
 		 *
-		 * @param array    $query_args The query arguments.
-		 * @param array    $attributes An array of block attributes.
-		 * @param WP_Block $block The block instance.
+		 * @param array           $query_args The query arguments.
+		 * @param array           $attributes An array of block attributes.
+		 * @param WP_Block|object $block The block instance.
 		 *
 		 * @return array The modified query arguments.
 		 */
@@ -121,7 +168,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			'generateblocks_query_loop_args',
 			$query_args,
 			$attributes,
-			$block
+			null === $block ? new stdClass() : $block
 		);
 
 		/**
@@ -188,3 +235,5 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		);
 	}
 }
+
+GenerateBlocks_Query_Utils::get_instance()->init();

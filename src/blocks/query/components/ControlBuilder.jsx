@@ -12,7 +12,7 @@ import {
 	DebouncedTextControl,
 	SimpleMultiSelect,
 } from '@components';
-import { SelectPostType } from '../../../dynamic-tags/components/SelectPostType'; // @TODO: Move this to a better location
+import { SelectPostType } from '@edge22/components';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -83,7 +83,7 @@ export function ControlBuilder( props ) {
 		: undefined;
 
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
-	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
+	const isPostsPerPage = 'number' === type && 'posts_per_page' === id;
 
 	const controlProps = {
 		id,

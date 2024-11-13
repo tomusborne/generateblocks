@@ -47,7 +47,19 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			if ( $use_global_query ) {
 				global $wp_query;
 
-				$data = $wp_query;
+				/*
+				* If already in the main query loop, duplicate the query instance to not tamper with the main instance.
+				* Since this is a nested query, it should start at the beginning, therefore rewind posts.
+				* Otherwise, the main query loop has not started yet and this block is responsible for doing so.
+				*/
+				if ( in_the_loop() ) {
+					$data = clone $wp_query;
+					$data->rewind_posts();
+				} else {
+					$data = $wp_query;
+				}
+
+				$query_args = $data->query_vars;
 			} else {
 				$query_args = GenerateBlocks_Query_Utils::get_wp_query_args(
 					$query_data['args'],
