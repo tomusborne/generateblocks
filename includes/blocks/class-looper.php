@@ -85,19 +85,24 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @return string  The rendered content.
 	 */
 	public static function render_wp_query( $query, $attributes, $block ) {
-		$query_id    = $block->context['generateblocks/queryId'] ?? null;
-		$page_key    = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
-		$per_page    = $query->query_vars['posts_per_page'] ?? get_option( 'posts_per_page', 10 );
-		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$page_index  = $page - 1; // Zero based index for pages.
-		$offset      = $page_index * $per_page;
-		$content     = '';
+		$query_id     = $block->context['generateblocks/queryId'] ?? null;
+		$page_key     = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
+		$per_page     = $query->query_vars['posts_per_page'] ?? get_option( 'posts_per_page', 10 );
+		$page         = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$page_index   = $page - 1; // Zero based index for pages.
+		$offset       = $page_index * $per_page;
+		$content      = '';
+		$inner_blocks = $block->parsed_block['innerBlocks'][0] ?? null;
+
+		if ( empty( $inner_blocks ) ) {
+			return '';
+		}
 
 		// Fallback to support preview in Elements.
 		if ( ! $query ) {
 			return (
 				new WP_Block(
-					$block->parsed_block['innerBlocks'][0],
+					$inner_blocks,
 					array(
 						'postType'                 => 'post',
 						'postId'                   => 0,
@@ -116,7 +121,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				// Get the current index of the Loop.
 				$content .= (
 					new WP_Block(
-						$block->parsed_block['innerBlocks'][0],
+						$inner_blocks,
 						array(
 							'postType'                 => get_post_type(),
 							'postId'                   => get_the_ID(),
