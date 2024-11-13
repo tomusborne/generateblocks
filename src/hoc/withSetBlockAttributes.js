@@ -1,8 +1,33 @@
 import { useDispatch, useSelect } from '@wordpress/data';
 
 import { getCss } from '@edge22/styles-builder';
-import fastDeepEqual from 'fast-deep-equal';
 import { getSelector } from './withStyles';
+
+function deepMerge( target, ...sources ) {
+	if ( ! sources.length ) {
+		return target;
+	}
+	const source = sources.shift();
+
+	if ( isObject( target ) && isObject( source ) ) {
+		for ( const key in source ) {
+			if ( isObject( source[ key ] ) ) {
+				if ( ! target[ key ] ) {
+					Object.assign( target, { [ key ]: {} } );
+				}
+				deepMerge( target[ key ], source[ key ] );
+			} else {
+				Object.assign( target, { [ key ]: source[ key ] } );
+			}
+		}
+	}
+
+	return deepMerge( target, ...sources );
+}
+
+function isObject( item ) {
+	return ( item && typeof item === 'object' && ! Array.isArray( item ) );
+}
 
 /**
  * This HOC replaces the core "setAttributes" for an enhanced version.
@@ -33,16 +58,17 @@ export const withSetBlockAttributes = ( WrappedComponent ) => ( ( props ) => {
 			const existingStyles = styles;
 			const newStyles = attrs?.styles;
 
-			if ( ! newStyles || fastDeepEqual( existingStyles, newStyles ) ) {
-				// There are no styles, or no changed styles, so just set the attributes.
+			if ( ! newStyles ) {
 				setAttributes( attrs );
 				return;
 			}
 
-			const selector = getSelector( name, uniqueId );
-			const css = await getCss( selector, newStyles );
+			const mergedStyles = deepMerge( { ...existingStyles }, newStyles );
 
-			setAttributes( { ...attrs, css } );
+			const selector = getSelector( name, uniqueId );
+			const css = await getCss( selector, mergedStyles );
+
+			setAttributes( { styles: mergedStyles, css } );
 			return;
 		}
 
@@ -59,21 +85,21 @@ export const withSetBlockAttributes = ( WrappedComponent ) => ( ( props ) => {
 			const existingStyles = block?.attributes?.styles;
 			const newStyles = attrs?.styles;
 
-			if ( ! newStyles || fastDeepEqual( existingStyles, newStyles ) ) {
-				// There are no styles, or no changed styles, so just return the attributes.
+			if ( ! newStyles ) {
 				return {
 					clientId: block.clientId,
 					blockAttrs: attrs,
 				};
 			}
 
+			const mergedStyles = deepMerge( { ...existingStyles }, newStyles );
 			const selector = getSelector( block.name, blockUniqueId );
-			const css = await getCss( selector, newStyles );
+			const css = await getCss( selector, mergedStyles );
 
 			return {
 				clientId: block.clientId,
 				blockAttrs: {
-					...attrs,
+					styles: mergedStyles,
 					css,
 				},
 			};

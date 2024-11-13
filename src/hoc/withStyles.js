@@ -74,9 +74,31 @@ export function withStyles( WrappedComponent ) {
 
 		function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
 			addStyle( property, value, atRuleValue, nestedRuleValue );
+			let newStyles = { [ property ]: value };
 
-			const updatedStyles = getStyles();
-			setAttributes( { styles: updatedStyles } );
+			if ( atRuleValue && nestedRuleValue ) {
+				newStyles = {
+					[ nestedRuleValue ]: {
+						[ atRuleValue ]: {
+							[ property ]: value,
+						},
+					},
+				};
+			} else if ( atRuleValue && ! nestedRuleValue ) {
+				newStyles = {
+					[ atRuleValue ]: {
+						[ property ]: value,
+					},
+				};
+			} else if ( ! atRuleValue && nestedRuleValue ) {
+				newStyles = {
+					[ nestedRuleValue ]: {
+						[ property ]: value,
+					},
+				};
+			}
+
+			setAttributes( { styles: newStyles } );
 		}
 
 		function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
