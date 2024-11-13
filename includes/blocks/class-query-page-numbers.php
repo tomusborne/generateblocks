@@ -97,7 +97,8 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			return '';
 		}
 
-		$instant_pagination = $block->context['generateblocks/instantPagination'] ?? false;
+		$pagination_type    = $block->context['generateblocks/paginationType'] ?? '';
+		$instant_pagination = GenerateBlocks_Block_Query::TYPE_INSTANT_PAGINATION === $pagination_type;
 
 		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 			$p = new WP_HTML_Tag_Processor( $content );

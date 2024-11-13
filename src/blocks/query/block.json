@@ -47,9 +47,13 @@
 			"type": "string",
 			"default": "WP_Query"
 		},
-		"instantPagination": {
-			"type": "boolean",
-			"default": false
+		"paginationType": {
+			"type": "string",
+			"default": "standard",
+			"enum": [
+				"standard",
+				"instant"
+			]
 		},
 		"query": {
 			"type": "object",
@@ -80,7 +84,7 @@
 		"generateblocks/query": "query",
 		"generateblocks/queryId": "uniqueId",
 		"generateblocks/inheritQuery": "inheritQuery",
-		"generateblocks/instantPagination": "instantPagination",
+		"generateblocks/paginationType": "paginationType",
 		"generateblocks/queryType": "queryType"
 	}
 }

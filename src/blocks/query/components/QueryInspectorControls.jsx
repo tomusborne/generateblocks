@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
@@ -110,11 +110,20 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
 				)
 			}
-			<ToggleControl
-				checked={ !! attributes.instantPagination }
-				label={ __( 'Instant pagination', 'generateblocks' ) }
-				help={ __( 'Clicking pagination links will instantly load the next set of posts without reloading the page.', 'generateblocks' ) }
-				onChange={ ( value ) => setAttributes( { instantPagination: value } ) }
+			<SelectControl
+				label={ __( 'Pagination type', 'generateblocks' ) }
+				value={ attributes.paginationType }
+				options={ [
+					{
+						label: __( 'Standard', 'generateblocks' ),
+						value: 'standard',
+					},
+					{
+						label: __( 'Instant', 'generateblocks' ),
+						value: 'instant',
+					},
+				] }
+				onChange={ ( value ) => setAttributes( { paginationType: value } ) }
 			/>
 		</>
 	);
