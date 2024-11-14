@@ -8,7 +8,6 @@ import {
 	TagsSelect,
 	SimpleSelect,
 	AuthorsSelect,
-	PostTypeRecordsSelect,
 	DebouncedTextControl,
 	SimpleMultiSelect,
 } from '@components';
