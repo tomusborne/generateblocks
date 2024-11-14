@@ -5,7 +5,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	{
 		id: 'post_type',
 		type: 'postTypeSelect',
-		default: 'post',
+		default: [ 'post' ],
 		label: __( 'Post type', 'generateblocks' ),
 		description: __( 'Retrieves posts by post types.', 'generateblocks' ),
 		group: __( 'Post type', 'generateblocks' ),

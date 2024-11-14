@@ -12,7 +12,7 @@ import {
 	DebouncedTextControl,
 	SimpleMultiSelect,
 } from '@components';
-import { SelectPostType } from '@edge22/components';
+import { SelectPostType, SelectPost } from '@edge22/components';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -44,7 +44,7 @@ function ControlComponent( props ) {
 		case 'taxonomySelect':
 			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
 		case 'postsSelect':
-			return <PostTypeRecordsSelect postType={ postType } { ...standardProps } />;
+			return <SelectPost multiple={ true } postType={ postType } { ...standardProps } />;
 		case 'dateQuery':
 			return <DateQueryControl { ...standardProps } />;
 		case 'toggleControl':
