@@ -48,13 +48,7 @@ export function withStyles( WrappedComponent ) {
 			return getSelector( name, uniqueId );
 		}, [ name, uniqueId ] );
 
-		const frontendStyles = useMemo( () => {
-			if ( Array.isArray( styles ) ) {
-				return {};
-			}
-
-			return styles;
-		}, [ JSON.stringify( styles ) ] );
+		const frontendStyles = Array.isArray( styles ) ? {} : styles;
 
 		function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
 			const newStyles = typeof property === 'object'
