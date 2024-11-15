@@ -1,4 +1,4 @@
-import { useDispatch, useSelect, dispatch } from '@wordpress/data';
+import { dispatch, useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import useLocalStorageState from 'use-local-storage-state';
 
@@ -10,25 +10,49 @@ export default ( initialDeviceType = 'Desktop' ) => {
 		}
 	);
 
-	if ( ! dispatch( 'core/edit-post' ) || ( generateBlocksInfo && ! generateBlocksInfo.syncResponsivePreviews ) ) {
+	const setPreviewDeviceType = ( deviceType ) => {
+		const { setDeviceType } = dispatch( 'core/editor' ) || {};
+
+		if ( 'function' === typeof setDeviceType ) {
+			return setDeviceType( deviceType );
+		}
+
+		const { __experimentalSetPreviewDeviceType: experimentalSetPreviewDeviceType } = dispatch( 'core/edit-post' );
+
+		if ( 'function' === typeof experimentalSetPreviewDeviceType ) {
+			return experimentalSetPreviewDeviceType( deviceType );
+		}
+	};
+
+	const previewDeviceType = useSelect( ( select ) => {
+		const { getDeviceType } = select( 'core/editor' ) || {};
+
+		if ( 'function' === typeof getDeviceType ) {
+			return getDeviceType();
+		}
+
+		const {
+			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( 'function' === typeof experimentalGetPreviewDeviceType ) {
+			return experimentalGetPreviewDeviceType();
+		}
+
+		return undefined;
+	}, [] );
+
+	if (
+		undefined === previewDeviceType || // core/editor and/or core/edit-post must not be available.
+		( generateBlocksInfo && ! generateBlocksInfo.syncResponsivePreviews )
+	) {
 		const setDeviceType = ( type ) => {
 			setLocalDeviceType( type );
 		};
 
+		// If we don't have the necessary functions, or sync previews are turned off, return the local states here.
 		return [ localDeviceType, setDeviceType ];
 	}
-
-	const {
-		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
-	} = useDispatch( 'core/edit-post' );
-
-	const previewDeviceType = useSelect( ( select ) => {
-		const {
-			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => false,
-		} = select( 'core/edit-post' );
-
-		return experimentalGetPreviewDeviceType();
-	}, [] );
 
 	useEffect( () => {
 		if ( previewDeviceType !== localDeviceType ) {
