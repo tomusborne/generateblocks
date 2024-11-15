@@ -1,20 +1,25 @@
 import { applyFilters } from '@wordpress/hooks';
 
-import { StylesBuilder, defaultAtRules } from '@edge22/styles-builder';
-import { TABS_STORAGE_KEY } from '@edge22/block-styles';
+import {
+	StylesBuilder,
+	defaultAtRules,
+	getStylesObject,
+	deleteStylesObjectKey,
+	updateStylesObjectKey,
+} from '@edge22/styles-builder';
+import {
+	TABS_STORAGE_KEY,
+} from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onStyleChange, name } ) {
 	const {
-		getStyles,
-		deleteStyle,
 		atRule,
 		setAtRule,
 		nestedRule,
 		setNestedRule,
 		setDeviceType,
 		getPreviewDevice,
-		updateKey,
 		deviceType,
 		setGlobalStyle,
 		cancelEditGlobalStyle,
@@ -33,17 +38,18 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 		{ name }
 	);
 
+	const { styles } = attributes;
+	const currentStyles = getStylesObject( styles, atRule, nestedRule );
+
 	return (
 		<StylesBuilder
 			key={ attributes?.globalClasses }
 			currentSelector={ currentStyle?.selector }
-			styles={ getStyles( atRule, nestedRule ) }
-			allStyles={ getStyles() }
-			onDeleteStyle={ ( property ) => {
-				deleteStyle( property );
-
-				const updatedStyles = getStyles();
-				setAttributes( { styles: updatedStyles } );
+			styles={ currentStyles }
+			allStyles={ styles }
+			onDeleteStyle={ ( property, nestedRuleValue ) => {
+				const newStyles = deleteStylesObjectKey( styles, property, nestedRuleValue );
+				setAttributes( { styles: newStyles } );
 			} }
 			nestedRule={ nestedRule }
 			atRule={ atRule }
@@ -53,11 +59,9 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 				setAtRule( value );
 				setDeviceType( getPreviewDevice( value, deviceType, defaultAtRules ) );
 			} }
-			onUpdateKey={ ( oldKey, newKey ) => {
-				updateKey( oldKey, newKey );
-
-				const updatedStyles = getStyles();
-				setAttributes( { styles: updatedStyles } );
+			onUpdateKey={ ( oldKey, newKey, nestedRuleValue ) => {
+				const newStyles = updateStylesObjectKey( styles, oldKey, newKey, nestedRuleValue );
+				setAttributes( { styles: newStyles } );
 			} }
 			selectorShortcuts={ shortcuts.selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }

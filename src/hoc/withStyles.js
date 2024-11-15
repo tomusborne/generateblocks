@@ -3,30 +3,15 @@ import { useMemo, useState, useLayoutEffect } from '@wordpress/element';
 import { defaultAtRules, getCss } from '@edge22/styles-builder';
 import {
 	useAtRuleEffect,
-	useGenerateCSSEffect,
 	useStyleSelectorEffect,
 	useUpdateEditorCSSEffect,
-	useSyncStyles,
+	useGenerateCSSEffect,
+	useSetStyleAttributes,
+	buildChangedStylesObject,
+	getSelector,
 } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
-
-function getSelector( blockName, uniqueId ) {
-	const selectors = {
-		'generateblocks/text': 'text',
-		'generateblocks/element': 'element',
-		'generateblocks/loop-item': 'loop-item',
-		'generateblocks/looper': 'looper',
-		'generateblocks/media': 'media',
-		'generateblocks/query': 'query',
-		'generateblocks/query-page-numbers': 'query-page-numbers',
-		'generateblocks/shape': 'shape',
-	};
-
-	if ( selectors[ blockName ] ) {
-		return `.gb-${ selectors[ blockName ] }-${ uniqueId }`;
-	}
-}
 
 export function withStyles( WrappedComponent ) {
 	return ( ( props ) => {
@@ -50,10 +35,9 @@ export function withStyles( WrappedComponent ) {
 			currentStyle,
 			setCurrentStyle,
 			setNestedRule,
-			setStyles,
-			addStyle,
-			getStyles,
 		} = useBlockStyles();
+
+		const setStyleAttributes = useSetStyleAttributes( props, { getCss } );
 
 		const [ isPreviewingBlock, setIsPreviewingBlock ] = useState( false );
 		const selector = useMemo( () => {
@@ -73,10 +57,12 @@ export function withStyles( WrappedComponent ) {
 		}, [ JSON.stringify( styles ) ] );
 
 		function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
-			addStyle( property, value, atRuleValue, nestedRuleValue );
+			const newStyles = typeof property === 'object'
+				? property
+				: { [ property ]: value };
+			const changedStyles = buildChangedStylesObject( newStyles, atRuleValue, nestedRuleValue );
 
-			const updatedStyles = getStyles();
-			setAttributes( { styles: updatedStyles } );
+			setStyleAttributes( changedStyles );
 		}
 
 		function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
@@ -118,6 +104,7 @@ export function withStyles( WrappedComponent ) {
 			styles: frontendStyles,
 			setAttributes,
 			getCss,
+			css,
 		} );
 
 		useStyleSelectorEffect( {
@@ -127,7 +114,6 @@ export function withStyles( WrappedComponent ) {
 			setCurrentStyle,
 			setNestedRule,
 			setAtRule,
-			setStyles,
 			styles: frontendStyles,
 		} );
 
@@ -136,13 +122,6 @@ export function withStyles( WrappedComponent ) {
 			getCss,
 			styles: frontendStyles,
 			isPreviewingBlock,
-		} );
-
-		useSyncStyles( {
-			isSelected,
-			stylesAttribute: frontendStyles,
-			styles: getStyles(),
-			setStyles,
 		} );
 
 		return (

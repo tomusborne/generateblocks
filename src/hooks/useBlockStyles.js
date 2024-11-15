@@ -4,12 +4,9 @@ import { applyFilters } from '@wordpress/hooks';
 import { useDeviceType, getPreviewDevice, useCurrentAtRule } from '@edge22/block-styles';
 import { defaultAtRules } from '@edge22/styles-builder';
 
-import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore } from '../store/block-styles';
+import { currentStyleStore, atRuleStore, nestedRuleStore } from '../store/block-styles';
 
 export function useBlockStyles() {
-	const { getStyles } = useSelect( stylesStore );
-	const { setStyles } = useDispatch( stylesStore );
-	const { addStyle, deleteStyle, updateKey } = useDispatch( stylesStore );
 	const atRule = useSelect( ( select ) => select( atRuleStore ).getAtRule() );
 	const { setAtRule } = useDispatch( atRuleStore );
 	const nestedRule = useSelect( ( select ) => select( nestedRuleStore ).getNestedRule() );
@@ -23,10 +20,6 @@ export function useBlockStyles() {
 	const cancelEditGlobalStyle = applyFilters( 'generateblocks.useBlockStyles.cancelEditGlobalStyle', () => {} );
 
 	return {
-		setStyles,
-		getStyles,
-		addStyle,
-		deleteStyle,
 		atRule,
 		nestedRule,
 		setAtRule,
@@ -34,7 +27,6 @@ export function useBlockStyles() {
 		setNestedRule,
 		setDeviceType,
 		deviceType,
-		updateKey,
 		setCurrentStyle,
 		currentStyle,
 		getPreviewDevice,
