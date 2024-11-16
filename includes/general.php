@@ -78,20 +78,22 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks',
 		'generateBlocksInfo',
 		array(
-			'imageSizes' => $image_sizes,
-			'svgShapes' => generateblocks_get_svg_shapes(),
+			'imageSizes'             => $image_sizes,
+			'svgShapes'              => generateblocks_get_svg_shapes(),
 			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
-			'excerptLength' => apply_filters( 'excerpt_length', 55 ), // phpcs:ignore -- Core filter.
-			'excerptMore' => apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ), // phpcs:ignore -- Core filter.
-			'imagePlaceholders' => array(
-				'standard' => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
-				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
+			'excerptLength'          => apply_filters( 'excerpt_length', 55 ), // phpcs:ignore -- Core filter.
+			'excerptMore'            => apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ), // phpcs:ignore -- Core filter.
+			'imagePlaceholders'      => array(
+				'standard'             => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
+				'square'               => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
 			),
-			'globalContainerWidth' => generateblocks_get_global_container_width(),
-			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
-			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
+			'globalContainerWidth'     => generateblocks_get_global_container_width(),
+			'queryLoopEditorPostsCap'  => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
+			'disableGoogleFonts'       => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'useV1Blocks' => generateblocks_use_v1_blocks(),
+			'useV1Blocks'              => generateblocks_use_v1_blocks(),
+			'isGbProActive'            => is_plugin_active( 'generateblocks-pro/plugin.php' ) ? '1' : '0',
+			'isGpPremiumActive'        => is_plugin_active( 'gp-premium/gp-premium.php' ) ? '1' : '0',
 		)
 	);
 
