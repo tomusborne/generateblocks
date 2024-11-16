@@ -1,6 +1,6 @@
 import { useMemo, useState, useLayoutEffect } from '@wordpress/element';
 
-import { defaultAtRules, getCss } from '@edge22/styles-builder';
+import { defaultAtRules, getCss, cleanStylesObject } from '@edge22/styles-builder';
 import {
 	useAtRuleEffect,
 	useStyleSelectorEffect,
@@ -37,7 +37,7 @@ export function withStyles( WrappedComponent ) {
 			setNestedRule,
 		} = useBlockStyles();
 
-		const setStyleAttributes = useSetStyleAttributes( props, { getCss } );
+		const setStyleAttributes = useSetStyleAttributes( props, { getCss, cleanStylesObject } );
 
 		const [ isPreviewingBlock, setIsPreviewingBlock ] = useState( false );
 		const selector = useMemo( () => {
