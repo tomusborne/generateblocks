@@ -6,9 +6,6 @@ import {
 	nestedRuleActions,
 	nestedRuleSelectors,
 	nestedRuleReducer,
-	styleActions,
-	styleSelectors,
-	styleReducer,
 	atRuleActions,
 	atRuleSelectors,
 	atRuleReducer,
@@ -38,14 +35,5 @@ export const nestedRuleStore = createReduxStore(
 		reducer: nestedRuleReducer,
 		actions: nestedRuleActions,
 		selectors: nestedRuleSelectors,
-	}
-);
-
-export const stylesStore = createReduxStore(
-	'gb-block-styles',
-	{
-		reducer: styleReducer,
-		actions: styleActions,
-		selectors: styleSelectors,
 	}
 );

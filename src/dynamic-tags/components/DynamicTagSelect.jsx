@@ -17,11 +17,11 @@ import {
 	usePostRecord,
 	useTermRecord,
 	useUserRecord,
+	useUsers,
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { SelectTerm } from './SelectTerm';
-import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
 	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
@@ -313,17 +313,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
-	const { records: allUsers } = useUsers( 'user' === dynamicSource );
-
-	const userOptions = useMemo( () => {
-		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
-			return {
-				label: `#${ user.id } ${ user.username }`,
-				value: `${ user.id }`,
-			};
-		} ) : [];
-	}, [ allUsers ] );
-
 	const { record: termRecord } = useTermRecord( {
 		termId: termSource,
 		taxonomy: taxonomySource,

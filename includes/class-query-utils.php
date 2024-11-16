@@ -182,7 +182,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			'generateblocks_query_wp_query_args',
 			$query_args,
 			$attributes,
-			$block
+			null === $block ? new stdClass() : $block
 		);
 	}
 
