@@ -92,7 +92,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$page_index   = $page - 1; // Zero based index for pages.
 		$offset       = $page_index * $per_page;
 		$content      = '';
-		$inner_blocks = $block->parsed_block['innerBlocks'][0] ?? null;
+		$inner_blocks = $block->parsed_block['innerBlocks'] ?? [];
 
 		if ( empty( $inner_blocks ) ) {
 			return '';
@@ -102,7 +102,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		if ( ! $query ) {
 			return (
 				new WP_Block(
-					$inner_blocks,
+					$inner_blocks[0],
 					array(
 						'postType'                 => 'post',
 						'postId'                   => 0,
@@ -119,18 +119,20 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				$query->the_post();
 				global $post;
 				// Get the current index of the Loop.
-				$content .= (
-					new WP_Block(
-						$inner_blocks,
-						array(
-							'postType'                 => get_post_type(),
-							'postId'                   => get_the_ID(),
-							'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
-							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
-							'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
+				foreach ( $inner_blocks as $inner_block ) {
+					$content .= (
+						new WP_Block(
+							$inner_block,
+							array(
+								'postType'                 => get_post_type(),
+								'postId'                   => get_the_ID(),
+								'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
+								'generateblocks/loopIndex' => $offset + $query->current_post + 1,
+								'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
+							)
 						)
-					)
-				)->render( array( 'dynamic' => false ) );
+					)->render( array( 'dynamic' => false ) );
+				}
 			}
 
 			wp_reset_postdata();
