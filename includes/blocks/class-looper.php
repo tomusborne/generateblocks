@@ -131,7 +131,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 								'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
 							)
 						)
-					)->render( array( 'dynamic' => false ) );
+					)->render();
 				}
 			}
 
