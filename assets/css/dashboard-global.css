@@ -16,3 +16,15 @@
 	font-size: 18px;
 	margin-top: 1px;
 }
+
+#adminmenu #toplevel_page_generateblocks a[href="admin.php?page=generateblocks-upgrade"] {
+	font-weight: 600;
+	background-color: #0171d5;
+	color: #fff;
+	margin: 3px 10px 0;
+	display: block;
+	text-align: center;
+	border-radius: 3px;
+	transition: all .3s;
+	box-shadow: 0 0 0;
+}
