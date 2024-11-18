@@ -149,6 +149,12 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
+		$loop_items = self::render_loop_items( $attributes, $block );
+
+		if ( ! $loop_items ) {
+			return '';
+		}
+
 		$html_attributes = generateblocks_get_processed_html_attributes( $block_content );
 
 		// If our processing returned nothing, let's try to build our attributes from the block attributes.
@@ -177,7 +183,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				$attributes,
 				$block
 			),
-			self::render_loop_items( $attributes, $block )
+			$loop_items
 		);
 
 		return $output;
