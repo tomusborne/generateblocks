@@ -6,7 +6,7 @@ import {
 	useStyleSelectorEffect,
 	useUpdateEditorCSSEffect,
 	useGenerateCSSEffect,
-	useSetStyleAttributes,
+	useSetStyles,
 	buildChangedStylesObject,
 	getSelector,
 } from '@edge22/block-styles';
@@ -37,7 +37,7 @@ export function withStyles( WrappedComponent ) {
 			setNestedRule,
 		} = useBlockStyles();
 
-		const setStyleAttributes = useSetStyleAttributes( props, { getCss, cleanStylesObject } );
+		const setStyles = useSetStyles( props, { cleanStylesObject } );
 
 		const [ isPreviewingBlock, setIsPreviewingBlock ] = useState( false );
 		const selector = useMemo( () => {
@@ -56,7 +56,7 @@ export function withStyles( WrappedComponent ) {
 				: { [ property ]: value };
 			const changedStyles = buildChangedStylesObject( newStyles, atRuleValue, nestedRuleValue );
 
-			setStyleAttributes( changedStyles );
+			setStyles( changedStyles );
 		}
 
 		function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
@@ -98,7 +98,7 @@ export function withStyles( WrappedComponent ) {
 			styles: frontendStyles,
 			setAttributes,
 			getCss,
-			css,
+			getSelector,
 		} );
 
 		useStyleSelectorEffect( {
