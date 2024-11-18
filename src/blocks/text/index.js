@@ -54,21 +54,7 @@ registerBlockVariation(
 		icon: getIcon( 'button' ),
 		attributes: {
 			tagName: 'a',
-			styles: {
-				display: 'inline-flex',
-				alignItems: 'center',
-				backgroundColor: '#215bc2',
-				color: '#ffffff',
-				paddingTop: '1rem',
-				paddingRight: '2rem',
-				paddingBottom: '1rem',
-				paddingLeft: '2rem',
-				textDecoration: 'none',
-				'&:is(:hover, :focus)': {
-					backgroundColor: '#1a4a9b',
-					color: '#ffffff',
-				},
-			},
+			...generateblocksBlockText.defaultButtonAttributes,
 		},
 		isActive: ( blockAttributes ) => 'button' === getElementType( blockAttributes.tagName ),
 	},

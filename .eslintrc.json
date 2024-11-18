@@ -13,7 +13,8 @@
 		"generateBlocksPatternLibrary": "readonly",
 		"generateblocksBlockMedia": "readonly",
 		"generateBlocksEditor": "readonly",
-		"generateblocksDashboard": "readonly"
+		"generateblocksDashboard": "readonly",
+		"generateblocksBlockText": "readonly"
 	},
 	"env": {
 	  "browser": true,
