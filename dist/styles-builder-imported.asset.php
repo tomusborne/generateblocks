@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('generateblocks-components', 'lodash', 'react', 'wp-api-fetch', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-core-data', 'wp-data', 'wp-dom', 'wp-edit-post', 'wp-element', 'wp-hooks', 'wp-i18n', 'wp-primitives'), 'version' => '86ca4e4b6d4a2bd681c9');
