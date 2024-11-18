@@ -9,12 +9,8 @@ function attributeValueNormalizer( attribute, value ) {
 		case 'stickyPosts':
 			return value.value;
 
-		case 'post_status':
 		case 'author__in':
 		case 'author__not_in':
-		case 'post__not_in':
-		case 'post_parent__in':
-		case 'post_parent__not_in':
 			return value.reduce( ( result, option ) => {
 				result.push( option.value );
 

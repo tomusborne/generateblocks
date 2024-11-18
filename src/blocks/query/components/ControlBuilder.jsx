@@ -9,9 +9,8 @@ import {
 	SimpleSelect,
 	AuthorsSelect,
 	DebouncedTextControl,
-	SimpleMultiSelect,
 } from '@components';
-import { SelectPostType, SelectPost } from '@edge22/components';
+import { SelectPostType, SelectPost, MultiSelect } from '@edge22/components';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -33,7 +32,7 @@ function ControlComponent( props ) {
 		case 'select':
 			return <SimpleSelect { ...standardProps } />;
 		case 'multiSelect':
-			return <SimpleMultiSelect { ...standardProps } />;
+			return <MultiSelect { ...standardProps } />;
 		case 'authorsSelect':
 			return <AuthorsSelect { ...standardProps } />;
 		case 'categoriesSelect':

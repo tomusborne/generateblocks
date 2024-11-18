@@ -55,7 +55,7 @@ function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
 }
 
 function useWpQuery( shouldRequest = true, query, attributes, block ) {
-	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
+	const canUser = useSelect( ( select ) => select( coreStore ).canUser, [] );
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );
@@ -70,7 +70,11 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 			post_type: query.post_type || 'post',
 		};
 
+		console.log( canUser( 'create', 'settings' ) );
+		console.log( canUser( 'create', 'users' ) );
+
 		if ( canUser && ! canUser( 'update', 'settings' ) ) {
+			console.log( 'forcing status to publish' );
 			args.post_status = 'publish';
 		}
 
