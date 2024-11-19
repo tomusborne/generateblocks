@@ -235,9 +235,11 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const loopItemsContext = useMemo( () => {
 		if ( hasResolvedData && Array.isArray( data ) ) {
-			let perPage = query?.posts_per_page ?? 10;
+			let perPage = query?.posts_per_page
+				? query?.posts_per_page
+				: 10;
 
-			if ( -1 === perPage ) {
+			if ( '-1' === perPage?.toString() ) {
 				perPage = data.length;
 			}
 

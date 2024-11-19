@@ -92,7 +92,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$page_index   = $page - 1; // Zero based index for pages.
 		$offset       = $page_index * $per_page;
 		$content      = '';
-		$inner_blocks = $block->parsed_block['innerBlocks'][0] ?? null;
+		$inner_blocks = $block->parsed_block['innerBlocks'] ?? [];
 
 		if ( empty( $inner_blocks ) ) {
 			return '';
@@ -102,7 +102,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		if ( ! $query ) {
 			return (
 				new WP_Block(
-					$inner_blocks,
+					$inner_blocks[0],
 					array(
 						'postType'                 => 'post',
 						'postId'                   => 0,
@@ -119,18 +119,20 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				$query->the_post();
 				global $post;
 				// Get the current index of the Loop.
-				$content .= (
-					new WP_Block(
-						$inner_blocks,
-						array(
-							'postType'                 => get_post_type(),
-							'postId'                   => get_the_ID(),
-							'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
-							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
-							'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
+				foreach ( $inner_blocks as $inner_block ) {
+					$content .= (
+						new WP_Block(
+							$inner_block,
+							array(
+								'postType'                 => get_post_type(),
+								'postId'                   => get_the_ID(),
+								'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
+								'generateblocks/loopIndex' => $offset + $query->current_post + 1,
+								'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
+							)
 						)
-					)
-				)->render( array( 'dynamic' => false ) );
+					)->render();
+				}
 			}
 
 			wp_reset_postdata();
@@ -147,6 +149,12 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
+		$loop_items = self::render_loop_items( $attributes, $block );
+
+		if ( ! $loop_items ) {
+			return '';
+		}
+
 		$html_attributes = generateblocks_get_processed_html_attributes( $block_content );
 
 		// If our processing returned nothing, let's try to build our attributes from the block attributes.
@@ -175,7 +183,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				$attributes,
 				$block
 			),
-			self::render_loop_items( $attributes, $block )
+			$loop_items
 		);
 
 		return $output;
