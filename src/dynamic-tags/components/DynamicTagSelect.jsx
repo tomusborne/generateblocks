@@ -669,7 +669,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							<SelectPost
 								label={ __( 'Select source post', 'generateblocks' ) }
 								value={ postIdSource }
-								onSelect={ ( selected ) => setPostIdSource( selected?.value ?? '' ) }
+								onChange={ ( selected ) => setPostIdSource( selected?.value ?? '' ) }
 								onClear={ () => setPostIdSource( '' ) }
 								onAdd={ ( { inputValue } ) => setPostIdSource( inputValue ) }
 								onEnter={ ( inputValue ) => {
