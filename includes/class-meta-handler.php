@@ -165,7 +165,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	/**
 	 * Get a meta value.
 	 *
-	 * @param string|int $id The id of the em to fetch meta from.
+	 * @param string|int $id The id of the entity to fetch meta from.
 	 * @param string     $key The meta key to fetch. May include one or more sub keys separated by a period.
 	 * @param bool       $single_only If true, only return value if it's a string-like value.
 	 * @param string     $callable Function name to call. Should be a native WordPress function (ex: get_post_meta).
@@ -345,7 +345,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the term meta.
+	 * Get an option's value.
 	 *
 	 * @param string $key The meta key to fetch. May include one or more sub keys separated by a period.
 	 * @param bool   $single_only If true, only return value if it's a string-like value.

@@ -42,17 +42,102 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				},
 			]
 		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-user-query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_user_query' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function get_user_query( WP_REST_Request $request ) {
+		$args = $request->get_param( 'args' ) ?? [];
+
+		if ( ! isset( $args['number'] ) ) {
+			$args['number'] = 150;
+		}
+
+		$number    = $args['number'];
+		$query     = new WP_User_Query( $args );
+		$max_pages = round( $query->get_total() / $number );
+
+		return rest_ensure_response(
+			[
+				'users'     => $query->get_results(),
+				'total'     => $query->get_total(),
+				'max_pages' => $max_pages,
+			]
+		);
 	}
 
 	/**
 	 * Gets posts and returns an array of WP_Post objects.
 	 *
 	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response The response.
 	 */
 	public function get_wp_query( $request ) {
-		$args       = $request->get_param( 'args' );
-		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
-		$attributes = $request->get_param( 'attributes' ) ?? [];
+		$args           = $request->get_param( 'args' );
+		$page           = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$attributes     = $request->get_param( 'attributes' ) ?? [];
+		$current_post   = $request->get_param( 'currentPost' ) ?? null;
+		$current_author = $current_post['author'] ?? 0;
+
+		// Handle current entity values.
+		if ( $current_post ) {
+			$included_posts = $args['post__in'] ?? [];
+			$excluded_posts = $args['post__not_in'] ?? [];
+
+			foreach ( $included_posts as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_post;
+				}
+			}
+
+			foreach ( $excluded_posts as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_post;
+				}
+			}
+
+			$args['post__in']     = $included_posts;
+			$args['post__not_in'] = $excluded_posts;
+		}
+
+		if ( $current_author ) {
+			$included_authors = $args['author__in'] ?? [];
+			$excluded_authors = $args['author__not_in'] ?? [];
+
+			foreach ( $included_authors as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_author;
+				}
+			}
+
+			foreach ( $excluded_authors as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_author;
+				}
+			}
+
+			$args['author__in']     = $included_authors;
+			$args['author__not_in'] = $excluded_authors;
+		}
 
 		$query = new WP_Query(
 			self::get_wp_query_args( $args, $page, $attributes )
@@ -72,7 +157,6 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
 	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
-
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -107,7 +191,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		}
 
 		// Ensure offset works correctly with pagination.
-		$posts_per_page = (int) $query_args['posts_per_page'] ?? get_option( 'posts_per_page', -1 );
+		$posts_per_page = (int) ( $query_args['posts_per_page'] ?? get_option( 'posts_per_page', -1 ) );
 		if (
 			isset( $query_args['posts_per_page'] ) &&
 			is_numeric( $query_args['posts_per_page'] ) &&

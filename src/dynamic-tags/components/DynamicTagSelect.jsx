@@ -17,7 +17,7 @@ import {
 	usePostRecord,
 	useTermRecord,
 	useUserRecord,
-	useUsers,
+	SelectUser,
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
@@ -682,28 +682,12 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 					{ 'user' === dynamicSource && (
 						<>
-							<Autocomplete
+							<SelectUser
 								label={ __( 'Select source user', 'generateblocks' ) }
-								selected={ userSource }
-								onSelect={ ( selected ) => setUserSource( selected?.value ?? '' ) }
-								source={ userOptions }
+								value={ userSource }
+								onChange={ ( selected ) => setUserSource( selected?.value ?? '' ) }
 								showClear={ true }
 								onClear={ () => setUserSource( '' ) }
-								afterInputWrapper={ ( { inputValue, items } ) => {
-									return (
-										<Button
-											variant="primary"
-											size="compact"
-											className="gb-gc-add__button"
-											disabled={ ! inputValue || items.length > 0 }
-											onClick={ () => {
-												setUserSource( inputValue );
-											} }
-										>
-											{ __( 'Add', 'generateblocks' ) }
-										</Button>
-									);
-								} }
 							/>
 						</>
 					) }

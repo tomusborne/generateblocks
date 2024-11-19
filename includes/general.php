@@ -634,8 +634,8 @@ function generateblocks_admin_head_scripts() {
 	$permissions = apply_filters(
 		'generateblocks_permissions',
 		[
-			'is_admin'          => current_user_can( 'manage_options' ),
-			'edit_posts'        => current_user_can( 'edit_posts' ),
+			'isAdminUser'       => current_user_can( 'manage_options' ),
+			'canEditPosts'      => current_user_can( 'edit_posts' ),
 			'isGbProActive'     => is_plugin_active( 'generateblocks-pro/plugin.php' ),
 			'isGpPremiumActive' => is_plugin_active( 'gp-premium/gp-premium.php' ),
 		]

@@ -1,4 +1,4 @@
-import { ToggleControl, Button, Tooltip } from '@wordpress/components';
+import { ToggleControl, Button, Tooltip, ComboboxControl } from '@wordpress/components';
 import { sprintf, __ } from '@wordpress/i18n';
 
 import { isArray, isObject } from 'lodash';
@@ -6,11 +6,9 @@ import { isArray, isObject } from 'lodash';
 import {
 	CategoriesSelect,
 	TagsSelect,
-	SimpleSelect,
-	AuthorsSelect,
 	DebouncedTextControl,
 } from '@components';
-import { SelectPostType, SelectPost, MultiSelect } from '@edge22/components';
+import { SelectPostType, SelectPost, MultiSelect, SelectUser } from '@edge22/components';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -30,18 +28,20 @@ function ControlComponent( props ) {
 		case 'postTypeSelect':
 			return <SelectPostType { ...standardProps } />;
 		case 'select':
-			return <SimpleSelect { ...standardProps } />;
+			return <ComboboxControl { ...standardProps } />;
 		case 'multiSelect':
 			return <MultiSelect { ...standardProps } />;
 		case 'authorsSelect':
-			return <AuthorsSelect { ...standardProps } />;
+			return <SelectUser multiple={ true } { ...standardProps } />;
 		case 'categoriesSelect':
 			return <CategoriesSelect { ...standardProps } />;
 		case 'tagsSelect':
 			return <TagsSelect { ...standardProps } />;
 		case 'taxonomySelect':
 			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
-		case 'postsSelect':
+		case 'includePosts':
+			return <SelectPost includeCurrent={ false } multiple={ true } postType={ postType } { ...standardProps } />;
+		case 'excludePosts':
 			return <SelectPost multiple={ true } postType={ postType } { ...standardProps } />;
 		case 'dateQuery':
 			return <DateQueryControl { ...standardProps } />;
