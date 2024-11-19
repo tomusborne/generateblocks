@@ -223,7 +223,7 @@ export function LoopInnerBlocksRenderer( props ) {
 				perPage = data.length;
 			}
 
-			const items = data.slice( 0, perPage );
+			const items = data.slice( 0, perPage > 0 ? perPage : data.length );
 
 			return items.map( ( item, index ) => {
 				const { ID = null, id = null, type = 'post' } = item;
