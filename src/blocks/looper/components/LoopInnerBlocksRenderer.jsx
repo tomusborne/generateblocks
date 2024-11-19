@@ -219,11 +219,11 @@ export function LoopInnerBlocksRenderer( props ) {
 		if ( hasResolvedData && Array.isArray( data ) ) {
 			let perPage = query?.posts_per_page ?? 10;
 
-			if ( -1 === perPage ) {
+			if ( '-1' === perPage?.toString() ) {
 				perPage = data.length;
 			}
 
-			const items = data.slice( 0, perPage > 0 ? perPage : data.length );
+			const items = data.slice( 0, perPage );
 
 			return items.map( ( item, index ) => {
 				const { ID = null, id = null, type = 'post' } = item;
