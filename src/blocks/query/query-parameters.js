@@ -127,7 +127,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post_parent__in',
-		type: 'postsSelect',
+		type: 'includePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
@@ -139,7 +139,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post_parent__not_in',
-		type: 'postsSelect',
+		type: 'excludePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
