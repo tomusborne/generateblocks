@@ -29,6 +29,33 @@ function generateblocks_do_block_editor_assets() {
 		]
 	);
 
+	wp_localize_script(
+		'generateblocks-text-editor-script',
+		'generateblocksBlockText',
+		[
+			'defaultButtonAttributes' => apply_filters(
+				'generateblocks_default_button_attributes',
+				[
+					'styles' => [
+						'display' => 'inline-flex',
+						'alignItems' => 'center',
+						'backgroundColor' => '#215bc2',
+						'color' => '#ffffff',
+						'paddingTop' => '1rem',
+						'paddingRight' => '2rem',
+						'paddingBottom' => '1rem',
+						'paddingLeft' => '2rem',
+						'textDecoration' => 'none',
+						'&:is(:hover, :focus)' => [
+							'backgroundColor' => '#1a4a9b',
+						],
+						'color' => '#ffffff',
+					],
+				]
+			),
+		]
+	);
+
 	global $pagenow;
 
 	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
