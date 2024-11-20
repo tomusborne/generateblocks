@@ -395,18 +395,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/get-wp-query',
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'get_wp_query' ],
-				'permission_callback' => function() {
-					return current_user_can( 'edit_posts' );
-				},
-			]
-		);
-
-		register_rest_route(
-			'generateblocks/v1',
 			'/post-record',
 			array(
 				'methods'  => 'GET',

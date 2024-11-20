@@ -6,7 +6,6 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
-import { store as coreStore } from '@wordpress/core-data';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
@@ -55,7 +54,15 @@ function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
 }
 
 function useWpQuery( shouldRequest = true, query, attributes, block ) {
-	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
+	const currentPost = useSelect( ( select ) => {
+		const { getCurrentPost } = select( 'core/editor' );
+
+		return getCurrentPost ? getCurrentPost() : null;
+	} );
+
+	const {
+		isAdminUser = false,
+	} = gbPermissions; // eslint-disable-line
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );
@@ -70,8 +77,18 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 			post_type: query.post_type || 'post',
 		};
 
-		if ( canUser && ! canUser( 'update', 'settings' ) ) {
-			args.post_status = 'publish';
+		/**
+		 * Filter post_status based on user role.
+		 *
+		 * TODO - Expand this in the future to handle custom user roles and other advanced use cases.
+		 */
+		if ( ! isAdminUser ) {
+			if ( Array.isArray( args?.post_status ) ) {
+				const disallowedStatuses = [ 'private', 'draft', 'trash' ];
+				args.post_status = args.post_status.filter( ( status ) => ! disallowedStatuses.includes( status ) );
+			} else {
+				args.post_status = 'publish';
+			}
 		}
 
 		async function fetchPosts() {
@@ -85,6 +102,7 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 						args,
 						attributes,
 						block,
+						currentPost,
 					},
 				} );
 
@@ -98,7 +116,7 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 		}
 
 		fetchPosts();
-	}, [ query ] );
+	}, [ query, currentPost ] );
 
 	const result = { data, isResolvingData: isLoading, hasResolvedData: data?.length > 0 };
 

@@ -73,8 +73,8 @@
 		}
     },
     "supports": {
-        "align": false,
-		"className": false
+			"align": false,
+			"className": false
     },
     "editorScript": "file:./index.js",
     "editorStyle": [

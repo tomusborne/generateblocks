@@ -42,17 +42,102 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				},
 			]
 		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-user-query',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_user_query' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+	}
+
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function get_user_query( WP_REST_Request $request ) {
+		$args = $request->get_param( 'args' ) ?? [];
+
+		if ( ! isset( $args['number'] ) ) {
+			$args['number'] = 150;
+		}
+
+		$number    = $args['number'];
+		$query     = new WP_User_Query( $args );
+		$max_pages = round( $query->get_total() / $number );
+
+		return rest_ensure_response(
+			[
+				'users'     => $query->get_results(),
+				'total'     => $query->get_total(),
+				'max_pages' => $max_pages,
+			]
+		);
 	}
 
 	/**
 	 * Gets posts and returns an array of WP_Post objects.
 	 *
 	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response The response.
 	 */
 	public function get_wp_query( $request ) {
-		$args       = $request->get_param( 'args' );
-		$page       = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
-		$attributes = $request->get_param( 'attributes' ) ?? [];
+		$args           = $request->get_param( 'args' );
+		$page           = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$attributes     = $request->get_param( 'attributes' ) ?? [];
+		$current_post   = $request->get_param( 'currentPost' ) ?? null;
+		$current_author = $current_post['author'] ?? 0;
+
+		// Handle current entity values.
+		if ( $current_post ) {
+			$included_posts = $args['post__in'] ?? [];
+			$excluded_posts = $args['post__not_in'] ?? [];
+
+			foreach ( $included_posts as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_post;
+				}
+			}
+
+			foreach ( $excluded_posts as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_post;
+				}
+			}
+
+			$args['post__in']     = $included_posts;
+			$args['post__not_in'] = $excluded_posts;
+		}
+
+		if ( $current_author ) {
+			$included_authors = $args['author__in'] ?? [];
+			$excluded_authors = $args['author__not_in'] ?? [];
+
+			foreach ( $included_authors as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_author;
+				}
+			}
+
+			foreach ( $excluded_authors as &$the_post ) {
+				if ( 'current' === $the_post ) {
+					$the_post = $current_author;
+				}
+			}
+
+			$args['author__in']     = $included_authors;
+			$args['author__not_in'] = $excluded_authors;
+		}
 
 		$query = new WP_Query(
 			self::get_wp_query_args( $args, $page, $attributes )
@@ -72,74 +157,74 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
 	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
-
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
 		}
 
-		$query_args = self::map_post_type_attributes( $args );
-
-		if ( isset( $query_args['tax_query'] ) ) {
-			if ( count( $query_args['tax_query'] ) > 1 ) {
-				$query_args['tax_query']['relation'] = 'AND';
+		if ( isset( $args['tax_query'] ) ) {
+			if ( count( $args['tax_query'] ) > 1 ) {
+				$args['tax_query']['relation'] = 'AND';
 			}
 		}
 
 		// Sticky posts handling.
-		if ( isset( $query_args['stickyPosts'] ) && 'ignore' === $query_args['stickyPosts'] ) {
-			$query_args['ignore_sticky_posts'] = true;
-			unset( $query_args['stickyPosts'] );
-		}
+		if ( isset( $args['stickyPosts'] ) ) {
 
-		if ( isset( $query_args['stickyPosts'] ) && 'exclude' === $query_args['stickyPosts'] ) {
-			$sticky_posts = get_option( 'sticky_posts' );
-			$post_not_in = isset( $query_args['post__not_in'] ) && is_array( $query_args['post__not_in'] ) ? $query_args['post__not_in'] : array();
-			$query_args['post__not_in'] = array_merge( $sticky_posts, $post_not_in );
-			unset( $query_args['stickyPosts'] );
-		}
+			if ( 'ignore' === $args['stickyPosts'] ) {
+				$args['ignore_sticky_posts'] = true;
+				unset( $args['stickyPosts'] );
+			}
 
-		if ( isset( $query_args['stickyPosts'] ) && 'only' === $query_args['stickyPosts'] ) {
-			$sticky_posts = get_option( 'sticky_posts' );
-			$query_args['ignore_sticky_posts'] = true;
-			$query_args['post__in'] = $sticky_posts;
-			unset( $query_args['stickyPosts'] );
+			if ( 'exclude' === $args['stickyPosts'] ) {
+				$sticky_posts = get_option( 'sticky_posts' );
+				$post_not_in  = isset( $args['post__not_in'] ) && is_array( $args['post__not_in'] ) ? $args['post__not_in'] : array();
+				$args['post__not_in'] = array_merge( $sticky_posts, $post_not_in );
+				unset( $args['stickyPosts'] );
+			}
+
+			if ( 'only' === $args['stickyPosts'] ) {
+				$sticky_posts = get_option( 'sticky_posts' );
+				$args['ignore_sticky_posts'] = true;
+				$args['post__in'] = $sticky_posts;
+				unset( $args['stickyPosts'] );
+			}
 		}
 
 		// Ensure offset works correctly with pagination.
-		$posts_per_page = (int) $query_args['posts_per_page'] ?? get_option( 'posts_per_page', -1 );
+		$posts_per_page = (int) ( $args['posts_per_page'] ?? get_option( 'posts_per_page', -1 ) );
 		if (
-			isset( $query_args['posts_per_page'] ) &&
-			is_numeric( $query_args['posts_per_page'] ) &&
+			isset( $args['posts_per_page'] ) &&
+			is_numeric( $args['posts_per_page'] ) &&
 			$posts_per_page > -1
 		) {
 
 			$offset = 0;
 
 			if (
-				isset( $query_args['offset'] ) &&
-				is_numeric( $query_args['offset'] )
+				isset( $args['offset'] ) &&
+				is_numeric( $args['offset'] )
 			) {
-				$offset = absint( $query_args['offset'] );
+				$offset = absint( $args['offset'] );
 			}
 
-			$query_args['offset']         = ( $posts_per_page * ( $page - 1 ) ) + $offset;
-			$query_args['posts_per_page'] = $posts_per_page;
+			$args['offset']         = ( $posts_per_page * ( $page - 1 ) ) + $offset;
+			$args['posts_per_page'] = $posts_per_page;
 		}
 
-		$post_status = $query_args['post_status'] ?? 'publish';
+		$post_status = $args['post_status'] ?? 'publish';
 		if (
 			'publish' !== $post_status &&
 			! current_user_can( 'read_private_posts' )
 		) {
 			// If the user can't read private posts, we'll force the post status to be public.
-			$query_args['post_status'] = 'publish';
+			$args['post_status'] = 'publish';
 		}
 
-		$date_query = $query_args['date_query'] ?? false;
+		$date_query = $args['date_query'] ?? false;
 
 		if ( is_array( $date_query ) ) {
-			$query_args['date_query'] = array_map(
+			$args['date_query'] = array_map(
 				function( $query ) {
 					$query = array_filter(
 						$query,
@@ -149,7 +234,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 					);
 					return $query;
 				},
-				$query_args['date_query'] ?? []
+				$args['date_query'] ?? []
 			);
 		}
 
@@ -164,9 +249,9 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 *
 		 * @return array The modified query arguments.
 		 */
-		$query_args = apply_filters(
+		$args = apply_filters(
 			'generateblocks_query_loop_args',
-			$query_args,
+			$args,
 			$attributes,
 			null === $block ? new stdClass() : $block
 		);
@@ -180,9 +265,9 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 */
 		return apply_filters(
 			'generateblocks_query_wp_query_args',
-			$query_args,
+			$args,
 			$attributes,
-			$block
+			null === $block ? new stdClass() : $block
 		);
 	}
 

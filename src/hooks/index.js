@@ -6,4 +6,3 @@ export { default as useAuthors } from './useAuthors';
 export { useSelectedBlockElement, useSelectedBlockElements } from './useSelectedBlockElements';
 export { useStyleIndicator } from './useStyleIndicator';
 export { default as useDeviceAttributes } from './useDeviceAttributes';
-export { useUsers } from './useUsers';

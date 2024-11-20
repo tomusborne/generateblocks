@@ -17,11 +17,11 @@ import {
 	usePostRecord,
 	useTermRecord,
 	useUserRecord,
+	SelectUser,
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { SelectTerm } from './SelectTerm';
-import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
 	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
@@ -313,17 +313,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
-	const { records: allUsers } = useUsers( 'user' === dynamicSource );
-
-	const userOptions = useMemo( () => {
-		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
-			return {
-				label: `#${ user.id } ${ user.username }`,
-				value: `${ user.id }`,
-			};
-		} ) : [];
-	}, [ allUsers ] );
-
 	const { record: termRecord } = useTermRecord( {
 		termId: termSource,
 		taxonomy: taxonomySource,
@@ -680,41 +669,27 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							<SelectPost
 								label={ __( 'Select source post', 'generateblocks' ) }
 								value={ postIdSource }
-								onSelect={ ( selected ) => setPostIdSource( selected?.value ?? '' ) }
+								onChange={ ( selected ) => setPostIdSource( selected?.value ?? '' ) }
 								onClear={ () => setPostIdSource( '' ) }
 								onAdd={ ( { inputValue } ) => setPostIdSource( inputValue ) }
 								onEnter={ ( inputValue ) => {
 									setPostIdSource( inputValue );
 								} }
 								currentPostId={ currentPostId }
+								includeCurrent={ false }
 							/>
 						</>
 					) }
 
 					{ 'user' === dynamicSource && (
 						<>
-							<Autocomplete
+							<SelectUser
 								label={ __( 'Select source user', 'generateblocks' ) }
-								selected={ userSource }
-								onSelect={ ( selected ) => setUserSource( selected?.value ?? '' ) }
-								source={ userOptions }
+								value={ userSource }
+								onChange={ ( selected ) => setUserSource( selected?.value ?? '' ) }
 								showClear={ true }
 								onClear={ () => setUserSource( '' ) }
-								afterInputWrapper={ ( { inputValue, items } ) => {
-									return (
-										<Button
-											variant="primary"
-											size="compact"
-											className="gb-gc-add__button"
-											disabled={ ! inputValue || items.length > 0 }
-											onClick={ () => {
-												setUserSource( inputValue );
-											} }
-										>
-											{ __( 'Add', 'generateblocks' ) }
-										</Button>
-									);
-								} }
+								includeCurrent={ false }
 							/>
 						</>
 					) }

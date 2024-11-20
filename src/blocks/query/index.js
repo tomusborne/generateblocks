@@ -21,7 +21,7 @@ registerBlockVariation(
 		attributes: {
 			showTemplateSelector: true,
 			query: {
-				post_type: 'post',
+				post_type: [ 'post' ],
 				posts_per_page: 10,
 			},
 		},

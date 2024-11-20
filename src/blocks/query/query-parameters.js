@@ -5,7 +5,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	{
 		id: 'post_type',
 		type: 'postTypeSelect',
-		default: 'post',
+		default: [ 'post' ],
 		label: __( 'Post type', 'generateblocks' ),
 		description: __( 'Retrieves posts by post types.', 'generateblocks' ),
 		group: __( 'Post type', 'generateblocks' ),
@@ -127,7 +127,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post_parent__in',
-		type: 'postsSelect',
+		type: 'includePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
@@ -139,7 +139,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post_parent__not_in',
-		type: 'postsSelect',
+		type: 'excludePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
@@ -151,7 +151,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post__in',
-		type: 'postsSelect',
+		type: 'includePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
@@ -162,7 +162,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 	},
 	{
 		id: 'post__not_in',
-		type: 'postsSelect',
+		type: 'excludePosts',
 		default: [],
 		dependencies: {
 			postType: 'post_type',

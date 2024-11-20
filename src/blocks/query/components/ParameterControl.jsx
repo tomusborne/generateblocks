@@ -2,39 +2,14 @@ import { useCallback } from '@wordpress/element';
 
 import { ControlBuilder } from './ControlBuilder';
 
-function attributeValueNormalizer( attribute, value ) {
-	switch ( attribute ) {
-		case 'order':
-		case 'orderby':
-		case 'stickyPosts':
-			return value.value;
-
-		case 'post_status':
-		case 'author__in':
-		case 'author__not_in':
-		case 'post__in':
-		case 'post__not_in':
-		case 'post_parent__in':
-		case 'post_parent__not_in':
-			return value.reduce( ( result, option ) => {
-				result.push( option.value );
-
-				return result;
-			}, [] );
-
-		default:
-			return value;
-	}
-}
-
 export function ParameterControl( { parameter, query, setParameter, removeParameter } ) {
 	const { dependencies = {} } = parameter;
 	const parameterValue = query[ parameter.id ];
-	const postType = query?.post_type ?? 'post';
+	const postType = query?.post_type ?? [ 'post' ];
 
 	const onChangeControl = useCallback( function onChangeControl( newValue ) {
-		setParameter( parameter.id, attributeValueNormalizer( parameter.id, newValue ) );
-	}, [ setParameter ] );
+		setParameter( parameter.id, newValue );
+	}, [ setParameter, parameter.id ] );
 
 	const dependenciesValues = Object.keys( dependencies ).reduce( ( dependenciesProps, dependencyKey ) => {
 		dependenciesProps[ dependencyKey ] = query[ dependencies[ dependencyKey ] ] || dependencies[ dependencyKey ];

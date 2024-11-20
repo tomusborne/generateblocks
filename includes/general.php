@@ -650,3 +650,31 @@ function generateblocks_do_block_editor_styles( $editor_settings ) {
 
 	return $editor_settings;
 }
+
+add_action( 'admin_head', 'generateblocks_admin_head_scripts', 0 );
+/**
+ * Output permissions for use in admin objects.
+ *
+ * @return void
+ */
+function generateblocks_admin_head_scripts() {
+	$permissions = apply_filters(
+		'generateblocks_permissions',
+		[
+			'isAdminUser'       => current_user_can( 'manage_options' ),
+			'canEditPosts'      => current_user_can( 'edit_posts' ),
+			'isGbProActive'     => is_plugin_active( 'generateblocks-pro/plugin.php' ),
+			'isGpPremiumActive' => is_plugin_active( 'gp-premium/gp-premium.php' ),
+		]
+	);
+
+	$permission_object = wp_json_encode( $permissions );
+
+	echo sprintf(
+		'<script>
+				const gbPermissions = %s;
+				Object.freeze( gbPermissions );
+		</script>',
+		$permission_object // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	);
+}
