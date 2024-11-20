@@ -78,6 +78,9 @@ export function withHtmlAttributes( WrappedComponent ) {
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? 0,
 		};
+
+		console.log( combinedAttributes );
+
 		const frontendHtmlAttributes = useMemo( () => {
 			if ( Array.isArray( htmlAttributes ) ) {
 				return {};
