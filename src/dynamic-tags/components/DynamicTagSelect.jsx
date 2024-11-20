@@ -676,6 +676,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 									setPostIdSource( inputValue );
 								} }
 								currentPostId={ currentPostId }
+								includeCurrent={ false }
 							/>
 						</>
 					) }
@@ -688,6 +689,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								onChange={ ( selected ) => setUserSource( selected?.value ?? '' ) }
 								showClear={ true }
 								onClear={ () => setUserSource( '' ) }
+								includeCurrent={ false }
 							/>
 						</>
 					) }
