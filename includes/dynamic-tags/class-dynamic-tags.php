@@ -111,21 +111,24 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Featured Image URL', 'generateblocks' ),
-				'tag'      => 'featured_image_url',
+				'title'    => __( 'Featured Image', 'generateblocks' ),
+				'tag'      => 'featured_image',
 				'type'     => 'post',
 				'supports' => [ 'source', 'image-size' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Featured Image ID', 'generateblocks' ),
-				'tag'      => 'featured_image_id',
-				'type'     => 'post',
-				'supports' => [ 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_id' ],
+				'options'  => [
+					'key' => [
+						'type'    => 'select',
+						'label'   => __( 'Image Key', 'generateblocks' ),
+						'default' => 'url',
+						'options' => [
+							'url',
+							'id',
+							'caption',
+							'description',
+						],
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image' ],
 			]
 		);
 
@@ -641,12 +644,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
-					} elseif ( 'featured_image_url' === $args['tag'] ) {
-						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
-							$args['options'],
-							$args['block'],
-							$args['instance']
-						);
+					} elseif ( 'featured_image' === $args['tag'] ) {
+						if ( isset( $args['options']['key'] ) && 'url' === $args['options']['key'] ) {
+							$args['options']['key'] = 'id';
+							$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image(
+								$args['options'],
+								$args['block'],
+								$args['instance']
+							);
+						}
 					}
 
 					if ( $media_id ) {
