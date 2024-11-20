@@ -2,17 +2,10 @@ import { useEffect, useMemo } from '@wordpress/element';
 
 import { ImageUpload } from '@components/index.js';
 
-export function InlineBackgroundImage( {
-	htmlAttributes,
-	setAttributes,
-	styles,
-	onStyleChange,
-	context,
-	label,
-} ) {
-	const { style = '' } = htmlAttributes;
-
+export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, onStyleChange, context, label } ) {
 	const inlineBackgroundURL = useMemo( () => {
+		const { style = '' } = htmlAttributes;
+
 		const styleParts = style.split( ';' );
 
 		if ( 0 === styleParts.length ) {
@@ -28,9 +21,11 @@ export function InlineBackgroundImage( {
 		}
 
 		return inlineBackgroundPart.split( 'url(' )[ 1 ].split( ')' )[ 0 ];
-	}, [ style ] );
+	}, [ htmlAttributes?.style ] );
 
 	function onChange( value ) {
+		const { style = '' } = htmlAttributes;
+
 		if ( ! value ) {
 			if ( style ) {
 				const newHtmlAttributes = { ...htmlAttributes };
