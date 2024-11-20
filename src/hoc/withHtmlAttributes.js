@@ -3,7 +3,7 @@ import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
-import { replaceTags } from '../dynamic-tags/useTagReplacements';
+import { replaceTags } from '../dynamic-tags/utils';
 
 export const booleanAttributes = [
 	'allowfullscreen',
