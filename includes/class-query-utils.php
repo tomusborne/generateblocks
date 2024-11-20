@@ -173,22 +173,21 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 
 			if ( 'ignore' === $args['stickyPosts'] ) {
 				$args['ignore_sticky_posts'] = true;
-				unset( $args['stickyPosts'] );
 			}
 
 			if ( 'exclude' === $args['stickyPosts'] ) {
 				$sticky_posts = get_option( 'sticky_posts' );
 				$post_not_in  = isset( $args['post__not_in'] ) && is_array( $args['post__not_in'] ) ? $args['post__not_in'] : array();
 				$args['post__not_in'] = array_merge( $sticky_posts, $post_not_in );
-				unset( $args['stickyPosts'] );
 			}
 
 			if ( 'only' === $args['stickyPosts'] ) {
 				$sticky_posts = get_option( 'sticky_posts' );
 				$args['ignore_sticky_posts'] = true;
 				$args['post__in'] = $sticky_posts;
-				unset( $args['stickyPosts'] );
 			}
+
+			unset( $args['stickyPosts'] );
 		}
 
 		// Ensure offset works correctly with pagination.
@@ -269,32 +268,6 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			$attributes,
 			null === $block ? new stdClass() : $block
 		);
-	}
-
-	/**
-	 * Map query parameters to their correct query names.
-	 *
-	 * @param array $attributes Block attributes.
-	 */
-	public static function map_post_type_attributes( $attributes ) {
-		$attributes_map = array(
-			'page'               => 'paged',
-			'per_page'           => 'posts_per_page',
-			'search'             => 's',
-			'after'              => 'date_query_after',
-			'before'             => 'date_query_before',
-			'author'             => 'author__in',
-			'exclude'            => 'post__not_in',
-			'include'            => 'post__in',
-			'order'              => 'order',
-			'orderby'            => 'orderby',
-			'status'             => 'post_status',
-			'parent'             => 'post_parent__in',
-			'parent_exclude'     => 'post_parent__not_in',
-			'author_exclude'     => 'author__not_in',
-		);
-
-		return generateblocks_map_array_keys( $attributes, $attributes_map );
 	}
 
 	/**
