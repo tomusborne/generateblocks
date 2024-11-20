@@ -299,7 +299,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 */
 	public static function get_featured_image( $options, $block, $instance ) {
 		if ( ! isset( $options['key'] ) ) {
-			return self::output( '', $options, $instance );
+			$options['key'] = 'url';
 		}
 
 		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
