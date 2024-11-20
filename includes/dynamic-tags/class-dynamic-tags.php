@@ -125,6 +125,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 							'id',
 							'caption',
 							'description',
+							'alt',
 						],
 					],
 				],
