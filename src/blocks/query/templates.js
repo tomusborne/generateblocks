@@ -262,7 +262,7 @@ export const TEMPLATES = [
 							[ 'generateblocks/media', {
 								tagName: 'img',
 								htmlAttributes: {
-									src: '{{featured_image_url}}',
+									src: '{{featured_image key:url}}',
 									alt: '{{post_title}}',
 								},
 								styles: {
