@@ -32,7 +32,7 @@ function ControlComponent( props ) {
 		case 'multiSelect':
 			return <MultiSelect { ...standardProps } />;
 		case 'authorsSelect':
-			return <SelectUser multiple={ true } { ...standardProps } />;
+			return <SelectUser multiple={ true } currentLabel={ __( 'Current author', 'generateblocks' ) } { ...standardProps } />;
 		case 'categoriesSelect':
 			return <CategoriesSelect { ...standardProps } />;
 		case 'tagsSelect':
