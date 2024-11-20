@@ -16,9 +16,14 @@ export function withDynamicTag( WrappedComponent ) {
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
 		const [ contentMode, setContentMode ] = useState( 'edit' );
+
 		const getContentValue = () => {
 			if ( 'img' === tagName ) {
 				return htmlAttributes?.src;
+			}
+
+			if ( htmlAttributes?.style?.includes( '{{' ) ) {
+				return htmlAttributes?.style;
 			}
 
 			if ( content?.originalHTML ) {

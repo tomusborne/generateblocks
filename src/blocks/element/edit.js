@@ -9,6 +9,7 @@ import { selectorShortcuts } from '@utils/selectorShortcuts.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { withDynamicTag } from '@hoc/withDynamicTag.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { BlockAppender } from '@components';
 
@@ -22,7 +23,10 @@ function EditBlock( props ) {
 		onStyleChange,
 		editorHtmlAttributes,
 		styles,
+		dynamicTagValue,
 	} = props;
+
+	console.log( dynamicTagValue );
 
 	const {
 		tagName,
@@ -125,7 +129,8 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withUniqueId
+	withDynamicTag,
+	withUniqueId,
 )( EditBlock );
 
 export { Edit };

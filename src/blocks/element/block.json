@@ -59,7 +59,8 @@
 	"usesContext": [
 		"generateblocks/queryData",
 		"generateblocks/queryType",
-		"generateblocks/paginationType"
+		"generateblocks/paginationType",
+		"postId"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [
