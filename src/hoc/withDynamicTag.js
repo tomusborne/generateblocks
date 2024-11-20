@@ -22,10 +22,6 @@ export function withDynamicTag( WrappedComponent ) {
 				return htmlAttributes?.src;
 			}
 
-			if ( htmlAttributes?.style?.includes( '{{' ) ) {
-				return htmlAttributes?.style;
-			}
-
 			if ( content?.originalHTML ) {
 				return content.originalHTML;
 			}
