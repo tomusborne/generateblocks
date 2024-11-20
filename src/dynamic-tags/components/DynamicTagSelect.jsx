@@ -397,8 +397,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setDynamicSource( source );
 		}
 
-		if ( key ) {
+		// If the tag doesn't support meta, treat the `key` as an extra param.
+		if ( tagSupportsMeta && key ) {
 			setMetaKey( key );
+		} else if ( key ) {
+			extraParams.key = key;
 		}
 
 		if ( tax ) {

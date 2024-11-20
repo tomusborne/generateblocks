@@ -29,6 +29,7 @@ $input-height: 35px;
 	}
 
 	.components-text-control__input,
+	.components-select-control__input,
 	.components-text-control__input[type=color],
 	.components-text-control__input[type=date],
 	.components-text-control__input[type=datetime-local],
@@ -42,7 +43,7 @@ $input-height: 35px;
 	.components-text-control__input[type=time],
 	.components-text-control__input[type=url],
 	.components-text-control__input[type=week] {
-		height: $input-height;
+		height: $input-height !important;
 	}
 
 	.components-combobox-control__suggestions-container {

@@ -290,14 +290,14 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the featured image URL.
+	 * Get the featured image.
 	 *
 	 * @param array  $options The options.
 	 * @param object $block The block.
 	 * @param object $instance The block instance.
-	 * @return int
+	 * @return string
 	 */
-	public static function get_featured_image_url( $options, $block, $instance ) {
+	public static function get_featured_image( $options, $block, $instance ) {
 		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 
 		if ( ! $id ) {
@@ -310,36 +310,31 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		$size = $options['size'] ?? 'full';
-
+		$size  = $options['size'] ?? 'full';
 		$image = wp_get_attachment_image_src( $image_id, $size );
 
 		if ( ! $image ) {
 			return self::output( '', $options, $instance );
 		}
 
-		$output = $image[0];
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the featured image ID.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 * @return int
-	 */
-	public static function get_featured_image_id( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-
-		if ( ! $id ) {
-			return self::output( '', $options, $instance );
+		switch ( $options['key'] ?? '' ) {
+			case 'id':
+				$output = $image_id;
+				break;
+			case 'alt':
+				$output = get_post_meta( $image_id, '_wp_attachment_image_alt', true );
+				break;
+			case 'caption':
+				$output = wp_get_attachment_caption( $image_id );
+				break;
+			case 'description':
+				$output = get_post_field( 'post_content', $image_id );
+				break;
+			case 'url':
+			default:
+				$output = $image[0];
+				break;
 		}
-
-		$image_id = get_post_thumbnail_id( $id );
-		$output   = $image_id ? $image_id : 0;
 
 		return self::output( $output, $options, $instance );
 	}
