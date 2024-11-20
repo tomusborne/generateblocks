@@ -125,7 +125,7 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withUniqueId,
+	withUniqueId
 )( EditBlock );
 
 export { Edit };

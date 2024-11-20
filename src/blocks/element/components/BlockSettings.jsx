@@ -29,7 +29,6 @@ export function BlockSettings( {
 	htmlAttributes,
 	styles,
 	context,
-	dynamicTagValue,
 } ) {
 	const {
 		tagName,
@@ -258,7 +257,6 @@ export function BlockSettings( {
 					styles={ styles }
 					onStyleChange={ onStyleChange }
 					context={ context }
-					dynamicTagValue={ dynamicTagValue }
 				/>
 			</OpenPanel>
 
