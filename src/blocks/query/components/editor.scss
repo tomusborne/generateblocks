@@ -49,8 +49,8 @@ $label-margin-bottom: 12px;
 	position: relative;
 
 	+ .gb-parameter-component {
-		border-top: 1px solid $control-border-color;
 		padding-top: 12px;
+		margin-block-start: 0 !important;
 	}
 
 	.gb-remove-parameter {

@@ -5,7 +5,6 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import { AdvancedSelect } from '@components';
 import { SelectQueryParameter } from './SelectQueryParameter';
 import { AddQueryParameterButton } from './AddQueryParameterButton';
 import { ParameterList } from './ParameterList';
@@ -47,16 +46,31 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 	return (
 		<>
 			{ queryTypes.length > 1 && (
-				<AdvancedSelect
-					value={ selectedQueryType }
+				<SelectControl
+					value={ attributes.queryType }
 					options={ queryTypes }
-					onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
+					onChange={ ( value ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
 					label={ __( 'Query Type', 'generateblocks' ) }
 					help={ selectedQueryType?.help }
 				/>
 			) }
 			{ 'WP_Query' === attributes.queryType && (
 				<>
+					<SelectControl
+						label={ __( 'Pagination type', 'generateblocks' ) }
+						value={ attributes.paginationType }
+						options={ [
+							{
+								label: __( 'Standard', 'generateblocks' ),
+								value: 'standard',
+							},
+							{
+								label: __( 'Instant', 'generateblocks' ),
+								value: 'instant',
+							},
+						] }
+						onChange={ ( value ) => setAttributes( { paginationType: value } ) }
+					/>
 					<ToggleControl
 						label={ __( 'Inherit query from template', 'generateblocks' ) }
 						help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
@@ -110,21 +124,6 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
 				)
 			}
-			<SelectControl
-				label={ __( 'Pagination type', 'generateblocks' ) }
-				value={ attributes.paginationType }
-				options={ [
-					{
-						label: __( 'Standard', 'generateblocks' ),
-						value: 'standard',
-					},
-					{
-						label: __( 'Instant', 'generateblocks' ),
-						value: 'instant',
-					},
-				] }
-				onChange={ ( value ) => setAttributes( { paginationType: value } ) }
-			/>
 		</>
 	);
 }
