@@ -298,10 +298,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_featured_image( $options, $block, $instance ) {
-		if ( ! isset( $options['key'] ) ) {
-			$options['key'] = 'url';
-		}
-
 		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 
 		if ( ! $id ) {
@@ -314,18 +310,14 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		$size = $options['size'] ?? 'full';
-
+		$size  = $options['size'] ?? 'full';
 		$image = wp_get_attachment_image_src( $image_id, $size );
 
 		if ( ! $image ) {
 			return self::output( '', $options, $instance );
 		}
 
-		switch ( $options['key'] ) {
-			case 'url':
-				$output = $image[0];
-				break;
+		switch ( $options['key'] ?? '' ) {
 			case 'id':
 				$output = $image_id;
 				break;
@@ -338,8 +330,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			case 'description':
 				$output = get_post_field( 'post_content', $image_id );
 				break;
+			case 'url':
 			default:
-				$output = '';
+				$output = $image[0];
 				break;
 		}
 
