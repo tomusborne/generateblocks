@@ -99,10 +99,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					'type' => [
 						'type'    => 'select',
 						'label'   => __( 'Date type', 'generateblocks' ),
-						'default' => 'published',
+						'default' => '',
 						'options' => [
 							[
-								'value' => 'published',
+								'value' => '',
 								'label' => __( 'Published', 'generateblocks' ),
 							],
 							[

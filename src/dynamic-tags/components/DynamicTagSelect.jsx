@@ -337,7 +337,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			for ( const option in options ) {
 				const { default: defaultValue = null } = options[ option ];
 
-				if ( null !== defaultValue ) {
+				if ( ! [ null, '' ].includes( defaultValue ) ) {
 					defaultExtraTagParams[ option ] = defaultValue;
 				}
 			}
@@ -760,6 +760,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						<TextControl
 							label={ __( 'Date Format', 'generateblocks' ) }
 							value={ dateFormat }
+							placeholder={ generateBlocksEditor?.dateFormat ?? '' }
 							onChange={ setDateFormat }
 							help={ __( 'Enter a valid date format. Leave blank to use the default format.', 'generateblocks' ) }
 						/>
