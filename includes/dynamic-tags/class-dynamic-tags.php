@@ -91,21 +91,32 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Published Date', 'generateblocks' ),
-				'tag'      => 'published_date',
+				'title'    => __( 'Post Date', 'generateblocks' ),
+				'tag'      => 'post_date',
 				'type'     => 'post',
 				'supports' => [ 'date', 'link', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_published_date' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Modified Date', 'generateblocks' ),
-				'tag'      => 'modified_date',
-				'type'     => 'post',
-				'supports' => [ 'date', 'link', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_modified_date' ],
+				'options'  => [
+					'type' => [
+						'type'    => 'select',
+						'label'   => __( 'Date type', 'generateblocks' ),
+						'default' => '',
+						'options' => [
+							[
+								'value' => '',
+								'label' => __( 'Published', 'generateblocks' ),
+							],
+							[
+								'value' => 'modified',
+								'label' => __( 'Modified', 'generateblocks' ),
+							],
+							[
+								'value' => 'modifiedOnly',
+								'label' => __( 'Modified Only', 'generateblocks' ),
+							],
+						],
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_date' ],
 			]
 		);
 
@@ -219,6 +230,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'type'  => 'select',
 						'label' => __( 'Default URL', 'generateblocks' ),
 						'options' => [
+							[
+								'label' => __( 'Default', 'generateblocks' ),
+								'value' => '',
+							],
 							'404',
 							'retro',
 							'robohash',

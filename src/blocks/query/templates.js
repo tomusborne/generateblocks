@@ -121,7 +121,7 @@ export const TEMPLATES = [
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
-								content: '{{modified_date}}',
+								content: '{{post_date}}',
 								styles: {
 									fontSize: '14px',
 								},
@@ -169,7 +169,7 @@ export const TEMPLATES = [
 									marginBottom: '0px',
 									fontSize: '14px',
 								},
-								content: '{{modified_date}}',
+								content: '{{post_date}}',
 							} ],
 						],
 					],
@@ -219,7 +219,7 @@ export const TEMPLATES = [
 									marginBottom: '30px',
 									fontSize: '14px',
 								},
-								content: '{{modified_date}}',
+								content: '{{post_date}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -283,7 +283,7 @@ export const TEMPLATES = [
 									marginBottom: '30px',
 									fontSize: '14px',
 								},
-								content: '{{modified_date}}',
+								content: '{{post_date}}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',

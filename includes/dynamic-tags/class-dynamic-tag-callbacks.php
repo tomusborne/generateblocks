@@ -248,43 +248,35 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the published date.
+	 * Get the post date.
 	 *
 	 * @param array  $options The options.
 	 * @param object $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
-	public static function get_published_date( $options, $block, $instance ) {
+	public static function get_post_date( $options, $block, $instance ) {
 		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 
 		if ( ! $id ) {
 			return self::output( '', $options, $instance );
 		}
 
+		$type   = $options['type'] ?? 'published';
 		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
 		$output = get_the_date( $format, $id );
 
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the modified date.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_modified_date( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-
-		if ( ! $id ) {
-			return self::output( '', $options, $instance );
+		if ( 'modified' === $type ) {
+			$output = get_the_modified_date( $format, $id );
 		}
 
-		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
-		$output = get_the_modified_date( $format, $id );
+		if ( 'modifiedOnly' === $type ) {
+			$modified_date = get_the_modified_date( $format, $id );
+
+			if ( $modified_date === $output ) {
+				$output = '';
+			}
+		}
 
 		return self::output( $output, $options, $instance );
 	}
