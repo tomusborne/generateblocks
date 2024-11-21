@@ -32,7 +32,7 @@ function BlockPreview( { blocks, isHidden } ) {
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
-function setIsBlockPreview( innerBlocks, contextPostId = '' ) {
+function setIsBlockPreview( innerBlocks, contextPostId = null ) {
 	return innerBlocks.map( ( block ) => {
 		const { clientId = '' } = block;
 
@@ -281,9 +281,11 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
-		const key = `${ loopItemContext.postId }-${ index }`;
-		const isActive = loopItemContext.postId ===
-			( parseInt( activeBlockContextId, 10 ) || loopItemsContext[ 0 ]?.postId );
+		const contextId = loopItemContext?.postId ?? loopItemContext?.[ 'generateblocks/loopIndex' ] ?? index;
+		const firstContextId = loopItemsContext[ 0 ]?.postId ?? loopItemsContext[ 0 ]?.[ 'generateblocks/loopIndex' ] ?? 0;
+		const key = `${ contextId }-${ index }`;
+		const activeId = parseInt( activeBlockContextId, 10 );
+		const isActive = contextId ? contextId === ( activeId || firstContextId ) : false;
 
 		return (
 			<BlockContextProvider

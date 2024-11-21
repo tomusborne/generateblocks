@@ -99,6 +99,8 @@ function EditBlock( props ) {
 		};
 	}, [ tagName ] );
 
+	console.log( context );
+
 	return (
 		<>
 			<InspectorControls>
@@ -125,7 +127,7 @@ function EditBlock( props ) {
 					<button
 						className="gb-block-preview__toggle"
 						data-block-id={ clientId }
-						data-context-post-id={ context?.postId ?? 0 }
+						data-context-post-id={ context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0 }
 						onClick={ () => {
 							setAttributes( { isBlockPreview: false } );
 						} }
