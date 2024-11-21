@@ -99,8 +99,6 @@ function EditBlock( props ) {
 		};
 	}, [ tagName ] );
 
-	console.log( context );
-
 	return (
 		<>
 			<InspectorControls>
