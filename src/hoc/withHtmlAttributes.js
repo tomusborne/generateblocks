@@ -76,13 +76,15 @@ export function withHtmlAttributes( WrappedComponent ) {
 			async function getReplacements() {
 			// Check if any replacements need to be made if not, do nothing.
 				if ( ! style.includes( '{{' ) ) {
-					return style;
+					setStyleWithReplacements( style );
+					return;
 				}
 
 				const replacements = await replaceTags( style, context );
 
 				if ( ! replacements.length ) {
-					return style;
+					setStyleWithReplacements( style );
+					return;
 				}
 
 				const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
