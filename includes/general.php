@@ -296,6 +296,7 @@ function generateblocks_do_block_editor_assets() {
 			'hasGPFontLibrary'   => function_exists( 'generatepress_is_module_active' )
 				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
 				: false,
+			'dateFormat' => get_option( 'date_format' ),
 		]
 	);
 
