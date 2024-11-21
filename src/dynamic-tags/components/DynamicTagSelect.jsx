@@ -100,22 +100,16 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 		}
 
 		if ( Array.isArray( choices ) ) {
-			props.options = [
-				{
-					value: '',
-					label: __( 'Default', 'generateblocks' ),
-				},
-				...choices.map( ( choice ) => {
-					if ( 'object' === typeof choice ) {
-						return {
-							value: choice.value,
-							label: choice?.label ?? choice.value,
-						};
-					}
+			props.options = choices.map( ( choice ) => {
+				if ( 'object' === typeof choice ) {
+					return {
+						value: choice.value,
+						label: choice?.label ?? choice.value,
+					};
+				}
 
-					return { label: choice, value: choice };
-				} ),
-			];
+				return { label: choice, value: choice };
+			} );
 		}
 
 		if ( 'number' === type ) {
@@ -257,6 +251,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
 	const [ required, setRequired ] = useState( true );
 	const [ imageSize, setImageSize ] = useState( 'full' );
+	const [ dateFormat, setDateFormat ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
 		if ( dynamicTag ) {
@@ -269,6 +264,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' ) || dynamicTagSupports?.includes( 'properties' );
 	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
+	const tagSupportsDate = dynamicTagSupports?.includes( 'date' );
 	const tagSupportsTaxonomy = dynamicTagSupports?.includes( 'taxonomy' );
 	const showSource = dynamicTagSupports?.includes( 'source' );
 	const contextPostId = context?.postId ?? 0;
@@ -331,6 +327,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setUserSource( '' );
 		setMetaKey( '' );
 		setImageSize( 'full' );
+		setDateFormat( '' );
 
 		// Check if there are any tag specific controls with default values to set.
 		const defaultExtraTagParams = {};
@@ -377,6 +374,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			required: requiredParam = true,
 			tax = null,
 			size = null,
+			dateFormat: dateFormatParam = null,
 			...extraParams
 		} = parsedTag?.params;
 
@@ -420,6 +418,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( size ) {
 			setImageSize( size );
+		}
+
+		if ( dateFormatParam ) {
+			setDateFormat( dateFormatParam );
 		}
 
 		if ( 'false' === requiredParam ) {
@@ -514,6 +516,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `size:${ imageSize }` );
 		}
 
+		if ( dateFormat ) {
+			options.push( `dateFormat:${ dateFormat }` );
+		}
+
 		if ( ! required ) {
 			options.push( 'required:false' );
 		}
@@ -565,6 +571,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		extraTagParams,
 		imageSize,
 		tagSupportsTaxonomy,
+		dateFormat,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -746,6 +753,15 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							value={ imageSize }
 							options={ imageSizeOptions }
 							onChange={ setImageSize }
+						/>
+					) }
+
+					{ tagSupportsDate && (
+						<TextControl
+							label={ __( 'Date Format', 'generateblocks' ) }
+							value={ dateFormat }
+							onChange={ setDateFormat }
+							help={ __( 'Enter a valid date format. Leave blank to use the default format.', 'generateblocks' ) }
 						/>
 					) }
 
