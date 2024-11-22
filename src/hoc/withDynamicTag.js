@@ -1,5 +1,5 @@
 import { useState, useEffect } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
+import { replaceTags } from '../dynamic-tags/utils';
 
 export function withDynamicTag( WrappedComponent ) {
 	return ( ( props ) => {
@@ -16,6 +16,7 @@ export function withDynamicTag( WrappedComponent ) {
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
 		const [ contentMode, setContentMode ] = useState( 'edit' );
+
 		const getContentValue = () => {
 			if ( 'img' === tagName ) {
 				return htmlAttributes?.src;
@@ -40,27 +41,14 @@ export function withDynamicTag( WrappedComponent ) {
 				return;
 			}
 
-			// Define an async function to fetch data
-			const fetchData = async() => {
-				try {
-					const response = await apiFetch( {
-						path: '/generateblocks/v1/dynamic-tag-replacements',
-						method: 'POST',
-						data: {
-							content: contentValue,
-							context,
-						},
-					} );
+			async function fetchData() {
+				const response = await replaceTags( contentValue, context );
 
-					setDynamicTagValue( response );
-				} catch ( error ) {
-					console.error( 'Error fetching data:', error ); // eslint-disable-line no-console
-					setDynamicTagValue( null ); // Handle error case
-				}
-			};
+				setDynamicTagValue( response );
+			}
 
-			fetchData(); // Call the async function
-		}, [ contentValue, contentMode ] );
+			fetchData();
+		}, [ contentValue, contentMode, context ] );
 
 		return (
 			<WrappedComponent

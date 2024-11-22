@@ -13,7 +13,7 @@ export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, 
 		}
 
 		const inlineBackgroundPart = styleParts.find( ( part ) => (
-			part.startsWith( '--inline-bg-image' )
+			part.trim().startsWith( '--inline-bg-image' )
 		) );
 
 		if ( ! inlineBackgroundPart ) {
@@ -26,25 +26,15 @@ export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, 
 	function onChange( value ) {
 		const { style = '' } = htmlAttributes;
 
-		if ( ! value ) {
-			if ( style ) {
-				const newHtmlAttributes = { ...htmlAttributes };
-				delete newHtmlAttributes.style;
-				setAttributes( {
-					htmlAttributes: newHtmlAttributes,
-				} );
-			}
-
-			return;
-		}
-
 		const styleParts = style
 			.split( ';' )
 			.filter( ( part ) => (
-				'' !== part && ! part.startsWith( '--inline-bg-image' )
+				'' !== part && ! part.trim().startsWith( '--inline-bg-image' )
 			) );
 
-		styleParts.push( '--inline-bg-image: url(' + value + ')' );
+		if ( value ) {
+			styleParts.push( '--inline-bg-image: url(' + value + ')' );
+		}
 
 		setAttributes( {
 			htmlAttributes: {

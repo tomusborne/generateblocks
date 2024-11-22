@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
+import { replaceTags } from '../dynamic-tags/utils';
 
 export const booleanAttributes = [
 	'allowfullscreen',
@@ -68,16 +69,48 @@ export function withHtmlAttributes( WrappedComponent ) {
 			uniqueId,
 		} = attributes;
 
+		const [ styleWithReplacements, setStyleWithReplacements ] = useState( '' );
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
-		const inlineStyleObject = typeof style === 'string'
-			? convertInlineStyleStringToObject( style )
-			: style;
+
+		useEffect( () => {
+			async function getReplacements() {
+			// Check if any replacements need to be made if not, do nothing.
+				if ( ! style.includes( '{{' ) ) {
+					setStyleWithReplacements( style );
+					return;
+				}
+
+				const replacements = await replaceTags( style, context );
+
+				if ( ! replacements.length ) {
+					setStyleWithReplacements( style );
+					return;
+				}
+
+				const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
+					if ( ! replacement ) {
+						return acc.replaceAll( original, fallback );
+					}
+
+					return acc.replaceAll( original, replacement );
+				}, style );
+
+				setStyleWithReplacements( withReplacements ? withReplacements : style );
+			}
+
+			getReplacements();
+		}, [ style, context ] );
+
+		const inlineStyleObject = typeof styleWithReplacements === 'string'
+			? convertInlineStyleStringToObject( styleWithReplacements )
+			: '';
 		const combinedAttributes = {
 			...otherAttributes,
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? 0,
 		};
+
 		const frontendHtmlAttributes = useMemo( () => {
 			if ( Array.isArray( htmlAttributes ) ) {
 				return {};
