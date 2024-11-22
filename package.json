@@ -44,7 +44,7 @@
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.1.4",
 		"@testing-library/react": "^14.0.0",
-		"@wordpress/scripts": "^27.8.0",
+		"@wordpress/scripts": "^30.4.0",
 		"copy-webpack-plugin": "^12.0.2",
 		"eslint-import-resolver-custom-alias": "^1.3.2",
 		"eslint-webpack-plugin": "^4.2.0",
@@ -63,6 +63,7 @@
 		"action-package": "grunt action-package",
 		"googleFonts": "grunt download-google-fonts",
 		"test:unit": "wp-scripts test-unit-js",
+		"build:block-manifest": "wp-scripts build-blocks-manifest --input=dist --output=dist/blocks-manifest.php",
 		"clean": "git checkout -- dist/ && git clean -fd dist/"
 	}
 }

@@ -143,6 +143,13 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
+		if ( function_exists( 'wp_register_block_metadata_collection' ) ) {
+			wp_register_block_metadata_collection(
+				WP_PLUGIN_DIR . '/generateblocks/dist',
+				WP_PLUGIN_DIR . '/generateblocks/dist/blocks-manifest.php'
+			);
+		}
+
 		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/text',
 			[
