@@ -108,7 +108,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			...otherAttributes,
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
-			'data-context-post-id': context?.postId ?? 0,
+			'data-context-post-id': context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0,
 		};
 
 		const frontendHtmlAttributes = useMemo( () => {
