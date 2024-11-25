@@ -59,8 +59,6 @@ export function DateQueryControl( { id, value, onChange } ) {
 		}
 	}, [ setDateQuery, onChange ] );
 
-	console.log( { value, dateQuery } );
-
 	return (
 		<BaseControl
 			id="gblocks-date-query"
