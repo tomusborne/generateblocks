@@ -235,18 +235,25 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const loopItemsContext = useMemo( () => {
 		if ( hasResolvedData && Array.isArray( data ) ) {
-			let perPage = query?.posts_per_page
-				? query?.posts_per_page
-				: 10;
+			let { posts_per_page: perPage = 10, offset = 0 } = query;
 
-			if ( '-1' === perPage?.toString() ) {
+			// Ensure the params are a valid integer for comparison.
+			perPage = parseInt( perPage, 10 );
+			offset = parseInt( offset, 10 );
+
+			console.log( { perPage, offset } );
+
+			if ( perPage < 0 ) {
 				perPage = data.length;
 			}
 
-			const items = data.slice( 0, perPage );
+			const items = data.slice(
+				offset > -1 ? offset : 0,
+				offset > -1 ? offset + perPage : perPage
+			);
 
 			return items.map( ( item, index ) => {
-				const { ID = null, id = null, type = 'post' } = item;
+				const { ID = null, id = null, post_type: postType = 'post' } = item;
 
 				// Remove any disallowed or hidden keys
 				for ( const itemKey in item ) {
@@ -256,7 +263,7 @@ export function LoopInnerBlocksRenderer( props ) {
 				}
 
 				return {
-					postType: type,
+					postType,
 					postId: id ? id : ID,
 					'generateblocks/loopItem': item,
 					'generateblocks/loopIndex': index + 1, // Preview doesn't support pagination so this index is correct.
@@ -273,7 +280,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			},
 			'generateblocks/loopIndex': 1,
 		} ];
-	}, [ data, hasResolvedData, query?.per_page ] );
+	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
