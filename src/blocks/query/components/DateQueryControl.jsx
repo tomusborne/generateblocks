@@ -93,7 +93,7 @@ export function DateQueryControl( { id, value, onChange } ) {
 						const newIncludeAfter = ! includeAfter;
 						setIncludeAfter( newIncludeAfter );
 
-						// If the new value is false, clear the before value.
+						// If the new value is false, clear the after value.
 						onAfterChange( newIncludeAfter ? new Date() : '' );
 					} }
 					checked={ includeAfter }
