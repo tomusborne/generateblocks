@@ -119,6 +119,7 @@ function generateblocks_do_block_editor_assets() {
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 			'useV1Blocks' => generateblocks_use_v1_blocks(),
+			'wpContentUrl' => content_url(),
 		)
 	);
 
