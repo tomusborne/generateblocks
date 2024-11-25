@@ -1,4 +1,4 @@
-import { ToggleControl, Button, Tooltip, ComboboxControl } from '@wordpress/components';
+import { ToggleControl, Button, Tooltip, ComboboxControl, TextControl } from '@wordpress/components';
 import { sprintf, __ } from '@wordpress/i18n';
 
 import { isArray, isObject } from 'lodash';
@@ -6,9 +6,9 @@ import { isArray, isObject } from 'lodash';
 import {
 	CategoriesSelect,
 	TagsSelect,
-	DebouncedTextControl,
 } from '@components';
 import { SelectPostType, SelectPost, MultiSelect, SelectUser } from '@edge22/components';
+import { Control } from '@edge22/styles-builder';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -23,8 +23,16 @@ function ControlComponent( props ) {
 
 	switch ( props?.type ) {
 		case 'text':
+			return <Control { ...standardProps } as={ TextControl } />;
 		case 'number':
-			return <DebouncedTextControl { ...standardProps } />;
+			return (
+				<Control
+					{ ...standardProps }
+					as={ TextControl }
+					type="number"
+					min="-1"
+				/>
+			);
 		case 'postTypeSelect':
 			return <SelectPostType { ...standardProps } />;
 		case 'select':
@@ -32,7 +40,13 @@ function ControlComponent( props ) {
 		case 'multiSelect':
 			return <MultiSelect { ...standardProps } />;
 		case 'authorsSelect':
-			return <SelectUser multiple={ true } currentLabel={ __( 'Current author', 'generateblocks' ) } { ...standardProps } />;
+			return (
+				<SelectUser
+					{ ...standardProps }
+					multiple={ true }
+					currentLabel={ __( 'Current author', 'generateblocks' ) }
+				/>
+			);
 		case 'categoriesSelect':
 			return <CategoriesSelect { ...standardProps } />;
 		case 'tagsSelect':
@@ -40,7 +54,14 @@ function ControlComponent( props ) {
 		case 'taxonomySelect':
 			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
 		case 'includePosts':
-			return <SelectPost includeCurrent={ false } multiple={ true } postType={ postType } { ...standardProps } />;
+			return (
+				<SelectPost
+					{ ...standardProps }
+					includeCurrent={ false }
+					multiple={ true }
+					postType={ postType }
+				/>
+			);
 		case 'excludePosts':
 			return <SelectPost multiple={ true } postType={ postType } { ...standardProps } />;
 		case 'dateQuery':
