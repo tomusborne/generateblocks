@@ -279,7 +279,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	// Derived state and values.
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
-	const dynamicTagType = dynamicTagData?.type ?? 'post';
+	const dynamicTagType = dynamicTagData?.type ?? null;
 	const tagSupportsMeta = tagSupports( dynamicTagData, 'meta' );
 	const tagSupportsImageSize = tagSupports( dynamicTagData, 'image-size' );
 	const tagSupportsDate = tagSupports( dynamicTagData, 'date' );
@@ -298,11 +298,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		const load = [];
 		if ( 'author' === dynamicTagType || linkTo?.includes( 'author' ) ) {
 			load.push( 'author' );
-		} else if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
+		}
+
+		if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		} else if ( 'term' === dynamicTagType || linkTo?.includes( 'term' ) ) {
+		}
+
+		if ( 'term' === dynamicTagType || linkTo?.includes( 'term' ) ) {
 			load.push( 'terms' );
-		} else if ( 'post' === dynamicTagType ) {
+		}
+
+		if ( 'post' === dynamicTagType ) {
 			load.push( 'post' );
 		}
 
@@ -331,7 +337,9 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		termId: parseInt( termSource, 10 ),
 		taxonomy: taxonomySource,
 	} );
-	const { record: userRecord } = useUserRecord( parseInt( userSource, 10 ) );
+
+	const userRecordId = parseInt( userSource || record?.post_author, 10 );
+	const { record: userRecord } = useUserRecord( userRecordId );
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
@@ -761,7 +769,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							user={ userRecord }
 							term={ termRecord }
 							source={ dynamicSource }
-							sourceId={ postIdSource || userSource || termSource }
 							type={ dynamicTagType }
 							help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 						/>
@@ -809,8 +816,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 									post={ record }
 									user={ userRecord }
 									term={ termRecord }
-									source={ dynamicSource }
-									sourceId={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
+									source={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
 									type={ getLinkToType( linkTo ) }
 									help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 								/>
