@@ -119,7 +119,6 @@ function generateblocks_do_block_editor_assets() {
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 			'useV1Blocks' => generateblocks_use_v1_blocks(),
-			'wpContentUrl' => content_url(),
 		)
 	);
 
@@ -298,6 +297,7 @@ function generateblocks_do_block_editor_assets() {
 				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
 				: false,
 			'dateFormat' => get_option( 'date_format' ),
+			'wpContentUrl' => content_url(),
 		]
 	);
 
