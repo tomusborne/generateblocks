@@ -14,7 +14,7 @@ export function useTaxonomies( postType ) {
 		const excludedPostTypes = [ 'gp_elements', 'wp_block' ];
 
 		if ( postType && ! excludedPostTypes.includes( postType ) ) {
-			args.type = postType;
+			args.types = postType;
 		}
 
 		return getTaxonomies( args ) || [];
