@@ -561,12 +561,22 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		// Fetch author data if requested.
 		if ( in_array( 'author', $load, true ) ) {
 			$author = get_user_by( 'ID', $post->post_author );
+			$meta   = get_user_meta( $post->post_author );
+			$data   = get_object_vars( $author->data );
 
-			// Remove all hidden meta fields.
+			$author_meta = array_merge(
+				$data,
+				$meta,
+			);
+
+			// Remove all hidden or disallowed meta fields.
 			$author->meta = array_filter(
-				get_user_meta( $post->post_author ),
+				$author_meta,
 				function( $key ) {
-					return ! generateblocks_str_starts_with( $key, '_' );
+					$hidden     = generateblocks_str_starts_with( $key, '_' );
+					$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
+
+					return !$hidden && !$disallowed;
 				},
 				ARRAY_FILTER_USE_KEY
 			);

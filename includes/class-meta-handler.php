@@ -19,6 +19,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	const DISALLOWED_KEYS = [
 		'post_password',
 		'password',
+		'user_pass',
 	];
 
 	/**
