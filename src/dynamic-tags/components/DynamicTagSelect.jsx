@@ -221,6 +221,7 @@ function tagSupports( tagData, support ) {
 		'image-size': supports?.includes( 'image-size' ),
 		date: supports?.includes( 'date' ),
 		taxonomy: supports?.includes( 'taxonomy' ),
+		source: supports?.includes( 'source' ),
 	};
 
 	if ( Array.isArray( support ) ) {
