@@ -561,22 +561,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		// Fetch author data if requested.
 		if ( in_array( 'author', $load, true ) ) {
 			$author = get_user_by( 'ID', $post->post_author );
-			$meta   = get_user_meta( $post->post_author );
 			$data   = get_object_vars( $author->data );
+			$meta   = array_filter(
+				get_user_meta( $post->post_author ),
+				function ( $key ) {
+					$hidden  = generateblocks_str_starts_with( $key, '_' );
+					$is_rest = $this->is_rest_field( $key );
+
+					return ! $hidden && $is_rest;
+				},
+				ARRAY_FILTER_USE_KEY
+			);
 
 			$author_meta = array_merge(
 				$data,
-				$meta,
+				$meta
 			);
 
 			// Remove all hidden or disallowed meta fields.
 			$author->meta = array_filter(
 				$author_meta,
 				function( $key ) {
-					$hidden     = generateblocks_str_starts_with( $key, '_' );
 					$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
 
-					return !$hidden && !$disallowed;
+					return ! $disallowed;
 				},
 				ARRAY_FILTER_USE_KEY
 			);
@@ -739,6 +747,41 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$tags = apply_filters( 'generateblocks_dynamic_tags_allowed_html', $tags, $context );
 
 		return $tags;
+	}
+
+	/**
+	 * Check if a given key is registered as a REST field.
+	 *
+	 * @param string       $field_name The name of the field to check.
+	 * @param string|array $types The type(s) to check against. Default is 'post', 'term', 'comment', 'user', and 'settings'.
+	 *
+	 * @return boolean
+	 */
+	public function is_rest_field(
+		$field_name,
+		$types = [
+			'post',
+			'term',
+			'comment',
+			'user',
+			'settings',
+			'page',
+		]
+	) {
+
+		if ( is_string( $types ) ) {
+			$types = [ $types ];
+		}
+
+		foreach ( $types as $type ) {
+			$fields = get_registered_meta_keys( $type );
+
+			if ( isset( $fields[ $field_name ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
