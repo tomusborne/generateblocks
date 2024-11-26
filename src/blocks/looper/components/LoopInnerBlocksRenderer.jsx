@@ -241,8 +241,6 @@ export function LoopInnerBlocksRenderer( props ) {
 			perPage = parseInt( perPage, 10 );
 			offset = parseInt( offset, 10 );
 
-			console.log( { perPage, offset } );
-
 			if ( perPage < 0 ) {
 				perPage = data.length;
 			}
