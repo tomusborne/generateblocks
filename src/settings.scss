@@ -1,0 +1,261 @@
+@use "sass:math";
+$settings-container-width: 750px;
+
+.gblocks-dashboard-wrap {
+	margin: 0;
+	overflow: hidden;
+}
+
+.gblocks-dashboard-header {
+	$padding-inline: 20px;
+	$padding-inline-half: math.div($padding-inline, 2);
+	align-items: center;
+	background: #fff;
+	border-bottom: 1px solid #e2e4e7;
+	display: flex;
+	justify-content: space-between;
+	overflow-x: auto;
+	padding-right: $padding-inline;
+	text-align: center;
+
+	// Add the padding from tablet widths to mobile so the header doesn't overlap the admin bar.
+	@media (max-width: 600px) {
+		padding-top: var(--wp-admin--admin-bar--height);
+	}
+
+	&-title {
+		background: #fff;
+		left: 0;
+		padding: 0;
+		padding-left: $padding-inline;
+		position: sticky;
+	}
+
+	h1 {
+		font-size: 17px;
+		font-weight: 600;
+		padding-bottom: 0;
+		display: flex;
+		align-items: center;
+
+		svg {
+			width: 1em;
+			height: 1em;
+			padding-right: 10px;
+			fill: #006eb7;
+		}
+	}
+}
+
+.gblocks-navigation {
+	background: #fff;
+	display: flex;
+
+	a {
+		padding: 1rem;
+		display: flex;
+		align-items: center;
+		color: inherit;
+		text-decoration: none;
+
+		&.active {
+			font-weight: 600;
+			box-shadow: inset 0 -3px #007cba;
+		}
+	}
+}
+
+.generateblocks-settings-area {
+	.components-placeholder.gblocks-settings-placeholder {
+		margin-top: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: $settings-container-width;
+		background: #fff;
+		border: 1px solid #e2e4e7;
+		box-shadow: none;
+	}
+
+	.generateblocks-settings-main {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: $settings-container-width;
+
+		.gblocks-action-button {
+			display: flex;
+			align-items: center;
+		}
+
+		.gblocks-action-message {
+			padding-left: 10px;
+			opacity: 0;
+			transition: opacity 200ms ease-in-out;
+			color: green;
+			pointer-events: none;
+
+			&.gblocks-action-message--show {
+				opacity: 1;
+				transition: opacity 200ms ease-in-out;
+			}
+
+			&.gblocks-action-message--error {
+				color: red;
+			}
+		}
+
+		/* Only needed until WP 5.6 */
+		.gblocks-css-print-method {
+			.components-base-control__label {
+				display: block;
+			}
+		}
+
+		.components-button .components-spinner {
+			margin: 0;
+		}
+
+		.components-button.is-primary .components-spinner {
+			background: rgba(0, 0, 0, 0.1);
+			border-radius: 100%;
+		}
+
+		.components-panel__body {
+			margin: 25px 0;
+			background: #fff;
+			border: 1px solid #e2e4e7;
+
+			.components-panel__body-toggle {
+				border-bottom: 1px solid #d6e2ed;
+			}
+
+			.gblocks-dashboard-panel-row-wrapper {
+				padding-top: 10px;
+
+				& > *:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			.components-panel__row {
+				padding: 0;
+				margin: 0 0 25px;
+				display: block;
+
+				.components-base-control {
+					.components-base-control__help {
+						margin: 0;
+					}
+
+					.components-base-control__field {
+						margin-bottom: 5px;
+					}
+				}
+			}
+
+			.components-notice {
+				margin: 0 0 10px;
+			}
+		}
+	}
+}
+
+.generateblocks-dashboard-page {
+	#wpcontent {
+		padding-left: 0;
+	}
+
+	.update-nag {
+		margin-bottom: 20px;
+		margin-left: 22px;
+	}
+
+	#wpbody-content .wrap {
+		padding: 0 20px;
+		margin: 0;
+	}
+}
+
+.gblocks-units {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.gblocks-container-width {
+	position: relative;
+}
+
+.gblocks-library {
+	margin-bottom: 1.5em;
+
+	h3 {
+		font-size: 16px;
+		margin-bottom: 1em;
+		font-weight: 500;
+	}
+
+	&:first-child {
+		margin-bottom: 2.5em;
+	}
+}
+
+.gblocks-library-item {
+	display: flex;
+	gap: 24px;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	background: #ffffff;
+	flex-wrap: wrap;
+
+	&:nth-child(even) {
+		background: #efefef;
+	}
+
+	&__edit {
+		flex-basis: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	&__name {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		button.components-button {
+			min-width: 25px;
+			height: 25px;
+			width: 25px;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		button.components-button {
+			min-width: 25px;
+			height: 25px;
+			width: 25px;
+		}
+
+		.components-toggle-control {
+			label {
+				font-size: 11px;
+			}
+		}
+	}
+
+	.components-toggle-control {
+		margin-bottom: 0;
+
+		.components-base-control__field {
+			margin-bottom: 0 !important;
+		}
+	}
+}
