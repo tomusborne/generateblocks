@@ -16,12 +16,12 @@ export function DateQueryControl( { id, value, onChange } ) {
 		'string' === typeof before
 			? before
 			: `${ before.month }/${ before.day }/${ before.year } ${ before.hour }:${ before.minute }:${ before.second }`
-	).toLocaleString();
+	);
 	const afterDateTimeStamp = new Date(
 		'string' === typeof after
 			? after
 			: `${ after.month }/${ after.day }/${ after.year } ${ after.hour }:${ after.minute }:${ after.second }`
-	).toLocaleString();
+	);
 
 	const onBeforeChange = useCallback( function onBeforeChange( newValue ) {
 		const newDateQuery = {
@@ -93,8 +93,8 @@ export function DateQueryControl( { id, value, onChange } ) {
 						const newIncludeAfter = ! includeAfter;
 						setIncludeAfter( newIncludeAfter );
 
-						// If the new value is false, clear the before value.
-						onBeforeChange( newIncludeAfter ? new Date() : '' );
+						// If the new value is false, clear the after value.
+						onAfterChange( newIncludeAfter ? new Date() : '' );
 					} }
 					checked={ includeAfter }
 				/>
