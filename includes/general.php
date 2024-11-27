@@ -298,6 +298,7 @@ function generateblocks_do_block_editor_assets() {
 				: false,
 			'dateFormat' => get_option( 'date_format' ),
 			'wpContentUrl' => content_url(),
+			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 		]
 	);
 
