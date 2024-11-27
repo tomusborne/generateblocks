@@ -155,7 +155,28 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return $output;
 		}
 
-		$replace_parts = explode( ',', $options['replace'] );
+		$replace_parts = array_map(
+			function ( $str ) {
+				$result = '';
+				$escaped = false;
+
+				for ($i = 0; $i < strlen($str); $i++) {
+						$char = $str[$i];
+
+						if ($escaped) {
+								$result .= $char;
+								$escaped = false;
+						} elseif ($char === '\\') {
+								$escaped = true;
+						} elseif ($char !== '"' && $char !== "'") {
+								$result .= $char;
+						}
+				}
+
+				return $result;
+			},
+			explode( ',', $options['replace'] ),
+		);
 		if ( count( $replace_parts ) !== 2 ) {
 			return $output;
 		}

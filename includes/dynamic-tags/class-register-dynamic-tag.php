@@ -47,10 +47,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @return array
 	 */
 	private static function parse_options( $options_string, $tag_name ) {
-		$pairs  = $options_string ? explode( '|', $options_string ) : [];
+		$pairs  = $options_string ? preg_split( '/(?<!\\\\)\|/', $options_string, -1, PREG_SPLIT_NO_EMPTY ) : [];
 		$result = [
 			'tag_name' => $tag_name, // Make it so the tag name is available to us in $options.
 		];
+
+		error_log( $options_string );
+		error_log( print_r( $pairs, true ) );
 
 		if ( empty( $pairs ) ) {
 			return $result;
