@@ -26,11 +26,19 @@ function ControlComponent( props ) {
 			return <Control { ...standardProps } as={ TextControl } />;
 		case 'number':
 			return (
-				<Control
+				<TextControl
 					{ ...standardProps }
-					as={ TextControl }
+					value={ parseInt( standardProps.value, 10 ) < -1 ? -1 : standardProps.value }
 					type="number"
 					min="-1"
+					onChange={ ( newValue ) => {
+						if ( parseInt( newValue, 10 ) < -1 ) {
+							standardProps.onChange( -1 );
+							return;
+						}
+
+						standardProps.onChange( newValue );
+					} }
 				/>
 			);
 		case 'postTypeSelect':
