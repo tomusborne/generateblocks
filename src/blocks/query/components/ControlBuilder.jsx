@@ -28,7 +28,7 @@ function ControlComponent( props ) {
 			return (
 				<TextControl
 					{ ...standardProps }
-					value={ parseInt( standardProps.value, 10 ) < -1 ? -1 : standardProps.value }
+					value={ standardProps.value }
 					type="number"
 					min="-1"
 					onChange={ ( newValue ) => {
