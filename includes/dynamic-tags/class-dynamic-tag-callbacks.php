@@ -157,25 +157,26 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$replace_parts = array_map(
 			function ( $str ) {
-				$result = '';
+				$result  = '';
 				$escaped = false;
+				$length  = strlen( $str );
 
-				for ($i = 0; $i < strlen($str); $i++) {
-						$char = $str[$i];
+				for ( $i = 0; $i < $length; $i++ ) {
+					$char = $str[ $i ];
 
-						if ($escaped) {
-								$result .= $char;
-								$escaped = false;
-						} elseif ($char === '\\') {
-								$escaped = true;
-						} elseif ($char !== '"' && $char !== "'") {
-								$result .= $char;
-						}
+					if ( $escaped ) {
+							$result .= $char;
+							$escaped = false;
+					} elseif ( '\\' === $char ) {
+							$escaped = true;
+					} elseif ( '"' !== $char && "'" !== $char ) {
+							$result .= $char;
+					}
 				}
 
 				return $result;
 			},
-			explode( ',', $options['replace'] ),
+			explode( ',', $options['replace'] )
 		);
 		if ( count( $replace_parts ) !== 2 ) {
 			return $output;

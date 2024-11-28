@@ -52,9 +52,6 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			'tag_name' => $tag_name, // Make it so the tag name is available to us in $options.
 		];
 
-		error_log( $options_string );
-		error_log( print_r( $pairs, true ) );
-
 		if ( empty( $pairs ) ) {
 			return $result;
 		}
