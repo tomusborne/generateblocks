@@ -1,14 +1,14 @@
-import { useMemo, useState, useLayoutEffect } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 
 import { defaultAtRules, getCss, cleanStylesObject } from '@edge22/styles-builder';
 import {
 	useAtRuleEffect,
 	useStyleSelectorEffect,
-	useUpdateEditorCSSEffect,
 	useGenerateCSSEffect,
 	useSetStyles,
 	buildChangedStylesObject,
 	getSelector,
+	Style,
 } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -23,7 +23,6 @@ export function withStyles( WrappedComponent ) {
 		} = props;
 
 		const {
-			css,
 			uniqueId,
 			styles,
 		} = attributes;
@@ -39,7 +38,6 @@ export function withStyles( WrappedComponent ) {
 
 		const setStyles = useSetStyles( props, { cleanStylesObject } );
 
-		const [ isPreviewingBlock, setIsPreviewingBlock ] = useState( false );
 		const selector = useMemo( () => {
 			if ( ! uniqueId ) {
 				return '';
@@ -73,19 +71,6 @@ export function withStyles( WrappedComponent ) {
 			return styles?.[ property ] ?? '';
 		}
 
-		useLayoutEffect( () => {
-			const queryDocument = document.querySelector( 'iframe[name="editor-canvas"]' )?.contentDocument || document;
-			const existingId = queryDocument.querySelector( `.editor-styles-wrapper [data-gb-id="${ uniqueId }"]` );
-
-			if ( existingId ) {
-				return;
-			}
-
-			// If the block doesn't exist in the document, it's likely that we're previewing it.
-
-			setIsPreviewingBlock( true );
-		}, [ uniqueId ] );
-
 		useAtRuleEffect( {
 			deviceType,
 			atRule,
@@ -111,15 +96,13 @@ export function withStyles( WrappedComponent ) {
 			styles: frontendStyles,
 		} );
 
-		useUpdateEditorCSSEffect( {
-			selector,
-			getCss,
-			styles: frontendStyles,
-			isPreviewingBlock,
-		} );
-
 		return (
 			<>
+				<Style
+					selector={ selector }
+					getCss={ getCss }
+					styles={ frontendStyles }
+				/>
 				<WrappedComponent
 					{ ...props }
 					selector={ selector }
@@ -127,10 +110,6 @@ export function withStyles( WrappedComponent ) {
 					getStyleValue={ getStyleValue }
 					styles={ frontendStyles }
 				/>
-
-				{ !! isPreviewingBlock && (
-					<style>{ css }</style>
-				) }
 			</>
 		);
 	} );

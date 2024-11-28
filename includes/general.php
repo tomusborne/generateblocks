@@ -297,6 +297,8 @@ function generateblocks_do_block_editor_assets() {
 				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
 				: false,
 			'dateFormat' => get_option( 'date_format' ),
+			'wpContentUrl' => content_url(),
+			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 		]
 	);
 
