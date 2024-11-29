@@ -1,9 +1,10 @@
 import { addFilter } from '@wordpress/hooks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { ToolbarButton } from '@wordpress/components';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
+import { getInnerBlocks } from '@utils';
 import { PAGINATION_TEMPLATE, NO_RESULTS_TEMPLATE } from './templates';
 
 function noResultsIcon() {
@@ -28,32 +29,57 @@ function paginationIcon() {
 	);
 }
 
-function QueryToolbar( toolbars, { clientId, name } ) {
+function QueryToolbar( toolbars, props ) {
+	const { clientId, name } = props;
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const getBlock = useSelect( ( select ) => select( 'core/block-editor' )?.getBlock );
 
 	if ( 'generateblocks/query' !== name ) {
 		return toolbars;
 	}
 
+	const block = getBlock( clientId );
+
+	let showPaginationButton = true;
+	let showNoResultsButton = true;
+
+	if ( block?.innerBlocks ) {
+		const allInnerBlocks = getInnerBlocks( block );
+
+		// Only show the button if the page numbers block isn't already inserted.
+		showPaginationButton = ! allInnerBlocks.some( ( innerBlock ) =>
+			innerBlock.name === 'generateblocks/query-page-numbers'
+		);
+
+		// Only show the button if the no results block isn't already inserted.
+		showNoResultsButton = ! allInnerBlocks.some( ( innerBlock ) =>
+			innerBlock.name === 'generateblocks/query-no-results'
+		);
+	}
+
 	return (
 		<>
 			{ toolbars }
-			<ToolbarButton
-				icon={ paginationIcon }
-				label={ __( 'Add Pagination', 'generateblocks' ) }
-				onClick={ () => {
-					insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
-				} }
-				showTooltip
-			/>
-			<ToolbarButton
-				icon={ noResultsIcon }
-				label={ __( 'Add No Results', 'generateblocks' ) }
-				onClick={ () => {
-					insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
-				} }
-				showTooltip
-			/>
+			{ showPaginationButton && (
+				<ToolbarButton
+					icon={ paginationIcon }
+					label={ __( 'Add Pagination', 'generateblocks' ) }
+					onClick={ () => {
+						insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+					} }
+					showTooltip
+				/>
+			) }
+			{ showNoResultsButton && (
+				<ToolbarButton
+					icon={ noResultsIcon }
+					label={ __( 'Add No Results', 'generateblocks' ) }
+					onClick={ () => {
+						insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
+					} }
+					showTooltip
+				/>
+			) }
 		</>
 	);
 }
