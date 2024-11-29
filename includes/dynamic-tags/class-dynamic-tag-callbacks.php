@@ -382,7 +382,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$none   = $options['none'] ?? __( 'No comments', 'generateblocks' );
 		$single = $options['single'] ?? __( '1 comment', 'generateblocks' );
-		$multi  = $options['multi'] ?? __( '% comments', 'generateblocks' );
+		$multi  = $options['multiple'] ?? __( '% comments', 'generateblocks' );
 		$output = '';
 
 		if ( ! post_password_required( $id ) && ( comments_open( $id ) || get_comments_number( $id ) ) ) {
@@ -393,7 +393,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$output = get_comments_number_text(
 				$none,
 				$single,
-				$multi
+				$multi,
+				$id
 			);
 		} else {
 			$output = $none;
