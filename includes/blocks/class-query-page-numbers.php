@@ -42,7 +42,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			$query_data = $block->context['generateblocks/queryData'] ?? null;
 			$max_pages  = $block->context['generateblocks/maxPages'] ?? 0;
 
-			if( !$query_data ) {
+			if ( ! $query_data ) {
 				return '';
 			}
 

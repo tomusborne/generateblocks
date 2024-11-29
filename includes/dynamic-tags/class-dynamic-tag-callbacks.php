@@ -711,7 +711,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
-
 		if ( $inherit_query ) {
 			global $wp_query, $paged;
 
