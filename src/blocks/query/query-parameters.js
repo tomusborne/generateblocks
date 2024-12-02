@@ -63,7 +63,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		selectOptions: [
 			{ value: 'id', label: 'Id' },
 			{ value: 'title', label: 'Title' },
-			{ value: 'slug', label: 'Slug' },
+			{ value: 'name', label: 'Slug' },
 			{ value: 'author', label: 'Author' },
 			{ value: 'date', label: 'Date' },
 			{ value: 'modified', label: 'Last modified date' },
