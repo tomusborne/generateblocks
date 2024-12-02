@@ -449,6 +449,26 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				),
 			)
 		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-user-record',
+			array(
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_user_record' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+				'args' => array(
+					'id' => array(
+						'required'          => true,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param );
+						},
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -529,6 +549,49 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		return rest_ensure_response( $replacements );
 	}
 
+
+	/**
+	 * Add meta fields to a user record.
+	 *
+	 * @param WP_User $user The user object to update.
+	 * @return WP_User The updated user object.
+	 */
+	public function add_meta_to_user_record( $user ) {
+		if ( ! $user ) {
+			return $user;
+		}
+
+		$data   = get_object_vars( $user->data );
+		$meta   = array_filter(
+			get_user_meta( $user->ID ),
+			function ( $key ) {
+				$hidden  = generateblocks_str_starts_with( $key, '_' );
+				$is_rest = $this->is_rest_field( $key );
+
+				return ! $hidden && $is_rest;
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		$user_meta = array_merge(
+			$data,
+			$meta
+		);
+
+		// Remove all hidden or disallowed meta fields.
+		$user->meta = array_filter(
+			$user_meta,
+			function( $key ) {
+				$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
+
+				return ! $disallowed;
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		return $user;
+	}
+
 	/**
 	 * Get our post record based on the requested load and post ID.
 	 *
@@ -560,33 +623,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		// Fetch author data if requested.
 		if ( in_array( 'author', $load, true ) ) {
-			$author = get_user_by( 'ID', $post->post_author );
-			$data   = get_object_vars( $author->data );
-			$meta   = array_filter(
-				get_user_meta( $post->post_author ),
-				function ( $key ) {
-					$hidden  = generateblocks_str_starts_with( $key, '_' );
-					$is_rest = $this->is_rest_field( $key );
-
-					return ! $hidden && $is_rest;
-				},
-				ARRAY_FILTER_USE_KEY
-			);
-
-			$author_meta = array_merge(
-				$data,
-				$meta
-			);
-
-			// Remove all hidden or disallowed meta fields.
-			$author->meta = array_filter(
-				$author_meta,
-				function( $key ) {
-					$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
-
-					return ! $disallowed;
-				},
-				ARRAY_FILTER_USE_KEY
+			$author = $this->add_meta_to_user_record(
+				get_user_by( 'ID', $post->post_author )
 			);
 
 			$response->author = $author->data;
@@ -634,6 +672,54 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		return rest_ensure_response( $filtered_response );
 	}
 
+	/**
+	 * Get the record for a specific user by ID.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 */
+	public function get_user_record( WP_REST_Request $request ) {
+		$id = $request->get_param( 'id' );
+
+		if ( !$id ) {
+			return rest_ensure_response(
+				new WP_Error(
+					'Invalid user ID',
+					'User ID is required',
+					[ 'status' => 400 ]
+				)
+			);
+		}
+
+		$response = $this->add_meta_to_user_record(
+			get_user_by( 'ID', $id )
+		)->data;
+
+		if( !$response ) {
+			$response = new WP_Error(
+				'User not found',
+				'User not found',
+				[ 'status' => 400 ]
+			);
+		}
+
+
+		/**
+		 * Allows filtering of the post record response data to add or alter data.
+		 *
+		 * @since 2.0.0
+		 * @param array $response Array of response data.
+		 * @param int $id ID of the user record.
+		 *
+		 * @return \WP_REST_Response|\WP_Error Response object.
+		 */
+		$filtered_response = apply_filters(
+			'generateblocks_dynamic_tags_user_record_response',
+			$response,
+			$id
+		);
+
+		return rest_ensure_response( $filtered_response );
+	}
 
 	/**
 	 * Before tag replace.
