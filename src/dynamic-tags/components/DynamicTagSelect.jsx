@@ -347,8 +347,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		parseInt( userRecordId, 10 )
 	);
 
-	console.log( userRecordId, dynamicTagData );
-
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
 		const tagData = allTags.find( ( tag ) => tag.tag === newTag );

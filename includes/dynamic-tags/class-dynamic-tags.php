@@ -680,7 +680,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function get_user_record( WP_REST_Request $request ) {
 		$id = $request->get_param( 'id' );
 
-		if ( !$id ) {
+		if ( ! $id ) {
 			return rest_ensure_response(
 				new WP_Error(
 					'Invalid user ID',
@@ -694,14 +694,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			get_user_by( 'ID', $id )
 		)->data;
 
-		if( !$response ) {
+		if ( ! $response ) {
 			$response = new WP_Error(
 				'User not found',
 				'User not found',
 				[ 'status' => 400 ]
 			);
 		}
-
 
 		/**
 		 * Allows filtering of the post record response data to add or alter data.
