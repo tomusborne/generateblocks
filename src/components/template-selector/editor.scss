@@ -1,0 +1,41 @@
+.gb-variation-selector {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+
+	&__button {
+		font-size: 13px;
+		display: inline-flex;
+		flex-direction: column;
+		height: auto;
+		padding: 0;
+		gap: 8px;
+		margin: 0 !important;
+		width: 120px;
+
+		svg {
+			height: 50px;
+		}
+	}
+}
+
+.gb-select-variation {
+	.components-placeholder__label,
+	.components-placeholder__instructions {
+		margin: 0 auto;
+	}
+
+	.components-placeholder__fieldset {
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		text-align: center;
+	}
+
+	&__actions {
+		margin-top: 30px;
+		display: flex;
+		justify-content: center;
+		flex-basis: 100%;
+	}
+}
