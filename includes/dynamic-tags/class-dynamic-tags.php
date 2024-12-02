@@ -185,8 +185,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					],
 					'multiple' => [
 						'label'       => __( 'Multiple comments text', 'generateblocks' ),
-						// Translators: %s is the number of comments.
-						'placeholder' => __( '%s comments', 'generateblocks' ),
+						// Translators: % is the number of comments.
+						'placeholder' => __( '% comments', 'generateblocks' ),
 						'type'        => 'text',
 					],
 				],
