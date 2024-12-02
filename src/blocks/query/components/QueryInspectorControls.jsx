@@ -9,7 +9,7 @@ import { SelectQueryParameter } from './SelectQueryParameter';
 import { AddQueryParameterButton } from './AddQueryParameterButton';
 import { ParameterList } from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
-import queryParameterOptions from '../query-parameters';
+import { getParameters } from '../query-parameters';
 
 export function QueryInspectorControls( { attributes, setAttributes } ) {
 	const { queryState, setParameter, removeParameter } = useQueryReducer( attributes.query );
@@ -20,7 +20,7 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 	}, [ JSON.stringify( queryState ), ! isEqual( attributes.query, queryState ) ] );
 
 	const parameterOptions = useMemo( () => (
-		queryParameterOptions.map( ( parameter ) => {
+		getParameters().map( ( parameter ) => {
 			parameter.isDisabled = ! parameter.isRepeatable && Object.keys( queryState ).includes( parameter.id );
 
 			return parameter;
