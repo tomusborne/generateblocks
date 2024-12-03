@@ -46,8 +46,6 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 				return '';
 			}
 
-			$query_data;
-
 			$paginate_args = array(
 				'base'      => '%_%',
 				'format'    => "?$page_key=%#%",
