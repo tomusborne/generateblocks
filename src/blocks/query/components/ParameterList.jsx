@@ -1,13 +1,14 @@
 import { Stack } from '@edge22/components';
 
-import queryParameterOptions from '../query-parameters';
+import { getParameters } from '../query-parameters';
 import { ParameterControl } from './ParameterControl';
 
 const getParametersList = ( query ) => {
-	const options = queryParameterOptions.filter( ( param ) => param.isSticky );
+	const allOptions = getParameters();
+	const options = allOptions.filter( ( param ) => param.isSticky );
 
 	return options.concat( Object.keys( query ).map( ( id ) => (
-		queryParameterOptions.find( ( param ) => ( id === param.id && ! param.isSticky ) )
+		allOptions.find( ( param ) => ( id === param.id && ! param.isSticky ) )
 	) ).filter( Boolean ) );
 };
 
