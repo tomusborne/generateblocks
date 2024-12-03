@@ -1,6 +1,6 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { __ } from '@wordpress/i18n';
-import { PluginSidebar, store as editPostStore } from '@wordpress/edit-post';
+import { store as editPostStore } from '@wordpress/edit-post';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
 import './editor.scss';
@@ -45,6 +45,7 @@ function SidebarHeader( props ) {
 function EditorSidebar() {
 	const [ activePanel, setActivePanel ] = useState( '' );
 	const { openGeneralSidebar } = useDispatch( editPostStore );
+	const PluginSidebar = wp?.editor?.PluginSidebar || wp?.editPost?.PluginSidebar;
 
 	return (
 		<PluginSidebar
