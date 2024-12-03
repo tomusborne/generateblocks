@@ -125,12 +125,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args, $page = 1, $attributes = [], $block = null, $current = [] ) {
-		// Bail if no args are provided.
-		if ( ! $args ) {
-			return [];
-		}
-
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null, $current = [] ) {
 		$current_post_id   = $current['post_id'] ?? get_the_ID();
 		$current_author_id = $current['author_id'] ?? get_the_author_meta( 'ID' );
 
