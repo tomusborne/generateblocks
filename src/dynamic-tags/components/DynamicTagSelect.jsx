@@ -297,16 +297,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
-		if ( 'author' === dynamicTagType || linkTo?.includes( 'author' ) ) {
-			load.push( 'author' );
-		}
-
 		if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		}
-
-		if ( 'term' === dynamicTagType || linkTo?.includes( 'term' ) ) {
-			load.push( 'terms' );
 		}
 
 		if ( 'post' === dynamicTagType ) {
@@ -339,18 +331,21 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		taxonomy: taxonomySource,
 	} );
 
-  let userRecordId = userSource || 0;
+	let userRecordId = userSource || 0;
 
-	if( 'current' === dynamicSource ) {
+	if ( 'current' === dynamicSource ) {
 		if( 'user' === dynamicTagType ) {
 			userRecordId = currentUser?.id ?? 0;
-		} else if( 'author' === dynamicTagType ) {
-			userRecordId = currentPost?.post_author ?? 0;
+		} else if ( 'author' === dynamicTagType ) {
+			userRecordId = currentPost?.author ?? 0;
 		}
 	}
+
+
 	const { record: userRecord } = useUserRecord(
 		parseInt( userRecordId, 10 )
 	);
+	console.log( userRecordId, dynamicTagType, currentPost?.author, userRecord );
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );

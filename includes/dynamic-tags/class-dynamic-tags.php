@@ -621,15 +621,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			$response->meta = $post_meta;
 		}
 
-		// Fetch author data if requested.
-		if ( in_array( 'author', $load, true ) ) {
-			$author = $this->add_meta_to_user_record(
-				get_user_by( 'ID', $post->post_author )
-			);
-
-			$response->author = $author->data;
-		}
-
 		// Fetch comments if requested.
 		if ( in_array( 'comments', $load, true ) ) {
 			$comments = get_comments( array( 'post_id' => $id ) );
