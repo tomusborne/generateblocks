@@ -13,6 +13,7 @@ import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import generalSvgs from '@components/icon-picker/svgs-general';
 import socialSvgs from '@components/icon-picker/svgs-social';
+import { ShapeDividerControls } from './ShapeDividerControls';
 
 export const shapeColorControls = [
 	{
@@ -96,6 +97,11 @@ export function BlockSettings( {
 					clearLabel={ __( 'Clear', 'generateblocks' ) }
 					openLabel={ __( 'Open Library', 'generateblocks' ) }
 					modalTitle={ __( 'Shape Library', 'generateblocks' ) }
+				/>
+
+				<ShapeDividerControls
+					onStyleChange={ onStyleChange }
+					getStyleValue={ getStyleValue }
 				/>
 			</OpenPanel>
 
