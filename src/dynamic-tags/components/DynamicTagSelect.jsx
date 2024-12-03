@@ -339,10 +339,15 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		taxonomy: taxonomySource,
 	} );
 
-	const userRecordId = 'current' === userSource
-		? currentUser?.id ?? 0
-		: record?.post_author ?? 0;
+  let userRecordId = userSource || 0;
 
+	if( 'current' === dynamicSource ) {
+		if( 'user' === dynamicTagType ) {
+			userRecordId = currentUser?.id ?? 0;
+		} else if( 'author' === dynamicTagType ) {
+			userRecordId = currentPost?.post_author ?? 0;
+		}
+	}
 	const { record: userRecord } = useUserRecord(
 		parseInt( userRecordId, 10 )
 	);
