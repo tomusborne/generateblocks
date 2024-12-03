@@ -46,6 +46,10 @@ export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 		return scaleValue.includes( '-1, 1' );
 	}, [ currentTransformsValue, locationValue ] );
 
+	if ( ! locationValue ) {
+		return null;
+	}
+
 	return (
 		<>
 			<SelectControl
