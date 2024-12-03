@@ -31,55 +31,66 @@ function paginationIcon() {
 
 function QueryToolbar( toolbars, props ) {
 	const { clientId, name } = props;
-	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const { insertBlocks, selectBlock } = useDispatch( 'core/block-editor' );
 	const getBlock = useSelect( ( select ) => select( 'core/block-editor' )?.getBlock );
 
 	if ( 'generateblocks/query' !== name ) {
 		return toolbars;
 	}
 
-	const block = getBlock( clientId );
-
-	let showPaginationButton = true;
-	let showNoResultsButton = true;
-
-	if ( block?.innerBlocks ) {
-		const allInnerBlocks = getInnerBlocks( block );
-
-		// Only show the button if the page numbers block isn't already inserted.
-		showPaginationButton = ! allInnerBlocks.some( ( innerBlock ) =>
-			innerBlock.name === 'generateblocks/query-page-numbers'
-		);
-
-		// Only show the button if the no results block isn't already inserted.
-		showNoResultsButton = ! allInnerBlocks.some( ( innerBlock ) =>
-			innerBlock.name === 'generateblocks/query-no-results'
-		);
-	}
-
 	return (
 		<>
 			{ toolbars }
-			{ showPaginationButton && (
-				<ToolbarButton
-					icon={ paginationIcon }
-					label={ __( 'Add Pagination', 'generateblocks' ) }
-					onClick={ () => {
+			<ToolbarButton
+				icon={ paginationIcon }
+				label={ __( 'Add Pagination', 'generateblocks' ) }
+				onClick={ () => {
+					const block = getBlock( clientId );
+					let pagination = null;
+
+					if ( block?.innerBlocks ) {
+						const allInnerBlocks = getInnerBlocks( block );
+						// Only show the button if the page numbers block isn't already inserted.
+						pagination = allInnerBlocks.find( ( innerBlock ) =>
+							innerBlock.name === 'generateblocks/query-page-numbers'
+						);
+					}
+
+					// Select the pagination if it exists, otherwise insert it.
+					if ( pagination ) {
+						selectBlock( pagination.clientId );
+					} else {
 						insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
-					} }
-					showTooltip
-				/>
-			) }
-			{ showNoResultsButton && (
-				<ToolbarButton
-					icon={ noResultsIcon }
-					label={ __( 'Add No Results', 'generateblocks' ) }
-					onClick={ () => {
+					}
+				} }
+				showTooltip
+			/>
+			<ToolbarButton
+				icon={ noResultsIcon }
+				label={ __( 'Add No Results', 'generateblocks' ) }
+				onClick={ () => {
+					const block = getBlock( clientId );
+
+					let noResults = true;
+
+					if ( block?.innerBlocks ) {
+						const allInnerBlocks = getInnerBlocks( block );
+
+						// Only show the button if the no results block isn't already inserted.
+						noResults = allInnerBlocks.find( ( innerBlock ) =>
+							innerBlock.name === 'generateblocks/query-no-results'
+						);
+					}
+
+					// Select the no results block if it exists, otherwise insert it.
+					if ( noResults ) {
+						selectBlock( noResults.clientId );
+					} else {
 						insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
-					} }
-					showTooltip
-				/>
-			) }
+					}
+				} }
+				showTooltip
+			/>
 		</>
 	);
 }
