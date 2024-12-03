@@ -1,5 +1,5 @@
 import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useEffect } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -29,9 +29,11 @@ function EditBlock( props ) {
 		isBlockPreview = false,
 	} = attributes;
 
-	if ( ! tagName ) {
-		setAttributes( { tagName: 'div' } );
-	}
+	useEffect( () => {
+		if ( ! tagName ) {
+			setAttributes( { tagName: 'div' } );
+		}
+	}, [ tagName ] );
 
 	const classNames = getBlockClasses(
 		'gb-loop-item',
