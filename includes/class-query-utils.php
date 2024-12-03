@@ -104,7 +104,10 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$page,
 				$attributes,
 				null,
-				[ 'post_id' => $current_post, 'author_id' => $current_author ]
+				[
+					'post_id' => $current_post,
+					'author_id' => $current_author,
+				]
 			)
 		);
 
@@ -124,7 +127,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 */
 	public static function get_wp_query_args( $args, $page = 1, $attributes = [], $block = null, $current = [] ) {
 		// Bail if no args are provided.
-		if( !$args ) {
+		if ( ! $args ) {
 			return [];
 		}
 
