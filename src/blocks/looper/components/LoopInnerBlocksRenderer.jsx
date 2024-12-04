@@ -235,8 +235,6 @@ export function LoopInnerBlocksRenderer( props ) {
 	}, [ innerBlocks, activeBlockContextId ] );
 
 	useEffect( () => {
-		const selectedBlock = getSelectedBlock();
-
 		if (
 			debounceBlocks.includes( selectedBlock?.name ) &&
 			! selectedBlock?.attributes?.useDynamicData &&
@@ -247,7 +245,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		} else {
 			setInnerBlockData( setIsBlockPreview( innerBlocks ) );
 		}
-	}, [ JSON.stringify( innerBlocks ) ] );
+	}, [ JSON.stringify( innerBlocks ), selectedBlock ] );
 
 	const loopItemsContext = useMemo( () => {
 		if ( hasResolvedData && Array.isArray( data ) ) {
