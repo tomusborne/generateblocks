@@ -68,6 +68,7 @@
     "generateblocks/query",
     "generateblocks/inheritQuery",
     "generateblocks/queryData",
+    "generateblocks/maxPages",
     "generateblocks/noResults",
     "generateblocks/queryType",
     "generateblocks/loopIndex",
