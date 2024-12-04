@@ -70,6 +70,7 @@ export function getParameters() {
 				{ value: 'modified', label: 'Last modified date' },
 				{ value: 'parent', label: 'Parent id' },
 				{ value: 'menu_order', label: 'Menu order' },
+				{ value: 'rand', label: 'Random' },
 			],
 			label: __( 'Order by', 'generateblocks' ),
 			description: __( 'Sort retrieved posts by parameter.', 'generateblocks' ),

@@ -73,8 +73,5 @@
 		"generateblocks/queryType",
 		"generateblocks/loopIndex",
 		"generateblocks/loopItem"
-	],
-	"allowedBlocks": [
-		"generateblocks/loop-item"
 	]
 }

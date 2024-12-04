@@ -81,7 +81,8 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 						args,
 						attributes,
 						block,
-						currentPost,
+						postId: currentPost?.id,
+						authorId: currentPost?.author,
 					},
 				} );
 
