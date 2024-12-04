@@ -6,11 +6,13 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
-import { memo, useEffect, useMemo, useState } from '@wordpress/element';
+import { memo, useEffect, useMemo, useState, Children } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
 
 import { useDebouncedCallback } from 'use-debounce';
+
+import { BlockAppender } from '@components/index';
 
 const DISALLOWED_KEYS = [ 'post_password', 'password' ];
 
@@ -128,6 +130,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		clientId,
 		context,
 		attributes,
+		isSelected,
 	} = props;
 
 	const {
@@ -141,7 +144,8 @@ export function LoopInnerBlocksRenderer( props ) {
 		queryParams: [],
 	};
 	const { getSelectedBlock } = useSelect( blockEditorStore );
-	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes, getSelectedBlock() );
+	const selectedBlock = getSelectedBlock();
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes, selectedBlock );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
@@ -192,11 +196,23 @@ export function LoopInnerBlocksRenderer( props ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
-			renderAppender: false,
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 			blockContext: context,
 		},
 		innerBlockData
 	);
+
+	const {
+		children: innerBlocksChildren,
+		...otherInnerBlocksProps
+	} = innerBlocksProps;
+
 	useEffect( () => {
 		function handleToggle( e ) {
 			const target = e.target.closest( '.gb-block-preview__toggle' );
@@ -292,12 +308,16 @@ export function LoopInnerBlocksRenderer( props ) {
 				key={ key }
 				value={ loopItemContext }
 			>
-				{ isActive && innerBlocksProps.children }
+				{ ( isActive && Children.count( innerBlocksChildren ) )
+					? innerBlocksChildren
+					: (
+						<div { ...otherInnerBlocksProps } />
+					) }
 				<MemoizedBlockPreview
 					blocks={ innerBlockData }
 					isHidden={ isActive }
 				/>
 			</BlockContextProvider>
 		);
-	} ) : innerBlocksProps.children;
+	} ) : innerBlocksChildren;
 }
