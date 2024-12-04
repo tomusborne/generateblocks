@@ -213,7 +213,26 @@ function getLinkToType( linkTo ) {
 	return 'post';
 }
 
-export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
+function tagSupports( tagData, support ) {
+	const { supports = [] } = tagData;
+
+	const tagSupport = {
+		meta: supports?.includes( 'meta' ) || supports?.includes( 'properties' ),
+		'image-size': supports?.includes( 'image-size' ),
+		date: supports?.includes( 'date' ),
+		taxonomy: supports?.includes( 'taxonomy' ),
+		source: supports?.includes( 'source' ),
+		link: supports?.includes( 'link' ),
+	};
+
+	if ( Array.isArray( support ) ) {
+		return support.every( ( item ) => tagSupport[ item ] || false );
+	}
+
+	return tagSupport[ support ] || false;
+}
+
+export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser, context } ) {
 	const currentLoopItem = context?.[ 'generateblocks/loopItem' ] ?? {};
 	const queryType = context?.[ 'generateblocks/queryType' ] ?? 'WP_Query';
 	const allTags = generateBlocksEditor?.dynamicTags;
@@ -253,20 +272,20 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ imageSize, setImageSize ] = useState( 'full' );
 	const [ dateFormat, setDateFormat ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
-	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
-		if ( dynamicTag ) {
-			return allTags.find( ( tag ) => tag.tag === dynamicTag );
-		}
-	} );
+	const [ dynamicTagData, setDynamicTagData ] = useState( () =>
+		dynamicTag
+			? allTags.find( ( tag ) => tag.tag === dynamicTag )
+			: {}
+	);
 
 	// Derived state and values.
-	const dynamicTagSupports = dynamicTagData?.supports ?? [];
-	const dynamicTagType = dynamicTagData?.type ?? 'post';
-	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' ) || dynamicTagSupports?.includes( 'properties' );
-	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
-	const tagSupportsDate = dynamicTagSupports?.includes( 'date' );
-	const tagSupportsTaxonomy = dynamicTagSupports?.includes( 'taxonomy' );
-	const showSource = dynamicTagSupports?.includes( 'source' );
+	const dynamicTagType = dynamicTagData?.type ?? null;
+	const tagSupportsMeta = tagSupports( dynamicTagData, 'meta' );
+	const tagSupportsImageSize = tagSupports( dynamicTagData, 'image-size' );
+	const tagSupportsDate = tagSupports( dynamicTagData, 'date' );
+	const tagSupportsTaxonomy = tagSupports( dynamicTagData, 'taxonomy' );
+	const tagSupportsLink = tagSupports( dynamicTagData, 'link' );
+	const showSource = tagSupports( dynamicTagData, 'source' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 	const sourcesInOptions = applyFilters(
@@ -278,13 +297,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
-		if ( 'author' === dynamicTagType || linkTo?.includes( 'author' ) ) {
-			load.push( 'author' );
-		} else if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
+		if ( 'comment' === dynamicTagType || linkTo?.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		} else if ( 'term' === dynamicTagType || linkTo?.includes( 'term' ) ) {
-			load.push( 'terms' );
-		} else if ( 'post' === dynamicTagType ) {
+		}
+
+		if ( 'post' === dynamicTagType ) {
 			load.push( 'post' );
 		}
 
@@ -310,10 +327,23 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
 	const { record: termRecord } = useTermRecord( {
-		termId: termSource,
+		termId: parseInt( termSource, 10 ),
 		taxonomy: taxonomySource,
 	} );
-	const { record: userRecord } = useUserRecord( userSource );
+
+	let userRecordId = userSource || 0;
+
+	if ( 'current' === dynamicSource ) {
+		if ( 'user' === dynamicTagType ) {
+			userRecordId = currentUser?.id ?? 0;
+		} else if ( 'author' === dynamicTagType ) {
+			userRecordId = currentPost?.author ?? 0;
+		}
+	}
+
+	const { record: userRecord } = useUserRecord(
+		parseInt( userRecordId, 10 )
+	);
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
@@ -365,6 +395,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		const { type } = updateDynamicTag( tag );
+		const newTagData = allTags.find( ( tagData ) => tagData.tag === tag ) ?? {};
 
 		const {
 			id = null,
@@ -396,7 +427,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		// If the tag doesn't support meta, treat the `key` as an extra param.
-		if ( tagSupportsMeta && key ) {
+		if ( tagSupports( newTagData, 'meta' ) && key ) {
 			setMetaKey( key );
 		} else if ( key ) {
 			extraParams.key = key;
@@ -431,7 +462,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		if ( extraParams ) {
 			setExtraTagParams( extraParams );
 		}
-	}, [ selectedText ] );
+	}, [ selectedText, tagSupportsMeta ] );
 
 	const dynamicTagOptions = useMemo( () => {
 		const groups = Object.values( availableTags ).reduce( ( acc, { type, title, tag } ) => {
@@ -502,7 +533,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `key:${ metaKey }` );
 		}
 
-		if ( linkTo && dynamicTagSupports.includes( 'link' ) ) {
+		if ( linkTo && tagSupportsLink ) {
 			const linkToValues = [ linkTo ];
 
 			if ( linkToKey ) {
@@ -560,7 +591,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		dynamicTag,
 		dynamicTagType,
 		dynamicSource,
-		dynamicTagSupports,
 		metaKey,
 		linkTo,
 		linkToKey,
@@ -570,13 +600,14 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		userSource,
 		extraTagParams,
 		imageSize,
+		tagSupportsMeta,
 		tagSupportsTaxonomy,
+		tagSupportsLink,
 		dateFormat,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
-	const supportsLink = dynamicTagSupports.includes( 'link' );
-	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
+	const showLinkTo = tagSupportsLink && ! interactiveTagNames.includes( tagName );
 	const showLinkToKey = showLinkTo && ( linkTo?.includes( 'meta' ) || linkTo?.includes( 'option' ) );
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
@@ -741,7 +772,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							user={ userRecord }
 							term={ termRecord }
 							source={ dynamicSource }
-							sourceId={ postIdSource || userSource || termSource }
 							type={ dynamicTagType }
 							help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 						/>
@@ -789,8 +819,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 									post={ record }
 									user={ userRecord }
 									term={ termRecord }
-									source={ dynamicSource }
-									sourceId={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
+									source={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
 									type={ getLinkToType( linkTo ) }
 									help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 								/>
