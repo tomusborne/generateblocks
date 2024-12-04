@@ -1,19 +1,10 @@
-import {
-	removeEmpty,
-	normalizeTaxQuery,
-	getTaxQueryParam,
-	normalizeRepeatableArgs,
-	normalizeArgs,
-} from './loop-utils';
-import getIcon from './get-icon';
-import { moreDesignOptions } from './more-design-options';
-
 export {
 	removeEmpty,
 	normalizeTaxQuery,
 	getTaxQueryParam,
 	normalizeRepeatableArgs,
 	normalizeArgs,
-	getIcon,
-	moreDesignOptions,
-};
+} from './loop-utils';
+export { default as getIcon } from './get-icon';
+export { moreDesignOptions } from './more-design-options';
+export { getInnerBlocks } from './getInnerBlocks';
