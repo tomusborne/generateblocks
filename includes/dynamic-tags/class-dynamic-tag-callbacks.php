@@ -709,7 +709,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$args          = $instance->context['generateblocks/query'] ?? [];
 		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
-		$per_page      = $args['per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
+		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
 		if ( $inherit_query ) {
