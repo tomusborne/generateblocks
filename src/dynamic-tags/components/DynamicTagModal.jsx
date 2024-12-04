@@ -21,10 +21,14 @@ export function DynamicTagModal( {
 } ) {
 	const [ isOpen, setOpen ] = useState( false );
 	const [ tagToEdit, setTagToEdit ] = useState( null );
-	const currentPost = useSelect( ( select ) => {
+	const { currentPost, currentUser } = useSelect( ( select ) => {
 		const { getCurrentPost } = select( editorStore );
+		const { getCurrentUser } = select( 'core' );
 
-		return getCurrentPost ? getCurrentPost() : null;
+		return {
+			currentPost: getCurrentPost ? getCurrentPost() : null,
+			currentUser: getCurrentUser ? getCurrentUser() : null,
+		};
 	} );
 
 	function onToggle() {
@@ -145,6 +149,7 @@ export function DynamicTagModal( {
 								selectedText={ tagToEdit || selectedText }
 								tagToReplace={ tagToEdit }
 								currentPost={ currentPost }
+								currentUser={ currentUser }
 								context={ context }
 							/>
 						) }

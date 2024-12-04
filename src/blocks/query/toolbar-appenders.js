@@ -1,9 +1,10 @@
 import { addFilter } from '@wordpress/hooks';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { ToolbarButton } from '@wordpress/components';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
+import { getInnerBlocks } from '@utils';
 import { PAGINATION_TEMPLATE, NO_RESULTS_TEMPLATE } from './templates';
 
 function noResultsIcon() {
@@ -28,8 +29,10 @@ function paginationIcon() {
 	);
 }
 
-function QueryToolbar( toolbars, { clientId, name } ) {
-	const { insertBlocks } = useDispatch( 'core/block-editor' );
+function QueryToolbar( toolbars, props ) {
+	const { clientId, name } = props;
+	const { insertBlocks, selectBlock } = useDispatch( 'core/block-editor' );
+	const getBlock = useSelect( ( select ) => select( 'core/block-editor' )?.getBlock );
 
 	if ( 'generateblocks/query' !== name ) {
 		return toolbars;
@@ -42,7 +45,23 @@ function QueryToolbar( toolbars, { clientId, name } ) {
 				icon={ paginationIcon }
 				label={ __( 'Add Pagination', 'generateblocks' ) }
 				onClick={ () => {
-					insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+					const block = getBlock( clientId );
+					let pagination = null;
+
+					if ( block?.innerBlocks ) {
+						const allInnerBlocks = getInnerBlocks( block );
+						// Only show the button if the page numbers block isn't already inserted.
+						pagination = allInnerBlocks.find( ( innerBlock ) =>
+							innerBlock.name === 'generateblocks/query-page-numbers'
+						);
+					}
+
+					// Select the pagination if it exists, otherwise insert it.
+					if ( pagination ) {
+						selectBlock( pagination.clientId );
+					} else {
+						insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+					}
 				} }
 				showTooltip
 			/>
@@ -50,7 +69,25 @@ function QueryToolbar( toolbars, { clientId, name } ) {
 				icon={ noResultsIcon }
 				label={ __( 'Add No Results', 'generateblocks' ) }
 				onClick={ () => {
-					insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
+					const block = getBlock( clientId );
+
+					let noResults = true;
+
+					if ( block?.innerBlocks ) {
+						const allInnerBlocks = getInnerBlocks( block );
+
+						// Only show the button if the no results block isn't already inserted.
+						noResults = allInnerBlocks.find( ( innerBlock ) =>
+							innerBlock.name === 'generateblocks/query-no-results'
+						);
+					}
+
+					// Select the no results block if it exists, otherwise insert it.
+					if ( noResults ) {
+						selectBlock( noResults.clientId );
+					} else {
+						insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
+					}
 				} }
 				showTooltip
 			/>

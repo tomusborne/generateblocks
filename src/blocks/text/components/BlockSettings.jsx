@@ -127,6 +127,10 @@ export function BlockSettings( {
 							if ( ! getStyleValue( 'height', '', '.gb-shape svg' ) ) {
 								onStyleChange( 'height', '1em', '', '.gb-shape svg' );
 							}
+
+							if ( ! getStyleValue( 'fill', '', '.gb-shape svg' ) ) {
+								onStyleChange( 'fill', 'currentColor', '', '.gb-shape svg' );
+							}
 						}
 
 						setAttributes( { icon: value } );
