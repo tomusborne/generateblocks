@@ -15,7 +15,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
 import containerContext from '../../block-context/container';
-import transforms from './transforms';
+import { transforms } from './transforms';
 
 const attributes = Object.assign(
 	{},
@@ -32,7 +32,7 @@ const attributes = Object.assign(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/container', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Container', 'generateblocks' ),
 	description: __( 'Organize your content into rows and sections.', 'generateblocks' ),
 	icon: getIcon( 'container' ),
