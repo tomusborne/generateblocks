@@ -1,19 +1,25 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 3,
-    "name": "generateblocks/looper",
-    "title": "Looper",
-    "category": "generateblocks",
-    "description": "Loops its children based on the data provided by the Query block.",
-    "keywords": [ "query", "loop", "posts" ],
-    "version": "1.0.0",
-    "textdomain": "generateblocks",
-	"ancestor": [ "generateblocks/query" ],
-    "attributes": {
-        "uniqueId": {
-            "type": "string",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "generateblocks/looper",
+	"title": "Looper",
+	"category": "generateblocks",
+	"description": "Loops its children based on the data provided by the Query block.",
+	"keywords": [
+		"query",
+		"loop",
+		"posts"
+	],
+	"version": "1.0.0",
+	"textdomain": "generateblocks",
+	"ancestor": [
+		"generateblocks/query"
+	],
+	"attributes": {
+		"uniqueId": {
+			"type": "string",
 			"default": ""
-        },
+		},
 		"tagName": {
 			"type": "string",
 			"default": "",
@@ -46,13 +52,13 @@
 			"type": "object",
 			"default": {}
 		}
-    },
-    "supports": {
-        "align": false,
+	},
+	"supports": {
+		"align": false,
 		"className": false
-    },
-    "editorScript": "file:./index.js",
-    "editorStyle": [
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": [
 		"file:./index.css"
 	],
 	"usesContext": [
@@ -67,5 +73,8 @@
 		"generateblocks/queryType",
 		"generateblocks/loopIndex",
 		"generateblocks/loopItem"
+	],
+	"allowedBlocks": [
+		"generateblocks/loop-item"
 	]
 }
