@@ -1,0 +1,17 @@
+.gb-color-picker-group {
+	& > .components-base-control__field {
+		display: grid;
+		grid-template-rows: auto 1fr;
+		grid-template-columns: repeat(auto-fill, minmax(33px, 1fr));
+
+		& > .components-base-control__label {
+			grid-column: 1 / -1;
+		}
+
+		.components-base-control {
+			&, &__field {
+				margin: 0 !important;
+			}
+		}
+	}
+}
