@@ -745,6 +745,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								currentPostId={ currentPostId }
 								includeCurrent={ false }
 								postStatus={ [ 'inherit' ] }
+								postType={ [ 'attachment' ] }
 							/>
 						</>
 					) }
