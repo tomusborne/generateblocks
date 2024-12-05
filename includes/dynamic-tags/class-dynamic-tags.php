@@ -778,16 +778,16 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
-					} elseif ( 'featured_image' === $args['tag'] ) {
+					} elseif ( 'featured_image' === $args['tag'] || 'media' === $args['tag'] ) {
 						$key = $args['options']['key'] ?? 'url';
 
 						if ( 'url' === $key ) {
 							$args['options']['key'] = 'id';
-							$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image(
-								$args['options'],
-								$args['block'],
-								$args['instance']
-							);
+							$callback = 'featured_image' === $args['tag']
+								? 'GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image'
+								: 'GenerateBlocks_Dynamic_Tag_Callbacks::get_media';
+
+							$media_id = $callback( $args['options'], $args['block'], $args['instance'] );
 						}
 					}
 
