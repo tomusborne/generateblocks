@@ -793,6 +793,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					if ( $media_id ) {
 						$processor->set_attribute( 'data-media-id', $media_id );
+
+						if ( ! $processor->get_attribute( 'alt' ) ) {
+							$processor->set_attribute( 'alt', get_post_meta( $media_id, '_wp_attachment_image_alt', true ) );
+						}
+
 						$content = $processor->get_updated_html();
 					}
 				}
