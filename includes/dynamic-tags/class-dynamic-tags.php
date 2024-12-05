@@ -316,6 +316,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'Media', 'generateblocks' ),
+				'tag'      => 'media',
+				'type'     => 'media',
+				'supports' => [],
+				'options'  => [
+					'key' => [
+						'type'    => 'select',
+						'label'   => __( 'Media Key', 'generateblocks' ),
+						'default' => 'url',
+						'options' => [
+							'url',
+							'id',
+							'caption',
+							'description',
+							'alt',
+						],
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_media' ],
+			]
+		);
 	}
 
 	/**
