@@ -22,6 +22,7 @@ function EditBlock( props ) {
 		editorHtmlAttributes,
 		styles,
 		context,
+		name,
 	} = props;
 
 	const {
