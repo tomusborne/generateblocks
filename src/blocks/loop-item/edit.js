@@ -1,6 +1,7 @@
 import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useMemo, useEffect } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
+import { doAction } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
@@ -102,6 +103,9 @@ function EditBlock( props ) {
 		};
 	}, [ tagName ] );
 
+	const contextPostId = context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0;
+	const previewId = context?.[ 'generateblocks/loopPreviewId' ] ?? 0;
+
 	return (
 		<>
 			<InspectorControls>
@@ -124,13 +128,13 @@ function EditBlock( props ) {
 			</InspectorControls>
 			<TagName { ...otherInnerBlocksProps }>
 				{ innerBlocksChildren }
-				{ isBlockPreview && (
+				{ previewId !== contextPostId && (
 					<button
 						className="gb-block-preview__toggle"
 						data-block-id={ clientId }
-						data-context-post-id={ context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0 }
+						data-context-post-id={ contextPostId }
 						onClick={ () => {
-							setAttributes( { isBlockPreview: false } );
+							doAction( 'generateblocks.editor.loopItem.togglePreview', contextPostId, props );
 						} }
 						type="button"
 						aria-label={ __( 'Set this block as active', 'generateblocks' ) }

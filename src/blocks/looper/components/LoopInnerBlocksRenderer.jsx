@@ -7,10 +7,8 @@ import {
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
 import { memo, useEffect, useMemo, useState, Children } from '@wordpress/element';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, addAction } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
-
-import { useDebouncedCallback } from 'use-debounce';
 
 import { BlockAppender } from '@components/index';
 
@@ -33,27 +31,6 @@ function BlockPreview( { blocks, isHidden } ) {
 }
 
 const MemoizedBlockPreview = memo( BlockPreview );
-
-function setIsBlockPreview( innerBlocks, contextPostId = null ) {
-	return innerBlocks.map( ( block ) => {
-		const { clientId = '' } = block;
-
-		const activeBlock = document.getElementById( `block-${ clientId }` );
-
-		const isActiveBlock = activeBlock
-			? activeBlock?.dataset?.contextPostId === contextPostId
-			: false;
-
-		if ( isActiveBlock ) {
-			return block;
-		}
-
-		const newInnerBlocks = setIsBlockPreview( block.innerBlocks );
-		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
-
-		return Object.assign( {}, block, { attributes, innerBlocks: newInnerBlocks } );
-	} );
-}
 
 function useWpQuery( shouldRequest = true, query, attributes, block ) {
 	const currentPost = useSelect( ( select ) => {
@@ -176,23 +153,13 @@ export function LoopInnerBlocksRenderer( props ) {
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
-	const [ innerBlockData, setInnerBlockData ] = useState( [] );
-	const [ activeBlockContextId, setActiveBlockContextId ] = useState();
+	const [ previewId, setPreviewId ] = useState();
 
-	useEffect( () => {
-		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, [ getSelectedBlock ] );
-
-	const debounced = useDebouncedCallback( () => {
-		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, 10 );
-
-	const debounceBlocks = [
-		'core/paragraph',
-		'core/heading',
-		'core/button',
-		'generateblocks/text',
-	];
+	addAction(
+		'generateblocks.editor.loopItem.togglePreview',
+		'generateblocks/looper/togglePreview',
+		setPreviewId
+	);
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
@@ -204,49 +171,17 @@ export function LoopInnerBlocksRenderer( props ) {
 					attributes={ attributes }
 				/>
 			),
-			blockContext: context,
-		},
-		innerBlockData
+			blockContext: {
+				...context,
+				'generateblocks/loopPreviewId': previewId,
+			},
+		}
 	);
 
 	const {
 		children: innerBlocksChildren,
 		...otherInnerBlocksProps
 	} = innerBlocksProps;
-
-	useEffect( () => {
-		function handleToggle( e ) {
-			const target = e.target.closest( '.gb-block-preview__toggle' );
-
-			if ( target ) {
-				const contextId = target?.dataset?.contextPostId ?? '';
-				setActiveBlockContextId( contextId );
-
-				setInnerBlockData(
-					setIsBlockPreview( innerBlocks, contextId )
-				);
-			}
-		}
-
-		document.addEventListener( 'click', handleToggle );
-
-		return () => {
-			document.removeEventListener( 'click', handleToggle );
-		};
-	}, [ innerBlocks, activeBlockContextId ] );
-
-	useEffect( () => {
-		if (
-			debounceBlocks.includes( selectedBlock?.name ) &&
-			! selectedBlock?.attributes?.useDynamicData &&
-			! selectedBlock?.attributes?.dynamicContentType
-		) {
-			// Only debounce if we're using a RichText component.
-			debounced();
-		} else {
-			setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-		}
-	}, [ JSON.stringify( innerBlocks ), selectedBlock ] );
 
 	const loopItemsContext = useMemo( () => {
 		if ( hasResolvedData && Array.isArray( data ) ) {
@@ -265,7 +200,7 @@ export function LoopInnerBlocksRenderer( props ) {
 				offset > -1 ? offset + perPage : perPage
 			);
 
-			return items.map( ( item, index ) => {
+			const result = items.map( ( item, index ) => {
 				const { ID = null, id = null, post_type: postType = 'post' } = item;
 
 				// Remove any disallowed or hidden keys
@@ -280,20 +215,36 @@ export function LoopInnerBlocksRenderer( props ) {
 					postId: id ? id : ID,
 					'generateblocks/loopItem': item,
 					'generateblocks/loopIndex': index + 1, // Preview doesn't support pagination so this index is correct.
+					'generateblocks/loopPreviewId': previewId,
 				};
 			} );
+
+			// If no preview ID is set, use the first item as the preview.
+			if ( undefined === previewId ) {
+				setPreviewId( result[ 0 ]?.postId ?? 0 );
+			}
+
+			return result;
+		}
+
+		const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props );
+
+		// If no preview ID is set, use the first item as the preview.
+		if ( undefined === previewId ) {
+			setPreviewId( postId );
 		}
 
 		// If no data found, return limited context for the preview loop item.
 		return [ {
+			postId,
 			postType: applyFilters( 'generateblocks.editor.looper.fallback.postType', 'post', props ),
-			postId: applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props ),
 			'generateblocks/loopItem': {
 				ID: 0,
 			},
 			'generateblocks/loopIndex': 1,
+			'generateblocks/loopPreviewId': previewId,
 		} ];
-	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset ] );
+	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
@@ -302,10 +253,13 @@ export function LoopInnerBlocksRenderer( props ) {
 	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const contextId = loopItemContext?.postId ?? loopItemContext?.[ 'generateblocks/loopIndex' ] ?? index;
-		const firstContextId = loopItemsContext[ 0 ]?.postId ?? loopItemsContext[ 0 ]?.[ 'generateblocks/loopIndex' ] ?? 0;
 		const key = `${ contextId }-${ index }`;
-		const activeId = parseInt( activeBlockContextId, 10 );
-		const isActive = contextId ? contextId === ( activeId || firstContextId ) : false;
+		const previewIdInt = parseInt( previewId, 10 );
+		let isActive = 0 === index;
+
+		if ( previewIdInt ) {
+			isActive = contextId ? contextId === previewIdInt : false;
+		}
 
 		return (
 			<BlockContextProvider
@@ -318,7 +272,7 @@ export function LoopInnerBlocksRenderer( props ) {
 						<div { ...otherInnerBlocksProps } />
 					) }
 				<MemoizedBlockPreview
-					blocks={ innerBlockData }
+					blocks={ innerBlocks }
 					isHidden={ isActive }
 				/>
 			</BlockContextProvider>
