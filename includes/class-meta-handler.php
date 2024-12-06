@@ -207,7 +207,12 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		);
 
 		if ( is_numeric( $id ) ) {
-			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, true );
+			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, $single_only );
+
+			// If it's an array with only one item, return it directly.
+			if ( is_array( $meta ) && 1 === count( $meta ) ) {
+				$meta = $meta[0];
+			}
 		} else {
 			$meta = $pre_value ? $pre_value : call_user_func( $callable, $parent_name );
 		}
