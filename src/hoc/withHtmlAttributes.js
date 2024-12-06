@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 
+import { useUpdateEffect } from 'react-use';
+
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
 import { replaceTags } from '../dynamic-tags/utils';
 
@@ -67,6 +69,8 @@ export function withHtmlAttributes( WrappedComponent ) {
 		const {
 			htmlAttributes = {},
 			uniqueId,
+			className,
+			align,
 		} = attributes;
 
 		const [ styleWithReplacements, setStyleWithReplacements ] = useState( '' );
@@ -101,6 +105,20 @@ export function withHtmlAttributes( WrappedComponent ) {
 			getReplacements();
 		}, [ style, context ] );
 
+		useUpdateEffect( () => {
+			const layoutClasses = [ 'alignwide', 'alignfull' ];
+			const existingClasses = className?.split( ' ' ) || [];
+			const newClasses = existingClasses.filter(
+				( existingClass ) => ! layoutClasses.includes( existingClass )
+			);
+
+			if ( align ) {
+				newClasses.push( 'align' + align );
+			}
+
+			setAttributes( { className: newClasses.join( ' ' ) } );
+		}, [ align ] );
+
 		const inlineStyleObject = typeof styleWithReplacements === 'string'
 			? convertInlineStyleStringToObject( styleWithReplacements )
 			: '';
@@ -109,6 +127,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0,
+			'data-align': align,
 		};
 
 		const frontendHtmlAttributes = useMemo( () => {

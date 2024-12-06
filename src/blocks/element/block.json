@@ -50,6 +50,10 @@
 		"htmlAttributes": {
 			"type": "object",
 			"default": {}
+		},
+		"align": {
+			"type": "string",
+			"default": ""
 		}
     },
     "supports": {
