@@ -15,6 +15,7 @@ export const booleanAttributes = [
 	'default',
 	'defer',
 	'disabled',
+	'download',
 	'formnovalidate',
 	'hidden',
 	'ismap',
@@ -125,10 +126,11 @@ export function withHtmlAttributes( WrappedComponent ) {
 
 			// Loop through the htmlAttributes object and delete those with invalid values.
 			Object.keys( updatedHtmlAttributes ).forEach( ( key ) => {
+				const isDataAttribute = key.startsWith( 'data-' );
 				const value = updatedHtmlAttributes[ key ];
 
 				// Remove non-boolean attributes if they have empty values.
-				if ( ! booleanAttributes.includes( key ) && '' === value ) {
+				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 
