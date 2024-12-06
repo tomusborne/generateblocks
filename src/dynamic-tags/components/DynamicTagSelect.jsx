@@ -418,7 +418,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				setDynamicSource( 'user' );
 				setUserSource( id );
 			} else if ( 'media' === type ) {
-				setDynamicSource( 'media' );
 				setMediaSource( id );
 			} else {
 				setDynamicSource( 'post' );
@@ -517,8 +516,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setDynamicSource( 'term' );
 		} else if ( userSource && 'user' === dynamicTagType && 'user' !== dynamicSource ) {
 			setDynamicSource( 'user' );
-		} else if ( mediaSource && 'media' === dynamicTagType && 'media' !== dynamicSource ) {
-			setDynamicSource( 'media' );
 		} else if ( ! dynamicSource ) {
 			setDynamicSource( 'current' );
 		}
@@ -533,7 +530,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `id:${ termSource }` );
 		} else if ( userSource && 'user' === dynamicSource ) {
 			options.push( `id:${ userSource }` );
-		} else if ( mediaSource && 'media' === dynamicSource ) {
+		} else if ( mediaSource && 'media' === dynamicTagType ) {
 			options.push( `id:${ mediaSource }` );
 		}
 
@@ -731,25 +728,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						</>
 					) }
 
-					{ 'media' === dynamicSource && (
-						<>
-							<SelectPost
-								label={ __( 'Select source media', 'generateblocks' ) }
-								value={ mediaSource }
-								onChange={ ( selected ) => setMediaSource( selected?.value ?? '' ) }
-								onClear={ () => setMediaSource( '' ) }
-								onAdd={ ( { inputValue } ) => setMediaSource( inputValue ) }
-								onEnter={ ( inputValue ) => {
-									setMediaSource( inputValue );
-								} }
-								currentPostId={ currentPostId }
-								includeCurrent={ false }
-								postStatus={ [ 'inherit' ] }
-								postType={ [ 'attachment' ] }
-							/>
-						</>
-					) }
-
 					{ 'user' === dynamicSource && (
 						<>
 							<SelectUser
@@ -781,6 +759,25 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							taxonomy={ taxonomySource }
 						/>
+					) }
+
+					{ 'media' === dynamicTagType && (
+						<>
+							<SelectPost
+								label={ __( 'Select source media', 'generateblocks' ) }
+								value={ mediaSource }
+								onChange={ ( selected ) => setMediaSource( selected?.value ?? '' ) }
+								onClear={ () => setMediaSource( '' ) }
+								onAdd={ ( { inputValue } ) => setMediaSource( inputValue ) }
+								onEnter={ ( inputValue ) => {
+									setMediaSource( inputValue );
+								} }
+								currentPostId={ currentPostId }
+								includeCurrent={ false }
+								postStatus={ [ 'inherit' ] }
+								postType={ [ 'attachment' ] }
+							/>
+						</>
 					) }
 
 					{ tagSupportsMeta && (
