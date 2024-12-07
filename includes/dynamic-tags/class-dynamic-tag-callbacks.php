@@ -751,4 +751,44 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options, $instance );
 	}
+
+	/**
+	 * Get the media.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_media( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		switch ( $options['key'] ?? '' ) {
+			case 'title':
+				$output = get_the_title( $id );
+				break;
+			case 'id':
+				$output = $id;
+				break;
+			case 'alt':
+				$output = get_post_meta( $id, '_wp_attachment_image_alt', true );
+				break;
+			case 'caption':
+				$output = wp_get_attachment_caption( $id );
+				break;
+			case 'description':
+				$output = get_post_field( 'post_content', $id );
+				break;
+			case 'url':
+			default:
+				$output = wp_get_attachment_url( $id );
+				break;
+		}
+
+		return self::output( $output, $options, $instance );
+	}
 }
