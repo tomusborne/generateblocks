@@ -128,7 +128,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0,
-			'data-align': align,
+			'data-align': align ? align : undefined,
 		};
 
 		const frontendHtmlAttributes = useMemo( () => {
