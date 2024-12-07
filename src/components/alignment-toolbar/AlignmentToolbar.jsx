@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { ToolbarButton, Dropdown, MenuGroup, MenuItem } from '@wordpress/components';
 import { BlockControls } from '@wordpress/block-editor';
-import { alignLeft, alignCenter, alignRight, alignJustify, positionRight, positionLeft, alignNone } from '@wordpress/icons';
+import { alignLeft, alignCenter, alignRight, alignJustify } from '@wordpress/icons';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import { BlockWidth } from './BlockWidth';
 
@@ -16,7 +16,6 @@ export function AlignmentToolbar( {
 	setAttributes,
 	clientId,
 	withTextAlign = false,
-	withFloat = false,
 	withBlockWidth = false,
 } ) {
 	const {
@@ -37,20 +36,6 @@ export function AlignmentToolbar( {
 				case 'left':
 				default:
 					return alignLeft;
-			}
-		}
-
-		if ( withFloat ) {
-			const alignment = getStyleValue( 'float', currentAtRule );
-
-			switch ( alignment ) {
-				case 'left':
-					return positionLeft;
-				case 'right':
-					return positionRight;
-				case 'none':
-				default:
-					return alignNone;
 			}
 		}
 	}
@@ -78,25 +63,7 @@ export function AlignmentToolbar( {
 		},
 	];
 
-	const floats = [
-		{
-			icon: positionLeft,
-			value: 'left',
-			label: __( 'Left', 'generateblocks' ),
-		},
-		{
-			icon: positionRight,
-			value: 'right',
-			label: __( 'Right', 'generateblocks' ),
-		},
-		{
-			icon: alignNone,
-			value: 'none',
-			label: __( 'None', 'generateblocks' ),
-		},
-	];
-
-	if ( ! withTextAlign && ! withFloat && ! withBlockWidth ) {
+	if ( ! withTextAlign && ! withBlockWidth ) {
 		return null;
 	}
 
@@ -129,28 +96,6 @@ export function AlignmentToolbar( {
 											}
 
 											onStyleChange( 'textAlign', value, currentAtRule );
-										} }
-									>
-										{ label }
-									</MenuItem>
-								) ) }
-							</MenuGroup>
-						) }
-
-						{ !! withFloat && (
-							<MenuGroup label={ __( 'Float', 'generateblocks' ) }>
-								{ floats.map( ( { icon, value, label } ) => (
-									<MenuItem
-										key={ value }
-										icon={ icon }
-										isPressed={ value === getStyleValue( 'float', currentAtRule ) }
-										onClick={ () => {
-											if ( value === getStyleValue( 'float', currentAtRule ) ) {
-												onStyleChange( 'float', '', currentAtRule );
-												return;
-											}
-
-											onStyleChange( 'float', value, currentAtRule );
 										} }
 									>
 										{ label }

@@ -11,7 +11,7 @@ import { withDynamicTag } from '../../hoc/withDynamicTag.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withStyles } from '@hoc/withStyles';
-import { AlignmentToolbar, BlockStylesBuilder, StylesOnboarder } from '@components/index';
+import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 
@@ -23,7 +23,6 @@ function EditBlock( props ) {
 		name,
 		clientId,
 		onStyleChange,
-		getStyleValue,
 		editorHtmlAttributes,
 		htmlAttributes,
 		styles,
@@ -172,16 +171,6 @@ function EditBlock( props ) {
 		<>
 			<InspectorControls>
 				<StylesOnboarder />
-
-				{ 'img' === tagName && (
-					<AlignmentToolbar
-						withFloat
-						getStyleValue={ getStyleValue }
-						onStyleChange={ onStyleChange }
-						setAttributes={ setAttributes }
-						clientId={ clientId }
-					/>
-				) }
 
 				<BlockStyles
 					settingsTab={ (
