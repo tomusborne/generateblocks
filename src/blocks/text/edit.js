@@ -12,7 +12,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
-import { LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/index';
+import { AlignmentToolbar, LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
@@ -29,6 +29,7 @@ function EditBlock( props ) {
 		name,
 		clientId,
 		onStyleChange,
+		getStyleValue,
 		editorHtmlAttributes,
 		isSelected,
 		styles,
@@ -176,6 +177,14 @@ function EditBlock( props ) {
 				htmlAttributes={ htmlAttributes }
 				tagName={ tagName }
 				context={ context }
+			/>
+
+			<AlignmentToolbar
+				withTextAlign
+				getStyleValue={ getStyleValue }
+				onStyleChange={ onStyleChange }
+				setAttributes={ setAttributes }
+				clientId={ clientId }
 			/>
 
 			{ ! iconOnly && (

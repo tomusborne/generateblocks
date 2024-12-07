@@ -44,6 +44,7 @@ import { NoticePanel } from './notice-panel/NoticePanel';
 import { OnboardNotice } from './onboard-notice/OnboardNotice';
 import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 import { BlockAppender } from './block-appender/BlockAppender';
+import { AlignmentToolbar } from './alignment-toolbar/AlignmentToolbar';
 
 export {
 	AdvancedSelect,
@@ -92,4 +93,5 @@ export {
 	UnitControl,
 	UnitPicker,
 	URLControls,
+	AlignmentToolbar,
 };
