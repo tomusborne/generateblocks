@@ -366,9 +366,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_id( $options, $fallback_type = 'post', $instance = null ) {
-
-		$is_loop_item = $instance->context['generateblocks/loopItem'] ?? false;
-
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
 		} elseif ( 'user' === $fallback_type ) {
