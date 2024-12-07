@@ -1,0 +1,17 @@
+// Color definitions
+$orange: #e15e1f;
+$gold: #f0b849;
+$purple: rebeccapurple;
+$blue: #3858e9;
+$pale-blue: #eff4f9;
+$white: #fff;
+
+// Theme colors
+$global-style-color: $purple;
+$local-style-color: $gold;
+$highlight-color: #fafafa;
+$control-border-color: #949494;
+$control-accent: #{var(
+		--wp-components-color-accent,
+		var(--wp-admin-theme-color, $blue)
+	)};
