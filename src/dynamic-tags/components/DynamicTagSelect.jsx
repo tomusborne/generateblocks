@@ -262,6 +262,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ termSource, setTermSource ] = useState( '' );
 	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
+	const [ mediaSource, setMediaSource ] = useState( '' );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
@@ -416,6 +417,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			} else if ( 'user' === type ) {
 				setDynamicSource( 'user' );
 				setUserSource( id );
+			} else if ( 'media' === type ) {
+				setMediaSource( id );
 			} else {
 				setDynamicSource( 'post' );
 				setPostIdSource( id );
@@ -525,8 +528,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `id:${ postIdSource }` );
 		} else if ( termSource && 'term' === dynamicSource ) {
 			options.push( `id:${ termSource }` );
-		} else if ( 0 < userSource && 'user' === dynamicSource ) {
+		} else if ( userSource && 'user' === dynamicSource ) {
 			options.push( `id:${ userSource }` );
+		} else if ( mediaSource && 'media' === dynamicTagType ) {
+			options.push( `id:${ mediaSource }` );
 		}
 
 		if ( tagSupportsMeta && metaKey ) {
@@ -604,6 +609,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		tagSupportsTaxonomy,
 		tagSupportsLink,
 		dateFormat,
+		mediaSource,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -753,6 +759,25 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							taxonomy={ taxonomySource }
 						/>
+					) }
+
+					{ 'media' === dynamicTagType && (
+						<>
+							<SelectPost
+								label={ __( 'Select source media', 'generateblocks' ) }
+								value={ mediaSource }
+								onChange={ ( selected ) => setMediaSource( selected?.value ?? '' ) }
+								onClear={ () => setMediaSource( '' ) }
+								onAdd={ ( { inputValue } ) => setMediaSource( inputValue ) }
+								onEnter={ ( inputValue ) => {
+									setMediaSource( inputValue );
+								} }
+								currentPostId={ currentPostId }
+								includeCurrent={ false }
+								postStatus={ [ 'inherit' ] }
+								postType={ [ 'attachment' ] }
+							/>
+						</>
 					) }
 
 					{ tagSupportsMeta && (
