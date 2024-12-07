@@ -44,14 +44,6 @@ export function Image( {
 		imageRef.current?.complete,
 	] );
 
-	const computedStyles = useMemo( () => {
-		if ( ! imageRef.current ) {
-			return false;
-		}
-
-		return getComputedStyle( imageRef.current );
-	}, [ imageRef.current ] );
-
 	const imageSrc = useMemo( () => {
 		if ( dynamicTagValue?.[ 0 ]?.replacement && isURL( dynamicTagValue?.[ 0 ]?.replacement ) ) {
 			return dynamicTagValue?.[ 0 ]?.replacement;
@@ -111,7 +103,6 @@ export function Image( {
 				} }
 				role={ ! isSelected ? 'button' : undefined }
 				tabIndex={ ! isSelected ? 0 : undefined }
-				data-is-floating={ 'none' !== computedStyles?.float }
 			/>
 		</>
 	);

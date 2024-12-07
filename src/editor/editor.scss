@@ -11,8 +11,3 @@ $blue: #1e72bd;
 		color: $blue;
 	}
 }
-
-:where([data-is-floating="true"]) {
-	position: relative;
-	z-index: 22;
-}
