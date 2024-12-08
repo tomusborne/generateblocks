@@ -1,244 +1,149 @@
-$settings-container-width: 750px;
+$container-width: 750px;
 
-.gblocks-dashboard-wrap {
-    margin: 0;
-    overflow: hidden;
-}
+.generateblocks-dashboard {
+	.gb-dashboard-info {
+		max-width: $container-width;
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
 
-.gblocks-dashboard-header {
-    background: #fff;
-	border-bottom: 1px solid #e2e4e7;
-    padding: 0 20px;
-	text-align: center;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	h1 {
-		font-size: 17px;
-		font-weight: 600;
-		padding-bottom: 0;
+	.gblocks-sub-navigation {
 		display: flex;
-		align-items: center;
-
-		svg {
-			width: 1em;
-    		height: 1em;
-			padding-right: 10px;
-			fill: #006eb7;
-		}
-	}
-}
-
-.gblocks-navigation {
-    background: #fff;
-	display: flex;
-
-	a {
-		padding: 1rem;
-		display: flex;
-		align-items: center;
-		color: inherit;
-		text-decoration: none;
-
-		&.active {
-			font-weight: 600;
-			box-shadow: inset 0 -3px #007cba;
-		}
-	}
-}
-
-.generateblocks-settings-area {
-	.components-placeholder.gblocks-settings-placeholder {
-		margin-top: 20px;
-		margin-left: auto;
-		margin-right: auto;
-		max-width: $settings-container-width;
-		background: #fff;
-		border: 1px solid #e2e4e7;
-		box-shadow: none;
+		justify-content: center;
+		margin-top: 10px;
+		gap: 10px;
 	}
 
-	.generateblocks-settings-main {
-		margin-left: auto;
-		margin-right: auto;
-		max-width: $settings-container-width;
+	.gblocks-dashboard-intro-content {
+		padding: 60px;
+		font-size: 30px;
+		line-height: 1.3;
+		text-align: center;
+		margin: 0 auto;
+		max-width: 700px;
 
-		.gblocks-action-button {
-			display: flex;
-			align-items: center;
-		}
-
-		.gblocks-action-message {
-			padding-left: 10px;
-			opacity: 0;
-			transition: opacity 200ms ease-in-out;
-			color: green;
-			pointer-events: none;
-
-			&.gblocks-action-message--show {
-				opacity: 1;
-				transition: opacity 200ms ease-in-out;
-			}
-
-			&.gblocks-action-message--error {
-				color: red;
-			}
-		}
-
-		/* Only needed until WP 5.6 */
-		.gblocks-css-print-method {
-			.components-base-control__label {
-				display: block;
-			}
-		}
-
-		.components-button .components-spinner {
+		h2 {
 			margin: 0;
 		}
 
-		.components-button.is-primary .components-spinner {
-			background: rgba(0,0,0,0.1);
-			border-radius: 100%;
+		p {
+			font-size: 18px;
+			margin: 0 0 1em;
+		}
+	}
+
+	.gblocks-generatepress {
+		background: #fff;
+		padding: 60px;
+	}
+
+	.gblocks-inside-generatepress {
+		display: flex;
+		max-width: 1200px;
+		margin: 0 auto;
+		align-items: center;
+	}
+
+	.gblocks-generatepress-content {
+		width: 50%;
+
+		h2 {
+			font-size: 40px;
+			line-height: 1.5em;
+			font-weight: 300;
+			margin-top: 0;
 		}
 
-		.components-panel__body {
-			margin: 25px 0;
-			background: #fff;
-			border: 1px solid #e2e4e7;
+		p {
+			font-size: 17px;
+			line-height: 1.8;
+		}
 
-			.components-panel__body-toggle {
-				border-bottom: 1px solid #d6e2ed;
+		.stats {
+			display: flex;
+			font-size: 15px;
+			line-height: 1.6;
+			margin-top: 20px;
+			margin-bottom: 20px;
+
+			& > * {
+				padding-right: 30px;
 			}
 
-			.gblocks-dashboard-panel-row-wrapper {
-				padding-top: 10px;
-
-				& > *:last-child {
-					margin-bottom: 0;
-				}
+			strong {
+				font-size: 20px;
 			}
+		}
 
-			.components-panel__row {
-				padding: 0;
-				margin: 0 0 25px;
+		.gblocks-button {
+			color: #006eb7;
+			display: inline-block;
+			margin-top: 10px;
+
+			&:hover {
+				color: #000;
+			}
+		}
+	}
+
+	.gblocks-generatepress-image {
+		width: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.gblocks-getting-started {
+		padding: 0 60px 60px;
+		text-align: center;
+
+		img {
+			display: block;
+			margin: 0 auto;
+		}
+
+		p {
+			font-size: 20px;
+			max-width: 450px;
+			margin: 0 auto;
+
+			&:first-child:before {
+				content: "";
 				display: block;
-
-				.components-base-control {
-					.components-base-control__help {
-						margin: 0;
-					}
-
-					.components-base-control__field {
-						margin-bottom: 5px;
-					}
-				}
-			}
-
-			.components-notice {
-				margin: 0 0 10px;
-			}
-		}
-	}
-}
-
-.generateblocks-dashboard-page {
-	#wpcontent {
-		padding-left: 0;
-	}
-
-	.update-nag {
-		margin-bottom: 20px;
-		margin-left: 22px;
-	}
-
-	#wpbody-content .wrap {
-		padding: 0 20px;
-		margin: 0;
-	}
-}
-
-.gblocks-units {
-    position: absolute;
-    top: 0;
-    right: 0;
-	font-size: 12px;
-	font-weight: bold;
-}
-
-.gblocks-container-width {
-    position: relative;
-}
-
-.gblocks-library {
-	margin-bottom: 1.5em;
-
-	h3 {
-		font-size: 16px;
-		margin-bottom: 1em;
-		font-weight: 500;
-	}
-
-	&:first-child {
-		margin-bottom: 2.5em;
-	}
-}
-
-.gblocks-library-item {
-	display: flex;
-	gap: 24px;
-	justify-content: space-between;
-	align-items: center;
-	padding: 15px;
-	background: #ffffff;
-	flex-wrap: wrap;
-
-	&:nth-child(even) {
-		background: #efefef;
-	}
-
-	&__edit {
-		flex-basis: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	&__name {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-
-		button.components-button {
-			min-width: 25px;
-			height: 25px;
-			width: 25px;
-		}
-	}
-
-	&__actions {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-
-		button.components-button {
-			min-width: 25px;
-			height: 25px;
-			width: 25px;
-		}
-
-		.components-toggle-control {
-			label {
-				font-size: 11px;
+				height: 1px;
+				width: 150px;
+				background: #d8e2e4;
+				margin: 0 auto 40px;
 			}
 		}
 	}
 
-	.components-toggle-control {
-		margin-bottom: 0;
+	.components-panel__body {
+		background-color: #fff;
+	}
 
-		.components-base-control__field {
-			margin-bottom: 0!important;
+	@media (max-width: 1180px){
+		.gblocks-inside-generatepress {
+			flex-wrap: wrap;
+		}
+
+		.gblocks-generatepress-content {
+			width: 100%;
+		}
+
+		.gblocks-generatepress-image {
+			width: 100%;
+			order: -1;
+		}
+	}
+
+	@media (max-width: 520px) {
+		.gblocks-getting-started img {
+			max-width: 100%;
+		}
+
+		.gblocks-generatepress-content .stats {
+			flex-wrap: wrap;
 		}
 	}
 }
