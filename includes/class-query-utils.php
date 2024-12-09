@@ -105,7 +105,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$attributes,
 				null,
 				[
-					'post_id' => $current_post,
+					'post_id'   => $current_post,
 					'author_id' => $current_author,
 				]
 			)
