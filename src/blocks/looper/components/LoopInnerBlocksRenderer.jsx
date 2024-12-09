@@ -6,7 +6,7 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
-import { memo, useEffect, useMemo, useState, Children } from '@wordpress/element';
+import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters, addAction } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -178,11 +178,6 @@ export function LoopInnerBlocksRenderer( props ) {
 		}
 	);
 
-	const {
-		children: innerBlocksChildren,
-		...otherInnerBlocksProps
-	} = innerBlocksProps;
-
 	const loopItemsContext = useMemo( () => {
 		if ( hasResolvedData && Array.isArray( data ) ) {
 			let { posts_per_page: perPage = 10, offset = 0 } = query;
@@ -266,16 +261,12 @@ export function LoopInnerBlocksRenderer( props ) {
 				key={ key }
 				value={ loopItemContext }
 			>
-				{ ( isActive && Children.count( innerBlocksChildren ) )
-					? innerBlocksChildren
-					: (
-						<div { ...otherInnerBlocksProps } />
-					) }
+				{ isActive && innerBlocksProps.children }
 				<MemoizedBlockPreview
 					blocks={ innerBlocks }
 					isHidden={ isActive }
 				/>
 			</BlockContextProvider>
 		);
-	} ) : innerBlocksChildren;
+	} ) : innerBlocksProps.children;
 }
