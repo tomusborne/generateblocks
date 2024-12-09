@@ -18,10 +18,10 @@ import {
 	useTermRecord,
 	useUserRecord,
 	SelectUser,
+	SelectTerm,
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
-import { SelectTerm } from './SelectTerm';
 
 function parseTag( tagString ) {
 	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
@@ -294,7 +294,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		[]
 	);
 
-	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
@@ -412,7 +411,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( id ) {
 			if ( 'term' === type ) {
-				setDynamicSource( 'term' );
 				setTermSource( id );
 			} else if ( 'user' === type ) {
 				setDynamicSource( 'user' );
@@ -512,8 +510,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( postIdSource && 'post' === dynamicTagType && 'post' !== dynamicSource ) {
 			setDynamicSource( 'post' );
-		} else if ( termSource && 'term' === dynamicTagType && 'term' !== dynamicSource ) {
-			setDynamicSource( 'term' );
 		} else if ( userSource && 'user' === dynamicTagType && 'user' !== dynamicSource ) {
 			setDynamicSource( 'user' );
 		} else if ( ! dynamicSource ) {
@@ -526,7 +522,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( postIdSource && 'post' === dynamicSource ) {
 			options.push( `id:${ postIdSource }` );
-		} else if ( termSource && 'term' === dynamicSource ) {
+		} else if ( termSource && 'term' === dynamicTagType ) {
 			options.push( `id:${ termSource }` );
 		} else if ( userSource && 'user' === dynamicSource ) {
 			options.push( `id:${ userSource }` );
@@ -643,7 +639,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( 'term' === dynamicTagType ) {
 			options.push(
-				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' }
 			);
 		} else if ( dynamicTagType === 'user' ) {
@@ -749,15 +744,19 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						/>
 					) }
 
-					{ ( 'term' === dynamicSource ) && (
+					{ 'term' === dynamicTagType && (
 						<SelectTerm
 							postId={ 'post' === dynamicTagType && postIdSource }
 							value={ termSource }
-							onSelect={ ( selected ) => {
+							onChange={ ( selected ) => {
 								const newTermSource = selected?.value ?? selected;
 								debouncedSetTermSource( newTermSource ? newTermSource : 0 );
 							} }
 							taxonomy={ taxonomySource }
+							includeCurrent={ false }
+							placeholder={ taxonomySource ? __( 'Select Term', 'generateblocks' ) : __( 'No taxonomy selected', 'generateblocks' ) }
+							noResultsText={ ! taxonomySource && __( 'No taxonomy selected', 'generateblocks' ) }
+							help={ ! taxonomySource && __( 'Choose a taxonomy to select a term.', 'generateblocks' ) }
 						/>
 					) }
 
