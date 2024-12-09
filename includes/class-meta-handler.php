@@ -203,7 +203,8 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			null,
 			$id,
 			$key,
-			$callable
+			$callable,
+			$single_only
 		);
 
 		if ( is_numeric( $id ) ) {
