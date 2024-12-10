@@ -155,6 +155,23 @@ function EditBlock( props ) {
 			);
 		}
 
+		// The RichText component can't handle the `<button>` tag for some reason.
+		// It doesn't allow spaces to be entered, and doesn't allow the user to type if there
+		// isn't already a value entered. To handle this, we'll render a `<button>` tag instead
+		// and use a `span` as the RichText component tag.
+		if ( 'button' === elementTagName ) {
+			return (
+				<button
+					{ ...( withBlockProps && blockProps ) }
+				>
+					<RichText
+						{ ...richTextProps }
+						tagName={ 'span' }
+					/>
+				</button>
+			);
+		}
+
 		return (
 			<RichText
 				{ ...richTextProps }
