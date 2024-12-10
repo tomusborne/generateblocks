@@ -191,6 +191,9 @@ export const TEMPLATES = [
 						gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
 						columnGap: '20px',
 						rowGap: '20px',
+						'@media (max-width:767px)': {
+							gridTemplateColumns: '1fr',
+						},
 					},
 				},
 				[
@@ -245,6 +248,9 @@ export const TEMPLATES = [
 						gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
 						columnGap: '20px',
 						rowGap: '20px',
+						'@media (max-width:767px)': {
+							gridTemplateColumns: '1fr',
+						},
 					},
 				},
 				[
@@ -266,7 +272,10 @@ export const TEMPLATES = [
 									alt: '{{post_title}}',
 								},
 								styles: {
+									display: 'block',
+									height: 'auto',
 									marginBottom: '30px',
+									maxWidth: '100%',
 								},
 							} ],
 							[ 'generateblocks/text', {
