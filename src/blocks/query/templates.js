@@ -1,5 +1,11 @@
 import { __ } from '@wordpress/i18n';
 
+import { getAtRuleValue } from '@edge22/styles-builder';
+
+const mobileAtRule = getAtRuleValue( 'smallWidth' );
+
+console.log( mobileAtRule );
+
 export const buttonStyles = {
 	paddingTop: '1rem',
 	paddingRight: '1rem',
@@ -191,7 +197,7 @@ export const TEMPLATES = [
 						gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
 						columnGap: '20px',
 						rowGap: '20px',
-						'@media (max-width:767px)': {
+						[ mobileAtRule ]: {
 							gridTemplateColumns: '1fr',
 						},
 					},
@@ -248,7 +254,7 @@ export const TEMPLATES = [
 						gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
 						columnGap: '20px',
 						rowGap: '20px',
-						'@media (max-width:767px)': {
+						[ mobileAtRule ]: {
 							gridTemplateColumns: '1fr',
 						},
 					},
