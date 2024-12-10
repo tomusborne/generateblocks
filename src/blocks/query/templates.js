@@ -4,8 +4,6 @@ import { getAtRuleValue } from '@edge22/styles-builder';
 
 const mobileAtRule = getAtRuleValue( 'smallWidth' );
 
-console.log( mobileAtRule );
-
 export const buttonStyles = {
 	paddingTop: '1rem',
 	paddingRight: '1rem',
