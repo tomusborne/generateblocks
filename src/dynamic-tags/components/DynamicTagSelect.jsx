@@ -410,16 +410,23 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		} = parsedTag?.params;
 
 		if ( id ) {
-			if ( 'term' === type ) {
-				setTermSource( id );
-			} else if ( 'user' === type ) {
-				setDynamicSource( 'user' );
-				setUserSource( id );
-			} else if ( 'media' === type ) {
-				setMediaSource( id );
-			} else {
-				setDynamicSource( 'post' );
-				setPostIdSource( id );
+			switch ( type ) {
+				case 'term':
+					setDynamicSource( 'term' );
+					setTermSource( id );
+					break;
+				case 'user':
+					setDynamicSource( 'user' );
+					setUserSource( id );
+					break;
+				case 'media':
+					setMediaSource( id );
+					break;
+				case 'post':
+				default:
+					setDynamicSource( 'post' );
+					setPostIdSource( id );
+					break;
 			}
 		}
 
@@ -512,6 +519,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setDynamicSource( 'post' );
 		} else if ( userSource && 'user' === dynamicTagType && 'user' !== dynamicSource ) {
 			setDynamicSource( 'user' );
+		} else if ( termSource && 'term' === dynamicTagType && 'term' !== dynamicSource ) {
+			setDynamicSource( 'term' );
 		} else if ( ! dynamicSource ) {
 			setDynamicSource( 'current' );
 		}
@@ -522,7 +531,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( postIdSource && 'post' === dynamicSource ) {
 			options.push( `id:${ postIdSource }` );
-		} else if ( termSource && 'term' === dynamicTagType ) {
+		} else if ( termSource && 'term' === dynamicSource ) {
 			options.push( `id:${ termSource }` );
 		} else if ( userSource && 'user' === dynamicSource ) {
 			options.push( `id:${ userSource }` );
@@ -639,6 +648,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( 'term' === dynamicTagType ) {
 			options.push(
+				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' }
 			);
 		} else if ( dynamicTagType === 'user' ) {
@@ -736,7 +746,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						</>
 					) }
 
-					{ ( 'term' === dynamicTagType || tagSupportsTaxonomy ) && (
+					{ ( ( 'term' === dynamicTagType && 'term' === dynamicSource ) || tagSupportsTaxonomy ) && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
 							postType={ 'term' !== dynamicTagType && record?.post_type }
@@ -744,7 +754,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						/>
 					) }
 
-					{ 'term' === dynamicTagType && (
+					{ ( 'term' === dynamicSource && taxonomySource ) && (
 						<SelectTerm
 							postId={ 'post' === dynamicTagType && postIdSource }
 							value={ termSource }
@@ -754,9 +764,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							taxonomy={ taxonomySource }
 							includeCurrent={ false }
-							placeholder={ taxonomySource ? __( 'Select Term', 'generateblocks' ) : __( 'No taxonomy selected', 'generateblocks' ) }
-							noResultsText={ ! taxonomySource && __( 'No taxonomy selected', 'generateblocks' ) }
-							help={ ! taxonomySource && __( 'Choose a taxonomy to select a term.', 'generateblocks' ) }
 						/>
 					) }
 
