@@ -1,4 +1,5 @@
 import apiFetch from '@wordpress/api-fetch';
+import { applyFilters } from '@wordpress/hooks';
 
 export async function replaceTags( content, context = {} ) {
 	// Define an async function to fetch data
@@ -8,7 +9,7 @@ export async function replaceTags( content, context = {} ) {
 			method: 'POST',
 			data: {
 				content,
-				context,
+				context: applyFilters( 'generateblocks.editor.replaceTags.context', context, content ),
 			},
 		} );
 
