@@ -1,14 +1,17 @@
 import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
+import { getAtRuleValue } from '@edge22/styles-builder';
+
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
 import { getElementType } from './utils/getElementType';
 import { getIcon } from '@utils';
-import { mobileAtRule } from '@utils/mobileAtRule';
 
 import './editor.scss';
+
+const mobileAtRule = getAtRuleValue( 'smallWidth' );
 
 registerBlockType( metadata, {
 	edit: Edit,
