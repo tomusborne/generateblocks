@@ -20,7 +20,7 @@ export function SelectTaxonomy( { onChange, value, help, postType } ) {
 			id={ 'gblocks-select-taxonomy' }
 			label={ __( 'Select taxonomy', 'generateblocks' ) }
 			help={ help }
-			placeholder={ __( 'Select taxonomy', 'generateblocks' ) }
+			placeholder={ __( 'Select Taxonomy…', 'generateblocks' ) }
 			options={ options }
 			value={ value ? value : options[ 0 ]?.value ?? '' }
 			onChange={ onChange }

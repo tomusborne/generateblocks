@@ -18,10 +18,10 @@ import {
 	useTermRecord,
 	useUserRecord,
 	SelectUser,
+	SelectTerm,
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
-import { SelectTerm } from './SelectTerm';
 
 function parseTag( tagString ) {
 	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
@@ -294,7 +294,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		[]
 	);
 
-	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
@@ -411,17 +410,23 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		} = parsedTag?.params;
 
 		if ( id ) {
-			if ( 'term' === type ) {
-				setDynamicSource( 'term' );
-				setTermSource( id );
-			} else if ( 'user' === type ) {
-				setDynamicSource( 'user' );
-				setUserSource( id );
-			} else if ( 'media' === type ) {
-				setMediaSource( id );
-			} else {
-				setDynamicSource( 'post' );
-				setPostIdSource( id );
+			switch ( type ) {
+				case 'term':
+					setDynamicSource( 'term' );
+					setTermSource( id );
+					break;
+				case 'user':
+					setDynamicSource( 'user' );
+					setUserSource( id );
+					break;
+				case 'media':
+					setMediaSource( id );
+					break;
+				case 'post':
+				default:
+					setDynamicSource( 'post' );
+					setPostIdSource( id );
+					break;
 			}
 		}
 
@@ -512,10 +517,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( postIdSource && 'post' === dynamicTagType && 'post' !== dynamicSource ) {
 			setDynamicSource( 'post' );
-		} else if ( termSource && 'term' === dynamicTagType && 'term' !== dynamicSource ) {
-			setDynamicSource( 'term' );
 		} else if ( userSource && 'user' === dynamicTagType && 'user' !== dynamicSource ) {
 			setDynamicSource( 'user' );
+		} else if ( termSource && 'term' === dynamicTagType && 'term' !== dynamicSource ) {
+			setDynamicSource( 'term' );
 		} else if ( ! dynamicSource ) {
 			setDynamicSource( 'current' );
 		}
@@ -741,7 +746,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						</>
 					) }
 
-					{ ( 'term' === dynamicTagType || tagSupportsTaxonomy ) && (
+					{ ( ( 'term' === dynamicTagType && 'term' === dynamicSource ) || tagSupportsTaxonomy ) && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
 							postType={ 'term' !== dynamicTagType && record?.post_type }
@@ -749,15 +754,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						/>
 					) }
 
-					{ ( 'term' === dynamicSource ) && (
+					{ ( 'term' === dynamicSource && taxonomySource ) && (
 						<SelectTerm
 							postId={ 'post' === dynamicTagType && postIdSource }
 							value={ termSource }
-							onSelect={ ( selected ) => {
+							onChange={ ( selected ) => {
 								const newTermSource = selected?.value ?? selected;
 								debouncedSetTermSource( newTermSource ? newTermSource : 0 );
 							} }
 							taxonomy={ taxonomySource }
+							includeCurrent={ false }
+							onClear={ () => setTermSource( '' ) }
 						/>
 					) }
 

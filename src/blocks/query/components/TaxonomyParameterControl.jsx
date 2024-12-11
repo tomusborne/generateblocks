@@ -2,9 +2,8 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
 import { ToggleControl, ComboboxControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import { Stack } from '@edge22/components';
+import { Stack, SelectTerm } from '@edge22/components';
 
-import { TaxonomiesSelect } from '@components';
 import { useTaxonomies } from '@hooks';
 
 export function TaxonomyParameterControl( props ) {
@@ -54,6 +53,14 @@ export function TaxonomyParameterControl( props ) {
 			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
 	), [ JSON.stringify( taxonomies ) ] );
 
+	let termsLabel = __( 'Select Terms', 'generateblocks' );
+
+	if ( 'category' === taxonomy ) {
+		termsLabel = __( 'Select Categories', 'generateblocks' );
+	} else if ( 'post_tag' === taxonomy ) {
+		termsLabel = __( 'Select Tags', 'generateblocks' );
+	}
+
 	return (
 		<Stack gap="12px" className="gb-tax-query">
 			<ComboboxControl
@@ -69,21 +76,16 @@ export function TaxonomyParameterControl( props ) {
 
 			{ taxonomy &&
 				<>
-					<TaxonomiesSelect
+					<SelectTerm
+						label={ termsLabel }
 						taxonomy={ taxonomy }
 						value={ terms }
-						filterName={ 'generateblocks.editor.taxonomy-parameter-control.' + props.id }
-						placeholder={ placeholder || __( 'Search terms…', 'generateblocks' ) }
-						onChange={ ( newValue ) => {
-							const newTerms = newValue.reduce( ( result, option ) => {
-								result.push( option.value );
-
-								return result;
-							}, [] );
-
-							setTerms( newTerms );
-						} }
-						help={ terms.length === 0 ? __( 'You must select at least one term. Search by name or ID.', 'generateblocks' ) : help }
+						multiple={ true }
+						onChange={ setTerms }
+						help={ terms.length === 0
+							? __( 'You must select at least one term. Search by name or ID.', 'generateblocks' )
+							: help
+						}
 					/>
 					<ComboboxControl
 						label={ __( 'Include or exclude', 'generateblocks' ) }
