@@ -764,6 +764,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							taxonomy={ taxonomySource }
 							includeCurrent={ false }
+							onClear={ () => setTermSource( '' ) }
 						/>
 					) }
 
