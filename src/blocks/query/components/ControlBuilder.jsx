@@ -2,11 +2,6 @@ import { ToggleControl, Button, Tooltip, ComboboxControl, TextControl } from '@w
 import { sprintf, __ } from '@wordpress/i18n';
 
 import { isArray, isObject } from 'lodash';
-
-import {
-	CategoriesSelect,
-	TagsSelect,
-} from '@components';
 import { SelectPostType, SelectPost, MultiSelect, SelectUser } from '@edge22/components';
 import { Control } from '@edge22/styles-builder';
 
@@ -55,10 +50,6 @@ function ControlComponent( props ) {
 					currentLabel={ __( 'Current author', 'generateblocks' ) }
 				/>
 			);
-		case 'categoriesSelect':
-			return <CategoriesSelect { ...standardProps } />;
-		case 'tagsSelect':
-			return <TagsSelect { ...standardProps } />;
 		case 'taxonomySelect':
 			return <TaxonomyParameterControl postType={ postType } { ...standardProps } />;
 		case 'includePosts':
