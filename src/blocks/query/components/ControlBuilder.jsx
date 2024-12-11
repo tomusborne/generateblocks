@@ -37,7 +37,7 @@ function ControlComponent( props ) {
 				/>
 			);
 		case 'postTypeSelect':
-			return <SelectPostType { ...standardProps } />;
+			return <SelectPostType multiple={ true } { ...standardProps } />;
 		case 'select':
 			return <ComboboxControl { ...standardProps } />;
 		case 'multiSelect':
