@@ -179,7 +179,7 @@ export function LoopInnerBlocksRenderer( props ) {
 	);
 
 	const loopItemsContext = useMemo( () => {
-		if ( hasResolvedData && Array.isArray( data ) ) {
+		if ( hasResolvedData && data?.length ) {
 			let { posts_per_page: perPage = 10, offset = 0 } = query;
 
 			// Ensure the params are a valid integer for comparison.
