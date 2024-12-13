@@ -9,7 +9,7 @@ export async function replaceTags( content, context = {} ) {
 			method: 'POST',
 			data: {
 				content,
-				context: applyFilters( 'generateblocks.editor.replaceTags.context', context, content ),
+				context: applyFilters( 'generateblocks.editor.preview.context', context, { content } ),
 			},
 		} );
 
