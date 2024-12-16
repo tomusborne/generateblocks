@@ -136,14 +136,6 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			)
 		)->render( array( 'dynamic' => false ) );
 
-		$html_attributes = $attributes['htmlAttributes'] ?? [];
-		$parsed_content   = generateblocks_with_escaped_attributes(
-			$parsed_content,
-			[
-				'block_html_attrs' => $html_attributes,
-			]
-		);
-
 		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 			$processor = new WP_HTML_Tag_Processor( $parsed_content );
 

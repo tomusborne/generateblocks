@@ -2147,6 +2147,12 @@ function generateblocks_with_escaped_attributes( $content, $args = [] ) {
 	$tags_processed = 0;
 
 	while ( $processor->next_tag() && $tags_processed < $max_tags ) {
+		$tag = $processor->get_tag();
+
+		if ( 'STYLE' === $tag ) {
+			continue;
+		}
+
 		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
 			$attribute_value = $processor->get_attribute( $name );
 			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
@@ -2163,4 +2169,22 @@ function generateblocks_with_escaped_attributes( $content, $args = [] ) {
 	}
 
 	return $content;
+}
+
+/**
+ * Get a list of our v1 block names.
+ *
+ * @since 2.0.0
+ * @return array The block names.
+ */
+function generateblocks_get_v1_block_names() {
+	return [
+		'generateblocks/button-container',
+		'generateblocks/button',
+		'generateblocks/container',
+		'generateblocks/grid',
+		'generateblocks/headline',
+		'generateblocks/image',
+		'generateblocks/query-loop',
+	];
 }
