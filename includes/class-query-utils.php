@@ -129,7 +129,8 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$args,
 				$page,
 				$attributes,
-				null
+				null,
+				$current
 			)
 		);
 
