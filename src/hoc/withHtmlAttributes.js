@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
@@ -75,11 +75,21 @@ export function withHtmlAttributes( WrappedComponent ) {
 		} = attributes;
 
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
-		const styleValue = applyFilters(
-			'generateblocks.editor.htmlAttributes.style',
-			style,
-			{ ...props }
-		);
+		const [ processedStyle, setProcessedStyle ] = useState( style );
+
+		useEffect( () => {
+			async function fetchProcessedStyle() {
+				const styleValue = await applyFilters(
+					'generateblocks.editor.htmlAttributes.style',
+					style,
+					{ ...props }
+				);
+
+				setProcessedStyle( styleValue );
+			}
+
+			fetchProcessedStyle();
+		}, [ style, props ] );
 
 		useUpdateEffect( () => {
 			const layoutClasses = [ 'alignwide', 'alignfull' ];
@@ -95,8 +105,8 @@ export function withHtmlAttributes( WrappedComponent ) {
 			setAttributes( { className: newClasses.join( ' ' ) } );
 		}, [ align ] );
 
-		const inlineStyleObject = typeof styleValue === 'string'
-			? convertInlineStyleStringToObject( styleValue )
+		const inlineStyleObject = typeof processedStyle === 'string'
+			? convertInlineStyleStringToObject( processedStyle )
 			: '';
 		const combinedAttributes = {
 			...otherAttributes,
