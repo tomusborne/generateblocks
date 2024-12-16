@@ -28,6 +28,14 @@ class GenerateBlocks_Block_Text extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
+		$html_attributes = $attributes['htmlAttributes'] ?? [];
+		$block_content   = generateblocks_with_escaped_attributes(
+			$block_content,
+			[
+				'block_html_attrs' => $html_attributes,
+			]
+		);
+
 		// Add styles to this block if needed.
 		$block_content = generateblocks_maybe_add_block_css(
 			$block_content,

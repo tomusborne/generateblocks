@@ -2012,36 +2012,13 @@ function generateblocks_with_html_attributes( $html_attributes, $block_attribute
 		return $html_attributes;
 	}
 
-	$allowed_attributes = [
-		'title',
-		'role',
-		'download',
-		'itemtype',
-		'itemscope',
-		'itemprop',
-		'href',
-		'style',
-		'src',
-		'height',
-		'width',
-	];
-
 	foreach ( (array) $block_attributes['htmlAttributes'] as $key => $value ) {
 		if ( ! $key ) {
 			continue;
 		}
 
-		if (
-			! in_array( $key, $allowed_attributes )
-			&& ! generateblocks_str_starts_with( $key, 'data-' )
-			&& ! generateblocks_str_starts_with( $key, 'aria-' )
-		) {
-			continue;
-		}
-
-		$html_attributes[ esc_attr( $key ) ] = isset( $value ) && '' !== $value
-		? esc_attr( $value )
-		: true;
+		$escaped_value           = generateblocks_get_escaped_html_attribute( $key, $value );
+		$html_attributes[ $key ] = $escaped_value;
 	}
 
 	return $html_attributes;
@@ -2118,9 +2095,72 @@ function generateblocks_get_processed_html_attributes( $html ) {
 	$processor = new WP_HTML_Tag_Processor( $html );
 	if ( $processor->next_tag() ) {
 		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
-			$html_attributes[ $name ] = $processor->get_attribute( $name );
+			$attribute_value          = $processor->get_attribute( $name );
+			$escaped_value            = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
+			$html_attributes[ $name ] = $escaped_value;
 		}
 	}
 
 	return $html_attributes;
+}
+
+/**
+ * Given an attribute name and value, escape it.
+ *
+ * @param string $name The attribute key.
+ * @param string $value The raw attribute value.
+ */
+function generateblocks_get_escaped_html_attribute( $name, $value ) {
+	$url_fields = [ 'src', 'href' ];
+
+	return in_array( $name, $url_fields, true )
+		? esc_url( $value )
+		: esc_attr( $value );
+}
+
+/**
+ * Escapes all attribute inside of the given block content.
+ *
+ * @param string $content The content of the block.
+ * @param array  $args An array of args for the function.
+ *
+ * @since 2.0.0
+ */
+function generateblocks_with_escaped_attributes( $content, $args = [] ) {
+	$block_html_attributes = $args['block_html_attrs'] ?? [];
+	$link_html_attributes  = $args['link_html_attrs'] ?? [];
+
+	if ( empty( $link_html_attributes ) && empty( $block_html_attributes ) ) {
+		return $content;
+	}
+
+	if ( ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $content;
+	}
+
+	$max_tags = ! empty( $link_html_attributes ) && ! empty( $block_html_attributes )
+		? 2
+		: 1;
+
+	$processor      = new WP_HTML_Tag_Processor( $content );
+	$updated        = false;
+	$tags_processed = 0;
+
+	while ( $processor->next_tag() && $tags_processed < $max_tags ) {
+		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+			$attribute_value = $processor->get_attribute( $name );
+			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
+
+			$processor->set_attribute( $name, $escaped_value );
+			$updated = true;
+		}
+
+		$tags_processed++;
+	}
+
+	if ( $updated ) {
+		return $processor->get_updated_html();
+	}
+
+	return $content;
 }
