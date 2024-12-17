@@ -173,13 +173,13 @@ export function LoopInnerBlocksRenderer( props ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
 		{
-			renderAppender: () => (
+			renderAppender: () => ! innerBlocks.length ? (
 				<BlockAppender
 					clientId={ clientId }
 					isSelected={ isSelected }
 					attributes={ attributes }
 				/>
-			),
+			) : false,
 			blockContext: {
 				...context,
 				'generateblocks/loopPreviewId': previewId,
