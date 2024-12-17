@@ -13,6 +13,8 @@ import { BlockStylesBuilder, BlockAppender } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
+import './editor.scss';
+
 function EditBlock( props ) {
 	const {
 		attributes,
@@ -49,6 +51,7 @@ function EditBlock( props ) {
 	if ( isBlockPreview ) {
 		classNames.push( 'gb-block-preview' );
 	}
+
 	const blockProps = useBlockProps( {
 		className: classNames.join( ' ' ).trim(),
 		...editorHtmlAttributes,
@@ -105,6 +108,7 @@ function EditBlock( props ) {
 
 	const contextPostId = context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0;
 	const previewId = context?.[ 'generateblocks/loopPreviewId' ] ?? 0;
+	const hasLoopItems = context?.[ 'generateblocks/hasLoopItems' ] ?? false;
 
 	return (
 		<>
@@ -128,7 +132,7 @@ function EditBlock( props ) {
 			</InspectorControls>
 			<TagName { ...otherInnerBlocksProps }>
 				{ innerBlocksChildren }
-				{ previewId !== contextPostId && (
+				{ !! hasLoopItems && previewId !== contextPostId && (
 					<button
 						className="gb-block-preview__toggle"
 						data-block-id={ clientId }

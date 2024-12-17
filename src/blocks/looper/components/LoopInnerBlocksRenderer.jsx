@@ -220,6 +220,7 @@ export function LoopInnerBlocksRenderer( props ) {
 					'generateblocks/loopItem': item,
 					'generateblocks/loopIndex': index + 1, // Preview doesn't support pagination so this index is correct.
 					'generateblocks/loopPreviewId': previewId,
+					'generateblocks/hasLoopItems': true,
 				};
 			} );
 
@@ -247,6 +248,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			},
 			'generateblocks/loopIndex': 1,
 			'generateblocks/loopPreviewId': previewId,
+			'generateblocks/hasLoopItems': false,
 		} ];
 	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId ] );
 

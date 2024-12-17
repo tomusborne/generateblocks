@@ -58,6 +58,7 @@
 		"generateblocks/loopIndex",
 		"generateblocks/loopItem",
 		"generateblocks/loopPreviewId",
+		"generateblocks/hasLoopItems",
 		"postId"
 	]
 }
