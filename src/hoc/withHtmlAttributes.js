@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 
 import { useUpdateEffect } from 'react-use';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
-import { replaceTags } from '../dynamic-tags/utils';
 
 export const booleanAttributes = [
 	'allowfullscreen',
@@ -75,37 +75,22 @@ export function withHtmlAttributes( WrappedComponent ) {
 			align,
 		} = attributes;
 
-		const [ styleWithReplacements, setStyleWithReplacements ] = useState( '' );
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
+		const [ processedStyle, setProcessedStyle ] = useState( style );
 
 		useEffect( () => {
-			async function getReplacements() {
-			// Check if any replacements need to be made if not, do nothing.
-				if ( ! style.includes( '{{' ) ) {
-					setStyleWithReplacements( style );
-					return;
-				}
+			async function fetchProcessedStyle() {
+				const styleValue = await applyFilters(
+					'generateblocks.editor.htmlAttributes.style',
+					style,
+					{ ...props }
+				);
 
-				const replacements = await replaceTags( style, context );
-
-				if ( ! replacements.length ) {
-					setStyleWithReplacements( style );
-					return;
-				}
-
-				const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
-					if ( ! replacement ) {
-						return acc.replaceAll( original, fallback );
-					}
-
-					return acc.replaceAll( original, replacement );
-				}, style );
-
-				setStyleWithReplacements( withReplacements ? withReplacements : style );
+				setProcessedStyle( styleValue );
 			}
 
-			getReplacements();
+			fetchProcessedStyle();
 		}, [ style, context, isSavingPost ] );
 
 		useUpdateEffect( () => {
@@ -122,8 +107,8 @@ export function withHtmlAttributes( WrappedComponent ) {
 			setAttributes( { className: newClasses.join( ' ' ) } );
 		}, [ align ] );
 
-		const inlineStyleObject = typeof styleWithReplacements === 'string'
-			? convertInlineStyleStringToObject( styleWithReplacements )
+		const inlineStyleObject = typeof processedStyle === 'string'
+			? convertInlineStyleStringToObject( processedStyle )
 			: '';
 		const combinedAttributes = {
 			...otherAttributes,
