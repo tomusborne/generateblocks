@@ -9,6 +9,7 @@ import {
 	TagNameControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
+import { InlineBackgroundImage } from '../../element/components/InlineBackgroundImage';
 
 export function BlockSettings( {
 	getStyleValue,
@@ -55,6 +56,21 @@ export function BlockSettings( {
 					htmlAttributes={ htmlAttributes }
 					context={ context }
 					tagName={ tagName }
+				/>
+			</OpenPanel>
+
+			<OpenPanel
+				{ ...panelProps }
+				shouldRender={ '' === currentAtRule }
+				panelId="inline-background-image"
+			>
+				<InlineBackgroundImage
+					label={ __( 'Inline Background Image', 'generateblocks' ) }
+					htmlAttributes={ htmlAttributes }
+					setAttributes={ setAttributes }
+					styles={ styles }
+					onStyleChange={ onStyleChange }
+					context={ context }
 				/>
 			</OpenPanel>
 
