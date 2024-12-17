@@ -19,7 +19,7 @@
 	},
 	"dependencies": {
 		"@edge22/block-styles": "^1.1.31",
-		"@edge22/components": "^1.1.48",
+		"@edge22/components": "^1.1.49",
 		"@edge22/styles-builder": "^1.2.48",
 		"@wordpress/block-editor": "^12.12.0",
 		"@wordpress/blocks": "^12.21.0",
