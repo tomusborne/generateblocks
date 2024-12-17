@@ -97,6 +97,32 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		$attributes     = $request->get_param( 'attributes' ) ?? [];
 		$current_post   = $request->get_param( 'postId' ) ?? null;
 		$current_author = $request->get_param( 'authorId' ) ?? null;
+		$context        = $request->get_param( 'context' ) ?? [];
+		$query_type     = $request->get_param( 'queryType' ) ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+		$current        = [
+			'post_id'   => $current_post,
+			'author_id' => $current_author,
+		];
+
+		/**
+		 * Filter the args for get-wp-query calls before they're passed to get_wp_query_args.
+		 *
+		 * @param array $args The WP_Query args to parse.
+		 * @param array $props Additional filter properties.
+		 *
+		 * @return array $args The optimized WP_Query args array.
+		 */
+		$args = apply_filters(
+			'generateblocks_rest_get_wp_query_args',
+			$args,
+			[
+				'page'       => $page,
+				'attributes' => $attributes,
+				'context'    => $context,
+				'current'    => $current,
+				'query_type' => $query_type,
+			]
+		);
 
 		$query = new WP_Query(
 			self::get_wp_query_args(
@@ -104,10 +130,7 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$page,
 				$attributes,
 				null,
-				[
-					'post_id'   => $current_post,
-					'author_id' => $current_author,
-				]
+				$current
 			)
 		);
 

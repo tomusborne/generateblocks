@@ -32,7 +32,7 @@ function BlockPreview( { blocks, isHidden } ) {
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
-function useWpQuery( shouldRequest = true, query, attributes, block ) {
+function useWpQuery( shouldRequest = true, { query, attributes, selectedBlock, context, queryType } ) {
 	const currentPost = useSelect( ( select ) => {
 		const { getCurrentPost } = select( 'core/editor' );
 
@@ -70,6 +70,12 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 			}
 		}
 
+		const { queryLoopEditorPostsCap = 50 } = generateBlocksEditor;
+
+		if ( args.posts_per_page > queryLoopEditorPostsCap ) {
+			args.posts_per_page = queryLoopEditorPostsCap;
+		}
+
 		async function fetchPosts() {
 			setIsLoading( true );
 
@@ -80,7 +86,9 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 					data: {
 						args,
 						attributes,
-						block,
+						context,
+						queryType,
+						block: selectedBlock,
 						postId: currentPost?.id,
 						authorId: currentPost?.author,
 					},
@@ -106,10 +114,11 @@ function useWpQuery( shouldRequest = true, query, attributes, block ) {
 export function LoopInnerBlocksRenderer( props ) {
 	const {
 		clientId,
-		context,
 		attributes,
 		isSelected,
 	} = props;
+
+	const context = applyFilters( 'generateblocks.editor.preview.context', props.context, { props } );
 
 	const {
 		'generateblocks/query': query = {},
@@ -123,7 +132,7 @@ export function LoopInnerBlocksRenderer( props ) {
 	};
 	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const selectedBlock = getSelectedBlock();
-	const wpQuery = useWpQuery( 'WP_Query' === queryType, query, attributes, selectedBlock );
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, { query, context, queryType, attributes, selectedBlock } );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,

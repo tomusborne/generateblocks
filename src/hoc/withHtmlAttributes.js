@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 
 import { useUpdateEffect } from 'react-use';
@@ -74,6 +75,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			align,
 		} = attributes;
 
+		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
 		const [ processedStyle, setProcessedStyle ] = useState( style );
 
@@ -89,7 +91,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			}
 
 			fetchProcessedStyle();
-		}, [ style, props ] );
+		}, [ style, context, isSavingPost ] );
 
 		useUpdateEffect( () => {
 			const layoutClasses = [ 'alignwide', 'alignfull' ];

@@ -11,7 +11,7 @@ import { ParameterList } from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
 import { getParameters } from '../query-parameters';
 
-export function QueryInspectorControls( { attributes, setAttributes } ) {
+export function QueryInspectorControls( { attributes, setAttributes, context } ) {
 	const { queryState, setParameter, removeParameter } = useQueryReducer( attributes.query );
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
 
@@ -121,7 +121,15 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 				applyFilters(
 					'generateblocks.editor.query.inspectorControls',
 					null,
-					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
+					{
+						queryType: attributes.queryType,
+						attributes,
+						setAttributes,
+						queryState,
+						setParameter,
+						removeParameter,
+						context,
+					}
 				)
 			}
 		</>
