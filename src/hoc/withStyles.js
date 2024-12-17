@@ -20,6 +20,7 @@ export function withStyles( WrappedComponent ) {
 			name,
 			setAttributes,
 			isSelected,
+			clientId,
 		} = props;
 
 		const {
@@ -102,6 +103,8 @@ export function withStyles( WrappedComponent ) {
 					selector={ selector }
 					getCss={ getCss }
 					styles={ frontendStyles }
+					clientId={ clientId }
+					name={ name }
 				/>
 				<WrappedComponent
 					{ ...props }
