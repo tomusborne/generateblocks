@@ -60,6 +60,16 @@ function shallowEqual( obj1, obj2 ) {
 	return true;
 }
 
+const sanitizeAttributeValue = ( value ) => {
+	// Replace characters like &, <, >, " with their HTML entity equivalents
+	return value
+		.replace( /&/g, '&amp;' )
+		.replace( /</g, '&lt;' )
+		.replace( />/g, '&gt;' )
+		.replace( /"/g, '&quot;' )
+		.replace( /'/g, '&#039;' );
+};
+
 export function withHtmlAttributes( WrappedComponent ) {
 	return ( ( props ) => {
 		const {
@@ -77,6 +87,10 @@ export function withHtmlAttributes( WrappedComponent ) {
 
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
+		const escapedAttributes = Object.keys( otherAttributes ).reduce( ( acc, key ) => {
+			acc[ key ] = sanitizeAttributeValue( otherAttributes[ key ] );
+			return acc;
+		}, {} );
 		const [ processedStyle, setProcessedStyle ] = useState( style );
 
 		useEffect( () => {
@@ -111,7 +125,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			? convertInlineStyleStringToObject( processedStyle )
 			: '';
 		const combinedAttributes = {
-			...otherAttributes,
+			...escapedAttributes,
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0,
