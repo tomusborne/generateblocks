@@ -681,3 +681,41 @@ function generateblocks_admin_head_scripts() {
 		$permission_object // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	);
 }
+
+add_filter( 'render_block', 'generateblocks_do_html_attributes_escaping', 20, 2 );
+/**
+ * Filter the rendered block content and escape HTML attributes.
+ *
+ * @param string $content The block content about to be appended to the post content.
+ * @param array  $block    The full block, including name and attributes.
+ * @return string
+ */
+function generateblocks_do_html_attributes_escaping( $content, $block ) {
+	$html_attributes = $block['attrs']['htmlAttributes'] ?? [];
+	$link_attributes = $block['attrs']['linkHtmlAttributes'] ?? [];
+
+	if ( empty( $html_attributes ) && empty( $link_attributes ) ) {
+		return $content;
+	}
+
+	$v1_block_names  = generateblocks_get_v1_block_names();
+	$block_name      = $block['blockName'] ?? '';
+
+	// Only do this for our non-v1 blocks.
+	if (
+		! generateblocks_str_starts_with( $block_name, 'generateblocks' ) ||
+		in_array( $block_name, $v1_block_names, true )
+	) {
+		return $content;
+	}
+
+	$content = generateblocks_with_escaped_attributes(
+		$content,
+		[
+			'block_html_attrs' => $html_attributes,
+			'link_html_attrs'  => $link_attributes,
+		]
+	);
+
+	return $content;
+}
