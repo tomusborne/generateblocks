@@ -256,7 +256,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <Spinner /> );
 	}
 
-	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
+	return loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const contextId = loopItemContext?.postId ?? loopItemContext?.[ 'generateblocks/loopIndex' ] ?? index;
 		const key = `${ contextId }-${ index }`;
@@ -279,5 +279,5 @@ export function LoopInnerBlocksRenderer( props ) {
 				/>
 			</BlockContextProvider>
 		);
-	} ) : innerBlocksProps.children;
+	} );
 }
