@@ -51,8 +51,13 @@ export function DynamicTagBlockToolbar( {
 	onChange,
 	context,
 } ) {
+	const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
 	const allTags = generateBlocksEditor.dynamicTags;
 	const foundTags = getTags( value, allTags );
+
+	if ( ! previewEnabled && 'preview' === contentMode ) {
+		setContentMode( 'edit' );
+	}
 
 	const contentValue = useMemo( () => {
 		return value?.text || value;
@@ -75,7 +80,7 @@ export function DynamicTagBlockToolbar( {
 	}, [ selectionStart, selectionEnd, value ] );
 
 	useEffect( () => {
-		if ( foundTags.length && ! isSelected ) {
+		if ( foundTags.length && ! isSelected && previewEnabled ) {
 			setContentMode( 'preview' );
 		}
 	}, [ foundTags.length, isSelected ] );
@@ -116,7 +121,9 @@ export function DynamicTagBlockToolbar( {
 						}
 
 						onChange( new RichTextData( richTextValue ) );
-						setContentMode( 'preview' );
+						if ( previewEnabled ) {
+							setContentMode( 'preview' );
+						}
 					} }
 					onRemove={ ( tagToRemove ) => {
 						const newValue = replace( value, tagToRemove, '' );
@@ -138,7 +145,7 @@ export function DynamicTagBlockToolbar( {
 					foundTags={ foundTags }
 					context={ context }
 				/>
-				{ !! foundTags.length && (
+				{ ( !! foundTags.length && previewEnabled ) && (
 					<div className="gb-dynamic-tag-content-mode">
 						<ToolbarButton
 							onClick={ () => {

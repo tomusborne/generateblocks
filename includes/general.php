@@ -299,6 +299,7 @@ function generateblocks_do_block_editor_assets() {
 			'dateFormat' => get_option( 'date_format' ),
 			'wpContentUrl' => content_url(),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
+			'dynamicTagsPreview' => apply_filters( 'generateblocks_dynamic_tags_preview', true ) ? 'enabled' : 'disabled',
 		]
 	);
 

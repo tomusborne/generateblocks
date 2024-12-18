@@ -7,6 +7,12 @@ addFilter(
 	async( style, props ) => {
 		const { context } = props;
 
+		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
+
+		if ( ! previewEnabled ) {
+			return style;
+		}
+
 		// Check if any replacements need to be made
 		if ( ! style.includes( '{{' ) ) {
 			return style;
