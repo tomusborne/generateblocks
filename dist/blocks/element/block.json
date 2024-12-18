@@ -54,6 +54,10 @@
     "htmlAttributes": {
       "type": "object",
       "default": {}
+    },
+    "align": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
@@ -62,6 +66,7 @@
   },
   "usesContext": [
     "generateblocks/queryData",
+    "generateblocks/maxPages",
     "generateblocks/queryType",
     "generateblocks/paginationType",
     "postId"

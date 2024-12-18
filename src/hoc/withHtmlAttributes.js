@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
+
+import { useUpdateEffect } from 'react-use';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
-import { replaceTags } from '../dynamic-tags/utils';
 
 export const booleanAttributes = [
 	'allowfullscreen',
@@ -15,6 +18,7 @@ export const booleanAttributes = [
 	'default',
 	'defer',
 	'disabled',
+	'download',
 	'formnovalidate',
 	'hidden',
 	'ismap',
@@ -67,48 +71,51 @@ export function withHtmlAttributes( WrappedComponent ) {
 		const {
 			htmlAttributes = {},
 			uniqueId,
+			className,
+			align,
 		} = attributes;
 
-		const [ styleWithReplacements, setStyleWithReplacements ] = useState( '' );
+		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
+		const [ processedStyle, setProcessedStyle ] = useState( style );
 
 		useEffect( () => {
-			async function getReplacements() {
-			// Check if any replacements need to be made if not, do nothing.
-				if ( ! style.includes( '{{' ) ) {
-					setStyleWithReplacements( style );
-					return;
-				}
+			async function fetchProcessedStyle() {
+				const styleValue = await applyFilters(
+					'generateblocks.editor.htmlAttributes.style',
+					style,
+					{ ...props }
+				);
 
-				const replacements = await replaceTags( style, context );
-
-				if ( ! replacements.length ) {
-					setStyleWithReplacements( style );
-					return;
-				}
-
-				const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
-					if ( ! replacement ) {
-						return acc.replaceAll( original, fallback );
-					}
-
-					return acc.replaceAll( original, replacement );
-				}, style );
-
-				setStyleWithReplacements( withReplacements ? withReplacements : style );
+				setProcessedStyle( styleValue );
 			}
 
-			getReplacements();
-		}, [ style, context ] );
+			fetchProcessedStyle();
+		}, [ style, context, isSavingPost ] );
 
-		const inlineStyleObject = typeof styleWithReplacements === 'string'
-			? convertInlineStyleStringToObject( styleWithReplacements )
+		useUpdateEffect( () => {
+			const layoutClasses = [ 'alignwide', 'alignfull' ];
+			const existingClasses = className?.split( ' ' ) || [];
+			const newClasses = existingClasses.filter(
+				( existingClass ) => ! layoutClasses.includes( existingClass )
+			);
+
+			if ( align ) {
+				newClasses.push( 'align' + align );
+			}
+
+			setAttributes( { className: newClasses.join( ' ' ) } );
+		}, [ align ] );
+
+		const inlineStyleObject = typeof processedStyle === 'string'
+			? convertInlineStyleStringToObject( processedStyle )
 			: '';
 		const combinedAttributes = {
 			...otherAttributes,
 			style: inlineStyleObject,
 			'data-gb-id': uniqueId,
 			'data-context-post-id': context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0,
+			'data-align': align ? align : undefined,
 		};
 
 		const frontendHtmlAttributes = useMemo( () => {
@@ -125,10 +132,11 @@ export function withHtmlAttributes( WrappedComponent ) {
 
 			// Loop through the htmlAttributes object and delete those with invalid values.
 			Object.keys( updatedHtmlAttributes ).forEach( ( key ) => {
+				const isDataAttribute = key.startsWith( 'data-' );
 				const value = updatedHtmlAttributes[ key ];
 
 				// Remove non-boolean attributes if they have empty values.
-				if ( ! booleanAttributes.includes( key ) && '' === value ) {
+				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 

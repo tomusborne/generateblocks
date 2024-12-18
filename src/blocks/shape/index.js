@@ -22,8 +22,9 @@ registerBlockVariation(
 			styles: {
 				display: 'inline-flex',
 				svg: {
-					width: '30px',
+					fill: 'currentColor',
 					height: '30px',
+					width: '30px',
 				},
 			},
 		},

@@ -19,6 +19,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	const DISALLOWED_KEYS = [
 		'post_password',
 		'password',
+		'user_pass',
 	];
 
 	/**
@@ -202,11 +203,17 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			null,
 			$id,
 			$key,
-			$callable
+			$callable,
+			$single_only
 		);
 
 		if ( is_numeric( $id ) ) {
-			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, true );
+			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, $single_only );
+
+			// If it's an array with only one item, return it directly.
+			if ( is_array( $meta ) && 1 === count( $meta ) ) {
+				$meta = $meta[0];
+			}
 		} else {
 			$meta = $pre_value ? $pre_value : call_user_func( $callable, $parent_name );
 		}
@@ -214,18 +221,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		// Some user meta is stored as user data.
 		// If we're looking for user meta and can't find it, let's check for user data as well.
 		if ( ! $meta && 'get_user_meta' === $callable ) {
-			$user_data_keys = [
-				'user_nicename',
-				'user_email',
-				'display_name',
-				'ID',
-			];
-
-			if ( in_array( $key, $user_data_keys, true ) ) {
-				$userdata = get_userdata( $id )->data ?? new stdClass();
-
-				$meta = $userdata->{$key} ?? '';
-			}
+			$meta = get_the_author_meta( $parent_name, $id );
 		}
 
 		$meta = apply_filters(

@@ -1,11 +1,17 @@
 import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+
+import { getAtRuleValue } from '@edge22/styles-builder';
+
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
 import { getElementType } from './utils/getElementType';
 import { getIcon } from '@utils';
+
 import './editor.scss';
+
+const mobileAtRule = getAtRuleValue( 'smallWidth' );
 
 registerBlockType( metadata, {
 	edit: Edit,
@@ -66,6 +72,11 @@ registerBlockVariation(
 			styles: {
 				display: 'grid',
 				gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+				columnGap: '1em',
+				rowGap: '1em',
+				[ mobileAtRule ]: {
+					gridTemplateColumns: '1fr',
+				},
 			},
 		},
 		innerBlocks: [

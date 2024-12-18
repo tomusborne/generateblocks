@@ -185,8 +185,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					],
 					'multiple' => [
 						'label'       => __( 'Multiple comments text', 'generateblocks' ),
-						// Translators: %s is the number of comments.
-						'placeholder' => __( '%s comments', 'generateblocks' ),
+						// Translators: % is the number of comments.
+						'placeholder' => __( '% comments', 'generateblocks' ),
 						'type'        => 'text',
 					],
 				],
@@ -316,6 +316,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'Media', 'generateblocks' ),
+				'tag'      => 'media',
+				'type'     => 'media',
+				'supports' => [],
+				'options'  => [
+					'key' => [
+						'type'    => 'select',
+						'label'   => __( 'Media Key', 'generateblocks' ),
+						'default' => 'url',
+						'options' => [
+							'url',
+							'id',
+							'caption',
+							'description',
+							'alt',
+						],
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_media' ],
+			]
+		);
 	}
 
 	/**
@@ -366,14 +390,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_id( $options, $fallback_type = 'post', $instance = null ) {
-
-		$is_loop_item = $instance->context['generateblocks/loopItem'] ?? false;
-
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
-		} elseif ( ! $is_loop_item && ( is_tax() || is_category() || is_tag() || is_archive() ) ) {
+		} elseif ( 'term' === $fallback_type ) {
 			$id = get_queried_object_id();
 		} else {
 			$id = get_the_ID();
@@ -444,6 +465,26 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						},
 						'sanitize_callback' => function( $param, $request, $key ) {
 							return is_string( $param ) ? json_decode( $param, true ) : $param;
+						},
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/get-user-record',
+			array(
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_user_record' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+				'args' => array(
+					'id' => array(
+						'required'          => true,
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param );
 						},
 					),
 				),
@@ -529,6 +570,49 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		return rest_ensure_response( $replacements );
 	}
 
+
+	/**
+	 * Add meta fields to a user record.
+	 *
+	 * @param WP_User $user The user object to update.
+	 * @return WP_User The updated user object.
+	 */
+	public function add_meta_to_user_record( $user ) {
+		if ( ! $user ) {
+			return $user;
+		}
+
+		$data   = get_object_vars( $user->data );
+		$meta   = array_filter(
+			get_user_meta( $user->ID ),
+			function ( $key ) {
+				$hidden  = generateblocks_str_starts_with( $key, '_' );
+				$is_rest = $this->is_rest_field( $key );
+
+				return ! $hidden && $is_rest;
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		$user_meta = array_merge(
+			$data,
+			$meta
+		);
+
+		// Remove all hidden or disallowed meta fields.
+		$user->meta = array_filter(
+			$user_meta,
+			function( $key ) {
+				$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
+
+				return ! $disallowed;
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		return $user;
+	}
+
 	/**
 	 * Get our post record based on the requested load and post ID.
 	 *
@@ -556,22 +640,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				ARRAY_FILTER_USE_KEY
 			);
 			$response->meta = $post_meta;
-		}
-
-		// Fetch author data if requested.
-		if ( in_array( 'author', $load, true ) ) {
-			$author = get_user_by( 'ID', $post->post_author );
-
-			// Remove all hidden meta fields.
-			$author->meta = array_filter(
-				get_user_meta( $post->post_author ),
-				function( $key ) {
-					return ! generateblocks_str_starts_with( $key, '_' );
-				},
-				ARRAY_FILTER_USE_KEY
-			);
-
-			$response->author = $author->data;
 		}
 
 		// Fetch comments if requested.
@@ -616,6 +684,53 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		return rest_ensure_response( $filtered_response );
 	}
 
+	/**
+	 * Get the record for a specific user by ID.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 */
+	public function get_user_record( WP_REST_Request $request ) {
+		$id = $request->get_param( 'id' );
+
+		if ( ! $id ) {
+			return rest_ensure_response(
+				new WP_Error(
+					'Invalid user ID',
+					'User ID is required',
+					[ 'status' => 400 ]
+				)
+			);
+		}
+
+		$response = $this->add_meta_to_user_record(
+			get_user_by( 'ID', $id )
+		)->data;
+
+		if ( ! $response ) {
+			$response = new WP_Error(
+				'User not found',
+				'User not found',
+				[ 'status' => 400 ]
+			);
+		}
+
+		/**
+		 * Allows filtering of the post record response data to add or alter data.
+		 *
+		 * @since 2.0.0
+		 * @param array $response Array of response data.
+		 * @param int $id ID of the user record.
+		 *
+		 * @return \WP_REST_Response|\WP_Error Response object.
+		 */
+		$filtered_response = apply_filters(
+			'generateblocks_dynamic_tags_user_record_response',
+			$response,
+			$id
+		);
+
+		return rest_ensure_response( $filtered_response );
+	}
 
 	/**
 	 * Before tag replace.
@@ -660,21 +775,26 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					if ( is_numeric( $replacement ) ) {
 						$media_id = $replacement;
-					} elseif ( 'featured_image' === $args['tag'] ) {
+					} elseif ( 'featured_image' === $args['tag'] || 'media' === $args['tag'] ) {
 						$key = $args['options']['key'] ?? 'url';
 
 						if ( 'url' === $key ) {
 							$args['options']['key'] = 'id';
-							$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image(
-								$args['options'],
-								$args['block'],
-								$args['instance']
-							);
+							$callback = 'featured_image' === $args['tag']
+								? 'GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image'
+								: 'GenerateBlocks_Dynamic_Tag_Callbacks::get_media';
+
+							$media_id = $callback( $args['options'], $args['block'], $args['instance'] );
 						}
 					}
 
 					if ( $media_id ) {
 						$processor->set_attribute( 'data-media-id', $media_id );
+
+						if ( ! $processor->get_attribute( 'alt' ) ) {
+							$processor->set_attribute( 'alt', get_post_meta( $media_id, '_wp_attachment_image_alt', true ) );
+						}
+
 						$content = $processor->get_updated_html();
 					}
 				}
@@ -729,6 +849,41 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$tags = apply_filters( 'generateblocks_dynamic_tags_allowed_html', $tags, $context );
 
 		return $tags;
+	}
+
+	/**
+	 * Check if a given key is registered as a REST field.
+	 *
+	 * @param string       $field_name The name of the field to check.
+	 * @param string|array $types The type(s) to check against. Default is 'post', 'term', 'comment', 'user', and 'settings'.
+	 *
+	 * @return boolean
+	 */
+	public function is_rest_field(
+		$field_name,
+		$types = [
+			'post',
+			'term',
+			'comment',
+			'user',
+			'settings',
+			'page',
+		]
+	) {
+
+		if ( is_string( $types ) ) {
+			$types = [ $types ];
+		}
+
+		foreach ( $types as $type ) {
+			$fields = get_registered_meta_keys( $type );
+
+			if ( isset( $fields[ $field_name ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 

@@ -121,6 +121,8 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			}
 		}
 
+		$max_pages = $query_data['max_num_pages'] ?? $query_data['data']->max_num_pages ?? 0;
+
 		$parsed_content = (
 			new WP_Block(
 				$block->parsed_block,
@@ -129,6 +131,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 					'generateblocks/queryData' => $query_data['data'],
 					'generateblocks/query'     => $query_data['args'],
 					'generateblocks/queryType' => $query_type,
+					'generateblocks/maxPages'  => $max_pages,
 				)
 			)
 		)->render( array( 'dynamic' => false ) );

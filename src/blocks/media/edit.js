@@ -171,6 +171,7 @@ function EditBlock( props ) {
 		<>
 			<InspectorControls>
 				<StylesOnboarder />
+
 				<BlockStyles
 					settingsTab={ (
 						<BlockSettings

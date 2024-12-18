@@ -1,4 +1,5 @@
 import { useState, useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import { replaceTags } from '../dynamic-tags/utils';
 
 export function withDynamicTag( WrappedComponent ) {
@@ -16,6 +17,7 @@ export function withDynamicTag( WrappedComponent ) {
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
 		const [ contentMode, setContentMode ] = useState( 'edit' );
+		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 
 		const getContentValue = () => {
 			if ( 'img' === tagName ) {
@@ -48,7 +50,7 @@ export function withDynamicTag( WrappedComponent ) {
 			}
 
 			fetchData();
-		}, [ contentValue, contentMode, context ] );
+		}, [ contentValue, contentMode, context, tagName, isSavingPost ] );
 
 		return (
 			<WrappedComponent

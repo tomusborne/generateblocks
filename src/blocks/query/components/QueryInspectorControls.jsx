@@ -9,9 +9,9 @@ import { SelectQueryParameter } from './SelectQueryParameter';
 import { AddQueryParameterButton } from './AddQueryParameterButton';
 import { ParameterList } from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
-import queryParameterOptions from '../query-parameters';
+import { getParameters } from '../query-parameters';
 
-export function QueryInspectorControls( { attributes, setAttributes } ) {
+export function QueryInspectorControls( { attributes, setAttributes, context } ) {
 	const { queryState, setParameter, removeParameter } = useQueryReducer( attributes.query );
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
 
@@ -20,7 +20,7 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 	}, [ JSON.stringify( queryState ), ! isEqual( attributes.query, queryState ) ] );
 
 	const parameterOptions = useMemo( () => (
-		queryParameterOptions.map( ( parameter ) => {
+		getParameters().map( ( parameter ) => {
 			parameter.isDisabled = ! parameter.isRepeatable && Object.keys( queryState ).includes( parameter.id );
 
 			return parameter;
@@ -121,7 +121,15 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 				applyFilters(
 					'generateblocks.editor.query.inspectorControls',
 					null,
-					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
+					{
+						queryType: attributes.queryType,
+						attributes,
+						setAttributes,
+						queryState,
+						setParameter,
+						removeParameter,
+						context,
+					}
 				)
 			}
 		</>

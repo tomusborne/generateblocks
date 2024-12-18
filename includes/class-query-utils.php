@@ -95,52 +95,43 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		$args           = $request->get_param( 'args' );
 		$page           = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
 		$attributes     = $request->get_param( 'attributes' ) ?? [];
-		$current_post   = $request->get_param( 'currentPost' ) ?? null;
-		$current_author = $current_post['author'] ?? 0;
+		$current_post   = $request->get_param( 'postId' ) ?? null;
+		$current_author = $request->get_param( 'authorId' ) ?? null;
+		$context        = $request->get_param( 'context' ) ?? [];
+		$query_type     = $request->get_param( 'queryType' ) ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+		$current        = [
+			'post_id'   => $current_post,
+			'author_id' => $current_author,
+		];
 
-		// Handle current entity values.
-		if ( $current_post ) {
-			$included_posts = $args['post__in'] ?? [];
-			$excluded_posts = $args['post__not_in'] ?? [];
-
-			foreach ( $included_posts as &$the_post ) {
-				if ( 'current' === $the_post ) {
-					$the_post = $current_post;
-				}
-			}
-
-			foreach ( $excluded_posts as &$the_post ) {
-				if ( 'current' === $the_post ) {
-					$the_post = $current_post;
-				}
-			}
-
-			$args['post__in']     = $included_posts;
-			$args['post__not_in'] = $excluded_posts;
-		}
-
-		if ( $current_author ) {
-			$included_authors = $args['author__in'] ?? [];
-			$excluded_authors = $args['author__not_in'] ?? [];
-
-			foreach ( $included_authors as &$the_post ) {
-				if ( 'current' === $the_post ) {
-					$the_post = $current_author;
-				}
-			}
-
-			foreach ( $excluded_authors as &$the_post ) {
-				if ( 'current' === $the_post ) {
-					$the_post = $current_author;
-				}
-			}
-
-			$args['author__in']     = $included_authors;
-			$args['author__not_in'] = $excluded_authors;
-		}
+		/**
+		 * Filter the args for get-wp-query calls before they're passed to get_wp_query_args.
+		 *
+		 * @param array $args The WP_Query args to parse.
+		 * @param array $props Additional filter properties.
+		 *
+		 * @return array $args The optimized WP_Query args array.
+		 */
+		$args = apply_filters(
+			'generateblocks_rest_get_wp_query_args',
+			$args,
+			[
+				'page'       => $page,
+				'attributes' => $attributes,
+				'context'    => $context,
+				'current'    => $current,
+				'query_type' => $query_type,
+			]
+		);
 
 		$query = new WP_Query(
-			self::get_wp_query_args( $args, $page, $attributes )
+			self::get_wp_query_args(
+				$args,
+				$page,
+				$attributes,
+				null,
+				$current
+			)
 		);
 
 		return rest_ensure_response( $query );
@@ -153,10 +144,14 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	 * @param int            $page  Current query's page.
 	 * @param array          $attributes The query block's attributes. Used for reference in the filters.
 	 * @param WP_Block|array $block The current block.
+	 * @param array          $current Array of current entities (post, author, etc.).
 	 *
 	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null ) {
+	public static function get_wp_query_args( $args = [], $page = 1, $attributes = [], $block = null, $current = [] ) {
+		$current_post_id   = $current['post_id'] ?? get_the_ID();
+		$current_author_id = $current['author_id'] ?? get_the_author_meta( 'ID' );
+
 		// Set up our pagination.
 		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
 			$args['paged'] = $page;
@@ -261,12 +256,19 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		 * @param array @query_args The array of args for the WP_Query.
 		 * @param array $attributes The block attributes.
 		 * @param WP_Block|array $block The current block.
+		 * @param array $current The current entities (post, author, etc.).
+		 *
+		 * @return $args The modified query arguments.
 		 */
 		return apply_filters(
 			'generateblocks_query_wp_query_args',
 			$args,
 			$attributes,
-			null === $block ? new stdClass() : $block
+			null === $block ? new stdClass() : $block,
+			[
+				'post_id'   => $current_post_id,
+				'author_id' => $current_author_id,
+			]
 		);
 	}
 

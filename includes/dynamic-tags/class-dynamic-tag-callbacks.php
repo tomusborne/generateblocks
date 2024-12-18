@@ -404,7 +404,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$none   = $options['none'] ?? __( 'No comments', 'generateblocks' );
 		$single = $options['single'] ?? __( '1 comment', 'generateblocks' );
-		$multi  = $options['multi'] ?? __( '% comments', 'generateblocks' );
+		$multi  = $options['multiple'] ?? __( '% comments', 'generateblocks' );
 		$output = '';
 
 		if ( ! post_password_required( $id ) && ( comments_open( $id ) || get_comments_number( $id ) ) ) {
@@ -415,7 +415,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$output = get_comments_number_text(
 				$none,
 				$single,
-				$multi
+				$multi,
+				$id
 			);
 		} else {
 			$output = $none;
@@ -730,7 +731,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$args          = $instance->context['generateblocks/query'] ?? [];
 		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
-		$per_page      = $args['per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
+		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
 		if ( $inherit_query ) {
@@ -768,6 +769,46 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			}
 
 			wp_reset_postdata(); // Restore original Post Data.
+		}
+
+		return self::output( $output, $options, $instance );
+	}
+
+	/**
+	 * Get the media.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_media( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		switch ( $options['key'] ?? '' ) {
+			case 'title':
+				$output = get_the_title( $id );
+				break;
+			case 'id':
+				$output = $id;
+				break;
+			case 'alt':
+				$output = get_post_meta( $id, '_wp_attachment_image_alt', true );
+				break;
+			case 'caption':
+				$output = wp_get_attachment_caption( $id );
+				break;
+			case 'description':
+				$output = get_post_field( 'post_content', $id );
+				break;
+			case 'url':
+			default:
+				$output = wp_get_attachment_url( $id );
+				break;
 		}
 
 		return self::output( $output, $options, $instance );

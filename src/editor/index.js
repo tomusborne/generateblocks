@@ -4,6 +4,7 @@ import './stores.js';
 import './disable-blocks.js';
 import './toolbar-appenders.js';
 import './global-max-width.js';
+import './style-html-attribute.js';
 import './editor.scss';
 
 wpDomReady( () => {

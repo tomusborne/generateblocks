@@ -12,6 +12,7 @@ export function BlockSettings( {
 	name,
 	attributes,
 	setAttributes,
+	context,
 } ) {
 	const panelProps = {
 		name,
@@ -38,6 +39,7 @@ export function BlockSettings( {
 				<QueryInspectorControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					context={ context }
 				/>
 			</OpenPanel>
 			<OpenPanel

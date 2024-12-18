@@ -12,7 +12,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
-import { LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/index';
+import { AlignmentToolbar, LinkBlockToolbar, StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
@@ -29,6 +29,7 @@ function EditBlock( props ) {
 		name,
 		clientId,
 		onStyleChange,
+		getStyleValue,
 		editorHtmlAttributes,
 		isSelected,
 		styles,
@@ -154,6 +155,23 @@ function EditBlock( props ) {
 			);
 		}
 
+		// The RichText component can't handle the `<button>` tag for some reason.
+		// It doesn't allow spaces to be entered, and doesn't allow the user to type if there
+		// isn't already a value entered. To handle this, we'll render a `<button>` tag instead
+		// and use a `span` as the RichText component tag.
+		if ( 'button' === elementTagName ) {
+			return (
+				<button
+					{ ...( withBlockProps && blockProps ) }
+				>
+					<RichText
+						{ ...richTextProps }
+						tagName={ 'span' }
+					/>
+				</button>
+			);
+		}
+
 		return (
 			<RichText
 				{ ...richTextProps }
@@ -176,6 +194,14 @@ function EditBlock( props ) {
 				htmlAttributes={ htmlAttributes }
 				tagName={ tagName }
 				context={ context }
+			/>
+
+			<AlignmentToolbar
+				withTextAlign
+				getStyleValue={ getStyleValue }
+				onStyleChange={ onStyleChange }
+				setAttributes={ setAttributes }
+				clientId={ clientId }
 			/>
 
 			{ ! iconOnly && (

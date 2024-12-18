@@ -7,7 +7,7 @@ import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
+import { AlignmentToolbar, BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { BlockAppender } from '@components';
@@ -19,6 +19,7 @@ function EditBlock( props ) {
 		clientId,
 		isSelected,
 		name,
+		getStyleValue,
 		onStyleChange,
 		editorHtmlAttributes,
 		styles,
@@ -26,6 +27,7 @@ function EditBlock( props ) {
 
 	const {
 		tagName,
+		align,
 	} = attributes;
 
 	const classNames = getBlockClasses(
@@ -95,6 +97,17 @@ function EditBlock( props ) {
 		<>
 			<InspectorControls>
 				<StylesOnboarder />
+
+				<AlignmentToolbar
+					withTextAlign
+					withBlockWidth
+					getStyleValue={ getStyleValue }
+					onStyleChange={ onStyleChange }
+					align={ align }
+					setAttributes={ setAttributes }
+					clientId={ clientId }
+				/>
+
 				<BlockStyles
 					settingsTab={ (
 						<BlockSettings
@@ -115,6 +128,7 @@ function EditBlock( props ) {
 			<RootElement
 				name={ name }
 				clientId={ clientId }
+				align={ align }
 			>
 				<TagName { ...innerBlocksProps } />
 			</RootElement>
