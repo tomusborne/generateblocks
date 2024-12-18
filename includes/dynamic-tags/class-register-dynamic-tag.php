@@ -46,8 +46,8 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @param string $tag_name The tag name.
 	 * @return array
 	 */
-	private static function parse_options( $options_string, $tag_name ) {
-		$pairs  = $options_string ? explode( '|', $options_string ) : [];
+	public static function parse_options( $options_string, $tag_name ) {
+		$pairs  = $options_string ? preg_split( '/(?<!\\\\)\|/', $options_string, -1, PREG_SPLIT_NO_EMPTY ) : [];
 		$result = [
 			'tag_name' => $tag_name, // Make it so the tag name is available to us in $options.
 		];
@@ -57,6 +57,8 @@ class GenerateBlocks_Register_Dynamic_Tag {
 		}
 
 		foreach ( $pairs as $pair ) {
+			$pair = str_replace( [ '\\:', '\\|' ], [ ':', '|' ], $pair );
+
 			if ( generateblocks_str_contains( $pair, ':' ) ) {
 				list( $key, $value ) = explode( ':', $pair, 2 );
 			} else {
@@ -80,6 +82,20 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	}
 
 	/**
+	 * Find matches.
+	 *
+	 * @param string $content The content.
+	 * @param array  $availableTags The available tags.
+	 * @return array
+	 */
+	public static function find_matches( $content, $availableTags ) {
+		$pattern = '/\{{(' . implode( '|', array_keys( $availableTags ) ) . ')(\s+[^}]+)?}}/';
+		preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
+
+		return $matches;
+	}
+
+	/**
 	 * Replace tags.
 	 *
 	 * @param string $content The content.
@@ -92,8 +108,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			return $content;
 		}
 
-		$pattern = '/\{{(' . implode( '|', array_keys( self::$tags ) ) . ')(\s+[^}]+)?}}/';
-		preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
+		$matches = self::find_matches( $content, self::$tags );
 
 		foreach ( $matches as $match ) {
 			$tag_name = $match[1] ?? '';
