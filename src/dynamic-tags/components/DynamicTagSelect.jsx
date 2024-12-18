@@ -22,30 +22,7 @@ import {
 } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
-
-function parseTag( tagString ) {
-	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
-	const match = tagString.match( regex );
-
-	if ( ! match ) {
-		return null;
-	}
-
-	const [ , tag, paramsString ] = match;
-	const params = {};
-
-	if ( paramsString ) {
-		paramsString.split( '|' ).forEach( ( param ) => {
-			const [ key, value ] = param.split( ':' );
-			params[ key ] = value || true;
-		} );
-	}
-
-	return {
-		tag,
-		params,
-	};
-}
+import { parseTag } from '../utils';
 
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	if ( ! options ) {

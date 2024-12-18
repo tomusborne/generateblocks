@@ -19,3 +19,29 @@ export async function replaceTags( content, context = {} ) {
 		return '';
 	}
 }
+
+export function parseTag( tagString ) {
+	// Match the tag name and parameters inside double curly braces
+	const regex = /^\{\{([\w_]+)(?:\s+([\s\S]+))?\}\}$/;
+	const match = tagString.match( regex );
+
+	if ( ! match ) {
+		return null;
+	}
+
+	const [ , tag, paramsString ] = match;
+	const params = {};
+
+	if ( paramsString ) {
+		// Split parameters by unescaped `|`
+		paramsString.split( /(?<!\\)\|/ ).forEach( ( param ) => {
+			// Split key:value, respecting escaped `:`
+			const [ key, value = true ] = param.split( /(?<!\\):/, 2 );
+
+			params[ key ] = value;
+		} );
+	}
+
+	return { tag, params };
+}
+
