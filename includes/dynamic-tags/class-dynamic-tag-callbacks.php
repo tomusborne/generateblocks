@@ -203,6 +203,43 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Join (implode) array elements into a string.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_join( $output, $options ) {
+		$join = $options['join'] ?? ', ';
+
+		if ( ! is_string( $join ) || ! is_array( $output ) ) {
+			return $output;
+		}
+
+		return implode( $options['join'], $output );
+	}
+
+	/**
+	 * Make a one dimensional array from a multi-dimensional array.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_list( $output, $options ) {
+		$key = $options['list'] ?? null;
+
+		if ( ! is_string( $key ) || ! is_array( $output ) ) {
+			return $output;
+		}
+
+		return array_map(
+			function ( $item ) use ( $key ) {
+				return $item[ $key ] ?? '';
+			},
+			$output
+		);
+	}
+
+	/**
 	 * Output the dynamic tag.
 	 *
 	 * @param string $output The output.
@@ -215,14 +252,19 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		// Store original output for filtering.
 		$raw_output = $output;
 
-		$output = self::with_trunc( $output, $options );
-		$output = self::with_replace( $output, $options );
-		$output = self::with_trim( $output, $options );
-		$output = self::with_case( $output, $options );
+		if ( is_string( $output ) ) {
+			$output = self::with_trunc( $output, $options );
+			$output = self::with_replace( $output, $options );
+			$output = self::with_trim( $output, $options );
+			$output = self::with_case( $output, $options );
 
-		// Any wrapping output filters should go after direct string transformations.
-		$output = self::with_wpautop( $output, $options );
-		$output = self::with_link( $output, $options, $instance );
+			// Any wrapping output filters should go after direct string transformations.
+			$output = self::with_wpautop( $output, $options );
+			$output = self::with_link( $output, $options, $instance );
+		} elseif ( is_array( $output ) ) {
+			$output = self::with_list( $output, $options );
+			$output = self::with_join( $output, $options );
+		}
 
 		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options, $raw_output );
 
@@ -374,15 +416,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		$value = GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, true );
+		$single = empty( $options['list'] ) && empty( $options['join'] );
+		$output = GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, $single );
 
-		if ( ! $value ) {
+		if ( ! $output ) {
 			return self::output( '', $options, $instance );
 		}
-
-		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $value );
-		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options, $instance );
 	}
