@@ -20,10 +20,6 @@ export function withDynamicTag( WrappedComponent ) {
 		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 
-		if ( ! previewEnabled && 'preview' === contentMode ) {
-			setContentMode( 'edit' );
-		}
-
 		const getContentValue = () => {
 			if ( 'img' === tagName ) {
 				return htmlAttributes?.src;
@@ -36,6 +32,12 @@ export function withDynamicTag( WrappedComponent ) {
 			return content?.text ?? content;
 		};
 		const contentValue = getContentValue();
+
+		useEffect( () => {
+			if ( ! previewEnabled && 'preview' === contentMode ) {
+				setContentMode( 'edit' );
+			}
+		}, [ previewEnabled, contentMode ] );
 
 		useEffect( () => {
 			if ( ! contentValue || ! contentValue.includes( '{{' ) || ! previewEnabled ) {

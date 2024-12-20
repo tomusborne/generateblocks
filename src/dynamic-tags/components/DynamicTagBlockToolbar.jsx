@@ -55,9 +55,11 @@ export function DynamicTagBlockToolbar( {
 	const allTags = generateBlocksEditor.dynamicTags;
 	const foundTags = getTags( value, allTags );
 
-	if ( ! previewEnabled && 'preview' === contentMode ) {
-		setContentMode( 'edit' );
-	}
+	useEffect( () => {
+		if ( ! previewEnabled && 'preview' === contentMode ) {
+			setContentMode( 'edit' );
+		}
+	}, [ previewEnabled, contentMode ] );
 
 	const contentValue = useMemo( () => {
 		return value?.text || value;
