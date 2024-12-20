@@ -208,7 +208,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		);
 
 		if ( is_numeric( $id ) ) {
-			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, false );
+			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, true );
 		} else {
 			$meta = $pre_value ? $pre_value : call_user_func( $callable, $parent_name );
 		}
