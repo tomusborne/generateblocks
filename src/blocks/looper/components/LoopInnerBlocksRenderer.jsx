@@ -120,6 +120,17 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const context = applyFilters( 'generateblocks.editor.preview.context', props.context, { props } );
 
+	const currentPostId = useSelect( ( select ) => {
+		const { postId } = context;
+		if ( postId ) {
+			return parseInt( postId, 10 );
+		}
+
+		const { getCurrentPostId } = select( 'core/editor' );
+
+		return getCurrentPostId ? getCurrentPostId() : null;
+	}, [ context ] );
+
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
@@ -232,7 +243,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			return result;
 		}
 
-		const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props );
+		const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', currentPostId, props );
 
 		// If no preview ID is set, use the first item as the preview.
 		if ( undefined === previewId ) {
@@ -244,7 +255,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			postId,
 			postType: applyFilters( 'generateblocks.editor.looper.fallback.postType', 'post', props ),
 			'generateblocks/loopItem': {
-				ID: 0,
+				ID: postId,
 			},
 			'generateblocks/loopIndex': 1,
 			'generateblocks/loopPreviewId': previewId,
