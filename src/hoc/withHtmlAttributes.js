@@ -62,7 +62,7 @@ function shallowEqual( obj1, obj2 ) {
 
 const sanitizeAttributeValue = ( value ) => {
 	// Replace characters like &, <, >, " with their HTML entity equivalents
-	return value
+	return value.toString()
 		.replace( /&/g, '&amp;' )
 		.replace( /</g, '&lt;' )
 		.replace( />/g, '&gt;' )
