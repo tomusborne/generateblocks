@@ -10,7 +10,11 @@
 		"generateBlocksStyling": "readonly",
 		"generateBlocksSettings": "readonly",
 		"generateBlocksLegacyDefaults": "readonly",
-		"generateBlocksPatternLibrary": "readonly"
+		"generateBlocksPatternLibrary": "readonly",
+		"generateblocksBlockMedia": "readonly",
+		"generateBlocksEditor": "readonly",
+		"generateblocksDashboard": "readonly",
+		"generateblocksBlockText": "readonly"
 	},
 	"env": {
 	  "browser": true,
@@ -33,6 +37,20 @@
 	"settings": {
 		"react": {
 			"pragma": "wp"
+		},
+		"import/resolver": {
+			"node": {
+				"extensions": [".js", ".jsx"]
+			},
+			"eslint-import-resolver-custom-alias": {
+				"extensions": [".js", ".jsx"],
+				"alias": {
+					"@utils": "./src/utils",
+					"@components": "./src/components",
+					"@hooks": "./src/hooks",
+					"@hoc": "./src/hoc"
+				}
+			}
 		}
 	},
 	"rules": {
