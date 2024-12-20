@@ -1,6 +1,11 @@
 import { sanitizeHtmlAttribute } from '../../utils/sanitizeHtmlAttribute';
 
 describe( 'sanitize HTML attribute', () => {
+	it( 'should return the same value if it is a string', () => {
+		const value = sanitizeHtmlAttribute( 'foo' );
+		expect( value ).toEqual( 'foo' );
+	} );
+
 	it( 'should convert a number to a string', () => {
 		const value = sanitizeHtmlAttribute( 500 );
 		expect( value ).toEqual( '500' );
