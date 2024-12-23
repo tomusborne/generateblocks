@@ -74,11 +74,11 @@ export function DynamicTagBlockToolbar( {
 		return contentValue.substring( selectionStart.offset, selectionEnd.offset );
 	}, [ selectionStart, selectionEnd, value ] );
 
-	useEffect( () => {
-		if ( foundTags.length && ! isSelected ) {
-			setContentMode( 'preview' );
-		}
-	}, [ foundTags.length, isSelected ] );
+	// useEffect( () => {
+	// 	if ( foundTags.length && ! isSelected ) {
+	// 		setContentMode( 'preview' );
+	// 	}
+	// }, [ foundTags.length, isSelected ] );
 
 	return (
 		<BlockControls>

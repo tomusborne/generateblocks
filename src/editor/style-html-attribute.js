@@ -6,7 +6,6 @@ const cache = {};
 function getCacheKey( clientId, context ) {
 	const {
 		'generateblocks/loopIndex': loopIndex,
-		'generateblocks/loopPreviewId': previewId,
 		postId,
 	} = context;
 
@@ -16,9 +15,7 @@ function getCacheKey( clientId, context ) {
 		key += `${ loopIndex }_`;
 	}
 
-	if ( previewId ) {
-		key += `${ previewId }_`;
-	} else if ( postId ) {
+	if ( postId ) {
 		key += `${ postId }_`;
 	}
 
@@ -47,11 +44,10 @@ addFilter(
 
 		// Get the cached result if available.
 		if ( cache[ clientId ][ style ] ) {
-			console.log( 'Using cached data', cache[ clientId ][ style ] );
 			return cache[ style ];
 		}
 
-		const replacements = await replaceTags( style, context );
+		const replacements = await replaceTags( { content: style, context, clientId } );
 
 		if ( ! replacements.length ) {
 			return style;
@@ -59,7 +55,6 @@ addFilter(
 
 		// Cache the result.
 		cache[ clientId ][ style ] = replacements;
-		console.log( 'Cache miss, setting data', cache[ clientId ][ style ] );
 
 		const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
 			if ( ! replacement ) {

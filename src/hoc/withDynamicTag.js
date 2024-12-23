@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { replaceTags } from '../dynamic-tags/utils';
 
@@ -7,7 +7,6 @@ const cache = {};
 function getCacheKey( clientId, context ) {
 	const {
 		'generateblocks/loopIndex': loopIndex,
-		'generateblocks/loopPreviewId': previewId,
 		postId,
 	} = context;
 
@@ -17,9 +16,7 @@ function getCacheKey( clientId, context ) {
 		key += `${ loopIndex }_`;
 	}
 
-	if ( previewId ) {
-		key += `${ previewId }_`;
-	} else if ( postId ) {
+	if ( postId ) {
 		key += `${ postId }_`;
 	}
 
@@ -34,6 +31,7 @@ export function withDynamicTag( WrappedComponent ) {
 			context,
 			attributes,
 			clientId,
+			isSelected,
 		} = props;
 
 		const {
@@ -43,7 +41,7 @@ export function withDynamicTag( WrappedComponent ) {
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
-		const [ contentMode, setContentMode ] = useState( 'edit' );
+		const [ contentMode, setContentMode ] = useState( 'preview' );
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const blockCacheKey = getCacheKey( clientId, context );
 
@@ -51,7 +49,7 @@ export function withDynamicTag( WrappedComponent ) {
 			cache[ blockCacheKey ] = {};
 		}
 
-		const getContentValue = () => {
+		const contentValue = useMemo( () => {
 			if ( 'img' === tagName ) {
 				return htmlAttributes?.src;
 			}
@@ -61,8 +59,7 @@ export function withDynamicTag( WrappedComponent ) {
 			}
 
 			return content?.text ?? content;
-		};
-		const contentValue = getContentValue();
+		}, [ tagName, htmlAttributes?.src, content ] );
 
 		useEffect( () => {
 			if ( ! contentValue || ! contentValue.includes( '{{' ) ) {
@@ -75,18 +72,13 @@ export function withDynamicTag( WrappedComponent ) {
 				return;
 			}
 
-			console.log( contentMode );
-
 			if ( cache[ blockCacheKey ][ contentValue ] ) {
-				console.log( 'Using cached data', cache[ blockCacheKey ][ contentValue ] );
 				setDynamicTagValue( cache[ blockCacheKey ][ contentValue ] );
 				return;
 			}
 
 			async function fetchData() {
-				const response = await replaceTags( contentValue, context );
-
-				console.log( 'cache miss, setting cache', cache[ blockCacheKey ][ contentValue ] );
+				const response = await replaceTags( { content: contentValue, context, clientId } );
 
 				setDynamicTagValue( response );
 
@@ -95,7 +87,15 @@ export function withDynamicTag( WrappedComponent ) {
 			}
 
 			fetchData();
-		}, [ contentValue, contentMode, context, tagName, isSavingPost, blockCacheKey ] );
+		}, [
+			contentValue,
+			contentMode,
+			context,
+			tagName,
+			isSavingPost,
+			blockCacheKey,
+			isSelected,
+		] );
 
 		return (
 			<WrappedComponent
