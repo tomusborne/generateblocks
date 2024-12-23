@@ -1,6 +1,6 @@
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { BlockControls, store as blockEditorStore } from '@wordpress/block-editor';
-import { useEffect, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { create, insert, replace, RichTextData } from '@wordpress/rich-text';
@@ -47,7 +47,6 @@ export function DynamicTagBlockToolbar( {
 	value,
 	contentMode,
 	setContentMode,
-	isSelected,
 	onChange,
 	context,
 } ) {
@@ -73,12 +72,6 @@ export function DynamicTagBlockToolbar( {
 
 		return contentValue.substring( selectionStart.offset, selectionEnd.offset );
 	}, [ selectionStart, selectionEnd, value ] );
-
-	// useEffect( () => {
-	// 	if ( foundTags.length && ! isSelected ) {
-	// 		setContentMode( 'preview' );
-	// 	}
-	// }, [ foundTags.length, isSelected ] );
 
 	return (
 		<BlockControls>
