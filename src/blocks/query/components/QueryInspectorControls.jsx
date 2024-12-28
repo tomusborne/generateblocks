@@ -4,12 +4,18 @@ import { ToggleControl, SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
+import {
+	QueryClient,
+	QueryClientProvider,
+} from '@tanstack/react-query';
 
+import useQueryReducer from '@hooks/useQueryReducer';
 import { SelectQueryParameter } from './SelectQueryParameter';
 import { AddQueryParameterButton } from './AddQueryParameterButton';
 import { ParameterList } from './ParameterList';
-import useQueryReducer from '@hooks/useQueryReducer';
 import { getParameters } from '../query-parameters';
+
+const queryClient = new QueryClient();
 
 export function QueryInspectorControls( { attributes, setAttributes, context } ) {
 	const { queryState, setParameter, removeParameter } = useQueryReducer( attributes.query );
@@ -44,7 +50,7 @@ export function QueryInspectorControls( { attributes, setAttributes, context } )
 	}, [ queryTypes, attributes.queryType ] );
 
 	return (
-		<>
+		<QueryClientProvider client={ queryClient }>
 			{ queryTypes.length > 1 && (
 				<SelectControl
 					value={ attributes.queryType }
@@ -83,6 +89,7 @@ export function QueryInspectorControls( { attributes, setAttributes, context } )
 								query={ queryState }
 								setParameter={ setParameter }
 								removeParameter={ removeParameter }
+								queryClient={ queryClient }
 							/>
 
 							{ ! displayParameterSelect &&
@@ -129,9 +136,10 @@ export function QueryInspectorControls( { attributes, setAttributes, context } )
 						setParameter,
 						removeParameter,
 						context,
+						queryClient,
 					}
 				)
 			}
-		</>
+		</QueryClientProvider>
 	);
 }

@@ -85,6 +85,7 @@ export function ControlBuilder( props ) {
 		dependencies,
 		placeholder,
 		postType,
+		queryClient,
 	} = props;
 
 	let controlDescription = description;
@@ -114,6 +115,7 @@ export function ControlBuilder( props ) {
 		onChange,
 		min: isPostsPerPage ? -1 : undefined,
 		postType,
+		queryClient,
 		...dependencies,
 	};
 
