@@ -3,11 +3,13 @@ import { __ } from '@wordpress/i18n';
 import { store as editPostStore } from '@wordpress/edit-post';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
-import './editor.scss';
 import { Button } from '@wordpress/components';
 import { closeSmall } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
+
 import classnames from 'classnames';
+
+import './editor.scss';
 
 function SidebarItems( props ) {
 	const { name, children } = props;
