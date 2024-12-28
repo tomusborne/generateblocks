@@ -56,6 +56,34 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		);
 	}
 
+	/**
+	 * Get the various Query Types that are compatiable with WP_Query.
+	 *
+	 * @return array Array of WP_Query compatible types.
+	 */
+	public static function get_wp_query_types() {
+		/**
+		 * User filterable list of WP_Query compatible query types. If a query type
+		 * should use the standard Post Query output on the front-end, add it to this array.
+		 */
+		return apply_filters(
+			'generateblocks_query_wp_query_types',
+			[ GenerateBlocks_Block_Query::TYPE_WP_QUERY ]
+		);
+	}
+
+	/**
+	 * Check if the query type is WP_Query compatible.
+	 *
+	 * @param string $query_type The query type to check.
+	 * @return boolean True if the query type is WP_Query compatible, false otherwise.
+	 */
+	public static function is_wp_query_type( $query_type ) {
+		$types = self::get_wp_query_types();
+
+		return in_array( $query_type, $types, true );
+	}
+
 
 	/**
 	 * Gets posts and returns an array of WP_Post objects.

@@ -299,6 +299,11 @@ function generateblocks_do_block_editor_assets() {
 			'dateFormat' => get_option( 'date_format' ),
 			'wpContentUrl' => content_url(),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
+			'blocks' => [
+				'query' => [
+					'wpQueryTypes' => GenerateBlocks_Query_Utils::get_wp_query_types(),
+				],
+			],
 		]
 	);
 

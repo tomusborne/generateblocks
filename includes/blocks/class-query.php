@@ -41,7 +41,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			'args'       => $original_args,
 		];
 
-		if ( self::TYPE_WP_QUERY === $query_type ) {
+		if ( GenerateBlocks_Query_Utils::is_wp_query_type( $query_type ) ) {
 			// Override the custom query with the global query if needed.
 			$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
 

@@ -21,6 +21,8 @@ import {
 	SelectTerm,
 } from '@edge22/components';
 
+import { isWpQueryType } from '@utils/index';
+
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { parseTag } from '../utils';
 
@@ -466,7 +468,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}, {} );
 		const options = Object.values( groups );
 
-		if ( 'WP_Query' === queryType ) {
+		if ( isWpQueryType( queryType ) ) {
 			options.sort( ( a, b ) => {
 				// Ensure the 'post' group is first then leave the order unchanged.
 				if ( a.id === 'post' && b.id !== 'post' ) {

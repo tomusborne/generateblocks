@@ -5,10 +5,12 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
+import useQueryReducer from '@hooks/useQueryReducer';
+import { isWpQueryType } from '@utils/index';
+
 import { SelectQueryParameter } from './SelectQueryParameter';
 import { AddQueryParameterButton } from './AddQueryParameterButton';
 import { ParameterList } from './ParameterList';
-import useQueryReducer from '@hooks/useQueryReducer';
 import { getParameters } from '../query-parameters';
 
 export function QueryInspectorControls( { attributes, setAttributes, context } ) {
@@ -54,7 +56,7 @@ export function QueryInspectorControls( { attributes, setAttributes, context } )
 					help={ selectedQueryType?.help }
 				/>
 			) }
-			{ 'WP_Query' === attributes.queryType && (
+			{ isWpQueryType( attributes.queryType ) && (
 				<>
 					<SelectControl
 						label={ __( 'Pagination type', 'generateblocks' ) }
