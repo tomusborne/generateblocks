@@ -46,7 +46,7 @@ export default function CategoryList( { bulkInsertEnabled } ) {
 										onClose();
 									} }
 								>
-									{ category.name }
+									<div dangerouslySetInnerHTML={ { __html: category.name } } />
 								</MenuItem>
 							) ) }
 						</MenuGroup>
@@ -68,7 +68,7 @@ export default function CategoryList( { bulkInsertEnabled } ) {
 							isPressed={ category.id === activeCategory }
 							onClick={ () => setActiveCategory( category.id ) }
 						>
-							{ category.name }
+							<div dangerouslySetInnerHTML={ { __html: category.name } } />
 						</Button>
 					) ) }
 				</>
