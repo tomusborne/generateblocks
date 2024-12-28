@@ -209,7 +209,15 @@ function tagSupports( tagData, support ) {
 	return tagSupport[ support ] || false;
 }
 
-export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser, context } ) {
+export function DynamicTagSelect( {
+	onInsert,
+	tagName,
+	selectedText,
+	currentPost,
+	currentUser,
+	context,
+	queryClient,
+} ) {
 	const currentLoopItem = context?.[ 'generateblocks/loopItem' ] ?? {};
 	const queryType = context?.[ 'generateblocks/queryType' ] ?? 'WP_Query';
 	const allTags = generateBlocksEditor?.dynamicTags;
@@ -706,6 +714,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								} }
 								currentPostId={ currentPostId }
 								includeCurrent={ false }
+								queryClient={ queryClient }
 							/>
 						</>
 					) }
@@ -760,6 +769,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								includeCurrent={ false }
 								postStatus={ [ 'inherit' ] }
 								postType={ [ 'attachment' ] }
+								queryClient={ queryClient }
 							/>
 						</>
 					) }
