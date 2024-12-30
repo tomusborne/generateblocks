@@ -41,7 +41,7 @@ export function withDynamicTag( WrappedComponent ) {
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
-		const [ contentMode, setContentMode ] = useState( 'preview' );
+		const [ contentMode, setContentMode ] = useState( 'edit' );
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const blockCacheKey = getCacheKey( clientId, context );
 
