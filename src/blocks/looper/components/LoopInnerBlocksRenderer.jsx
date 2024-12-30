@@ -11,7 +11,6 @@ import { applyFilters, addAction } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
 
 import { BlockAppender } from '@components/index';
-import { isWpQueryType } from '@utils/index';
 
 const DISALLOWED_KEYS = [ 'post_password', 'password' ];
 
@@ -133,14 +132,13 @@ export function LoopInnerBlocksRenderer( props ) {
 	};
 	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const selectedBlock = getSelectedBlock();
-	const wpQuery = useWpQuery( isWpQueryType( queryType ), { query, context, queryType, attributes, selectedBlock } );
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, { query, context, queryType, attributes, selectedBlock } );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
 		queryType,
 		context,
 		props,
-		wpQuery,
 	} );
 
 	if ( null !== wpQuery ) {

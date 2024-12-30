@@ -30,7 +30,7 @@ class GenerateBlocks_Block_Loop_Item extends GenerateBlocks_Block {
 	public static function render_block( $attributes, $block_content, $block ) {
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 
-		if ( GenerateBlocks_Query_Utils::is_wp_query_type( $query_type ) ) {
+		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type ) {
 			$post_classes = get_post_class();
 
 			if ( class_exists( 'WP_HTML_Tag_Processor' ) ) {

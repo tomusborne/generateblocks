@@ -749,7 +749,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		} else {
 			$query_data  = $instance->context['generateblocks/queryData'] ?? null;
 			$query_type  = $instance->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
-			$is_wp_query = GenerateBlocks_Query_Utils::is_wp_query_type( $query_type );
+			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
 
 			if ( ! $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
 				return self::output( $output, $options, $instance );

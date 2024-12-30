@@ -58,7 +58,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 		$output     = '';
 
-		if ( GenerateBlocks_Query_Utils::is_wp_query_type( $query_type ) ) {
+		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type ) {
 			$output = self::render_wp_query( $query_data, $attributes, $block );
 		}
 
