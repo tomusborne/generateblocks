@@ -47,12 +47,18 @@ export function DynamicTagBlockToolbar( {
 	value,
 	contentMode,
 	setContentMode,
-	isSelected,
 	onChange,
 	context,
+	isSelected,
 } ) {
 	const allTags = generateBlocksEditor.dynamicTags;
 	const foundTags = getTags( value, allTags );
+
+	useEffect( () => {
+		if ( foundTags.length && ! isSelected ) {
+			setContentMode( 'preview' );
+		}
+	}, [ foundTags.length, isSelected ] );
 
 	const contentValue = useMemo( () => {
 		return value?.text || value;
@@ -73,12 +79,6 @@ export function DynamicTagBlockToolbar( {
 
 		return contentValue.substring( selectionStart.offset, selectionEnd.offset );
 	}, [ selectionStart, selectionEnd, value ] );
-
-	useEffect( () => {
-		if ( foundTags.length && ! isSelected ) {
-			setContentMode( 'preview' );
-		}
-	}, [ foundTags.length, isSelected ] );
 
 	return (
 		<BlockControls>
