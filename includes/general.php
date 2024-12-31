@@ -48,8 +48,8 @@ function generateblocks_do_block_editor_assets() {
 						'textDecoration' => 'none',
 						'&:is(:hover, :focus)' => [
 							'backgroundColor' => '#1a4a9b',
+							'color' => '#ffffff',
 						],
-						'color' => '#ffffff',
 					],
 				]
 			),
