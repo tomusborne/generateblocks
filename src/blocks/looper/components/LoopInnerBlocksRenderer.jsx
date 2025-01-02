@@ -131,6 +131,8 @@ export function LoopInnerBlocksRenderer( props ) {
 		return getCurrentPostId ? getCurrentPostId() : null;
 	}, [ context ] );
 
+	const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', currentPostId, props );
+
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
@@ -243,8 +245,6 @@ export function LoopInnerBlocksRenderer( props ) {
 			return result;
 		}
 
-		const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', currentPostId, props );
-
 		// If no preview ID is set, use the first item as the preview.
 		if ( undefined === previewId ) {
 			setPreviewId( postId );
@@ -261,7 +261,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			'generateblocks/loopPreviewId': previewId,
 			'generateblocks/hasLoopItems': false,
 		} ];
-	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId ] );
+	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId, postId ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
