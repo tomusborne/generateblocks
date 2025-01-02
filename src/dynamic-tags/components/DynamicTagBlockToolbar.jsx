@@ -47,19 +47,13 @@ export function DynamicTagBlockToolbar( {
 	value,
 	contentMode,
 	setContentMode,
-	isSelected,
 	onChange,
 	context,
+	isSelected,
 } ) {
 	const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
 	const allTags = generateBlocksEditor.dynamicTags;
 	const foundTags = getTags( value, allTags );
-
-	useEffect( () => {
-		if ( ! previewEnabled && 'preview' === contentMode ) {
-			setContentMode( 'edit' );
-		}
-	}, [ previewEnabled, contentMode ] );
 
 	const contentValue = useMemo( () => {
 		return value?.text || value;

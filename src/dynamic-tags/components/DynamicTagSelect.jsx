@@ -360,7 +360,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	 * appropriate values.
 	 */
 	useEffect( () => {
-		if ( ! selectedText ) {
+		if ( ! selectedText || dynamicTag ) {
 			return;
 		}
 
@@ -447,7 +447,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		if ( extraParams ) {
 			setExtraTagParams( extraParams );
 		}
-	}, [ selectedText, tagSupportsMeta ] );
+	}, [ selectedText, dynamicTag ] );
 
 	const dynamicTagOptions = useMemo( () => {
 		const groups = Object.values( availableTags ).reduce( ( acc, { type, title, tag } ) => {
