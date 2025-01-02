@@ -68,6 +68,40 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['image'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/text' === $block['blockName'] ) {
+				$data['text'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/element' === $block['blockName'] ) {
+				$data['element'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/shape' === $block['blockName'] ) {
+				$data['shape'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/media' === $block['blockName'] ) {
+				$data['media'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/query' === $block['blockName'] ) {
+				$data['query'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/looper' === $block['blockName'] ) {
+				$data['looper'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/loop-item' === $block['blockName'] ) {
+				$data['loop-item'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/query-page-numbers' === $block['blockName'] ) {
+				$data['query-page-numbers'][] = $block['attrs'];
+			}
+
+			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
+
 			if ( 'core/block' === $block['blockName'] ) {
 				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
 					$atts = $block['attrs'];
@@ -1064,33 +1098,74 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 		return;
 	}
 
-	$blocks = [
-		'grid' => 'GenerateBlocks_Block_Grid',
-		'container' => 'GenerateBlocks_Block_Container',
+	$blocks = apply_filters(
+		'generateblocks_dynamic_css_blocks',
+		[
+			'text'               => 'GenerateBlocks_Block_Text',
+			'element'            => 'GenerateBlocks_Block_Element',
+			'media'              => 'GenerateBlocks_Block_Media',
+			'shape'              => 'GenerateBlocks_Block_Shape',
+			'query'              => 'GenerateBlocks_Block_Query',
+			'looper'             => 'GenerateBlocks_Block_Looper',
+			'query-page-numbers' => 'GenerateBlocks_Block_Query_Page_Numbers',
+			'loop-item'          => 'GenerateBlocks_Block_Loop_Item',
+		]
+	);
+
+	$legacy_blocks = [
+		'grid'             => 'GenerateBlocks_Block_Grid',
+		'container'        => 'GenerateBlocks_Block_Container',
 		'button-container' => 'GenerateBlocks_Block_Button_Container',
-		'button' => 'GenerateBlocks_Block_Button',
-		'headline' => 'GenerateBlocks_Block_Headline',
-		'image' => 'GenerateBlocks_Block_Image',
+		'button'           => 'GenerateBlocks_Block_Button',
+		'headline'         => 'GenerateBlocks_Block_Headline',
+		'image'            => 'GenerateBlocks_Block_Image',
 	];
 
+	$all_blocks = array_merge(
+		$blocks,
+		$legacy_blocks
+	);
+
 	foreach ( $data as $name => $blockData ) {
-		if ( isset( $blocks[ $name ] ) ) {
+		if ( isset( $all_blocks[ $name ] ) ) {
 			if ( empty( $blockData ) ) {
 				continue;
 			}
 
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
+			foreach ( $blockData as $attributes ) {
+				$id = $attributes['uniqueId'] ?? '';
+
+				if ( ! $id ) {
 					continue;
 				}
 
-				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
-					if ( $store_block_id_only ) {
-						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
-					} elseif ( ! $blocks[ $name ]::block_id_exists( $atts['uniqueId'] ) ) {
-						generateblocks_add_to_css_data(
-							$blocks[ $name ]::get_css_data( $atts )
+				if ( $store_block_id_only ) {
+					$all_blocks[ $name ]::store_block_id( $id );
+				} elseif ( ! $all_blocks[ $name ]::block_id_exists( $id ) ) {
+					// Generate CSS for our block.
+					if ( isset( $blocks[ $name ] ) ) {
+						$css = $blocks[ $name ]::get_css( $attributes );
+						$css = wp_strip_all_tags( $css );
+
+						add_filter(
+							'generateblocks_css_output',
+							function( $output ) use ( $css ) {
+								return $output .= wp_strip_all_tags( $css );
+							}
 						);
+
+						if ( is_callable( [ $blocks[ $name ], 'enqueue_assets' ] ) ) {
+							$blocks[ $name ]::enqueue_assets();
+						}
+					}
+
+					// Generate CSS for our legacy block.
+					if ( isset( $legacy_blocks[ $name ] ) ) {
+						if ( is_callable( [ $legacy_blocks[ $name ], 'get_css_data' ] ) ) {
+							generateblocks_add_to_css_data(
+								$legacy_blocks[ $name ]::get_css_data( $attributes )
+							);
+						}
 					}
 				}
 			}
@@ -1123,13 +1198,82 @@ function generateblocks_add_to_css_data( $data ) {
 }
 
 /**
- * Maybe add block CSS  if it hasn't already been added for this block.
+ * Maybe add block CSS if it hasn't already been added for this block.
  *
  * @since 1.6.0
  * @param string $content Our block content.
  * @param array  $data Block data.
  */
 function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
+	$legacy_blocks = [
+		'grid' => 'GenerateBlocks_Block_Grid',
+		'container' => 'GenerateBlocks_Block_Container',
+		'button-container' => 'GenerateBlocks_Block_Button_Container',
+		'button' => 'GenerateBlocks_Block_Button',
+		'headline' => 'GenerateBlocks_Block_Headline',
+		'image' => 'GenerateBlocks_Block_Image',
+	];
+
+	if ( in_array( $data['class_name'], $legacy_blocks ) ) {
+		return generateblocks_maybe_add_legacy_block_css( $content, $data );
+	}
+
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'content' => $content,
+			'data' => $data,
+		]
+	);
+
+	$id = $data['attributes']['uniqueId'] ?? '';
+
+	if ( ! $id ) {
+		return $content;
+	}
+
+	if ( in_array( $id, $data['block_ids'] ) && ! $inline_style_override ) {
+		return $content;
+	}
+
+	if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() && ! $inline_style_override ) {
+		return $content;
+	}
+
+	$css = $data['class_name']::get_css( $data['attributes'] );
+
+	if ( ! $css ) {
+		return $content;
+	}
+
+	if ( did_action( 'wp_head' ) || $inline_style_override ) {
+		// Add inline <style> elements if we don't have access to wp_head.
+		$content = sprintf(
+			'<style>%s</style>',
+			$css
+		) . $content;
+	} else {
+		// Add our CSS to the pool of existing CSS in wp_head.
+		add_filter(
+			'generateblocks_css_output',
+			function( $output ) use ( $css ) {
+				return $output .= wp_strip_all_tags( $css );
+			}
+		);
+	}
+
+	return $content;
+}
+
+/**
+ * Maybe add block CSS if it hasn't already been added for this block.
+ *
+ * @since 1.6.0
+ * @param string $content Our block content.
+ * @param array  $data Block data.
+ */
+function generateblocks_maybe_add_legacy_block_css( $content = '', $data = [] ) {
 	$inline_style_override = apply_filters(
 		'generateblocks_do_inline_styles',
 		false,
@@ -1785,21 +1929,23 @@ function generateblocks_to_snake_case( string $str ): string {
 /**
  * Get our script dependencies and version.
  *
- * @param string $filename The filename to use.
+ * @param string $filename        The filename to use.
  * @param array  $fallback_assets The assets to fallback to.
+ * @param string $base_path       The base path on disk to use for the check.
  */
 function generateblocks_get_enqueue_assets(
 	$filename = '',
 	$fallback_assets = [
 		'dependencies' => [],
 		'version' => '',
-	]
+	],
+	$base_path = GENERATEBLOCKS_DIR . 'dist/'
 ) {
 	if ( ! $filename ) {
 		return $fallback_assets;
 	}
 
-	$assets_file = GENERATEBLOCKS_DIR . 'dist/' . $filename . '.asset.php';
+	$assets_file = $base_path . $filename . '.asset.php';
 	$compiled_assets = file_exists( $assets_file )
 		? require $assets_file
 		: false;
@@ -1811,4 +1957,234 @@ function generateblocks_get_enqueue_assets(
 		: $fallback_assets;
 
 	return $assets;
+}
+
+/**
+ * Check if a string contains another string.
+ *
+ * @param string $haystack The string to search in.
+ * @param string $needle The string to search for.
+ */
+function generateblocks_str_contains( $haystack, $needle ) {
+	if ( function_exists( 'str_contains' ) ) {
+		return str_contains( $haystack, $needle );
+	}
+
+	return '' !== $needle && false !== strpos( $haystack, $needle );
+}
+
+/**
+ * Check if a string starts with another string.
+ *
+ * @since 2.0.0
+ *
+ * @param string $string The string to search in.
+ * @param string $prefix The string to search for.
+ * @return bool
+ */
+function generateblocks_str_starts_with( $string, $prefix ) {
+	if ( function_exists( 'str_starts_with' ) ) {
+		return str_starts_with( $string, $prefix );
+	} else {
+		return substr( $string, 0, strlen( $prefix ) ) === $prefix;
+	}
+}
+
+/**
+ * Check if we're using the v1 blocks.
+ *
+ * @since 2.0.0
+ * @return bool
+ */
+function generateblocks_use_v1_blocks() {
+	return get_option( 'gb_use_v1_blocks', false );
+}
+
+/**
+ * Add custom attributes to a block.
+ *
+ * @since 2.0.0
+ * @param array $html_attributes The existing attributes.
+ * @param array $block_attributes The settings for the block.
+ */
+function generateblocks_with_html_attributes( $html_attributes, $block_attributes ) {
+	if ( empty( $block_attributes['htmlAttributes'] ) ) {
+		return $html_attributes;
+	}
+
+	foreach ( (array) $block_attributes['htmlAttributes'] as $key => $value ) {
+		if ( ! $key ) {
+			continue;
+		}
+
+		$escaped_value           = generateblocks_get_escaped_html_attribute( $key, $value );
+		$html_attributes[ $key ] = $escaped_value;
+	}
+
+	return $html_attributes;
+}
+
+/**
+ * Get the classes for a block.
+ *
+ * @since 2.0.0
+ * @param string $block_slug The block slug.
+ * @param array  $block_attributes The block attributes.
+ * @param bool   $with_base_class Whether to include the base class.
+ */
+function generateblocks_get_block_classes( $block_slug, $block_attributes, $with_base_class = false ) {
+	$classes = [];
+
+	if ( $with_base_class ) {
+		$classes[] = $block_slug;
+	}
+
+	if ( ! empty( $block_attributes['className'] ) ) {
+		$classes[] = $block_attributes['className'];
+	}
+
+	if ( ! empty( $block_attributes['globalClasses'] ) ) {
+		$classes = array_merge(
+			$classes,
+			$block_attributes['globalClasses']
+		);
+	}
+
+	if ( ! empty( $block_attributes['styles'] ) ) {
+		$classes[] = $block_slug . '-' . $block_attributes['uniqueId'];
+	}
+
+	return $classes;
+}
+
+/**
+ * Get the HTML attributes for a block.
+ * This function is only used if generateblocks_get_processed_html_attributes() returns nothing.
+ *
+ * @since 2.0.0
+ * @param string $block_slug The block slug.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_get_backup_html_attributes( $block_slug, $attributes ) {
+	$classes = generateblocks_get_block_classes( $block_slug, $attributes );
+
+	$html_attributes = generateblocks_with_html_attributes(
+		[
+			'id'    => $attributes['anchor'] ?? null,
+			'class' => implode( ' ', $classes ),
+		],
+		$attributes
+	);
+
+	return $html_attributes;
+}
+
+/**
+ * Get the HTML attributes from an HTML element.
+ *
+ * @since 2.0.0
+ * @param string $html The HTML.
+ */
+function generateblocks_get_processed_html_attributes( $html ) {
+	$html_attributes = [];
+
+	if ( ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $html_attributes;
+	}
+
+	$processor = new WP_HTML_Tag_Processor( $html );
+	if ( $processor->next_tag() ) {
+		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+			$attribute_value          = $processor->get_attribute( $name );
+			$escaped_value            = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
+			$html_attributes[ $name ] = $escaped_value;
+		}
+	}
+
+	return $html_attributes;
+}
+
+/**
+ * Given an attribute name and value, escape it.
+ *
+ * @param string $name The attribute key.
+ * @param string $value The raw attribute value.
+ */
+function generateblocks_get_escaped_html_attribute( $name, $value ) {
+	$url_fields = [ 'src', 'href' ];
+
+	return in_array( $name, $url_fields, true )
+		? esc_url( $value )
+		: esc_attr( $value );
+}
+
+/**
+ * Escapes all attribute inside of the given block content.
+ *
+ * @param string $content The content of the block.
+ * @param array  $args An array of args for the function.
+ *
+ * @since 2.0.0
+ */
+function generateblocks_with_escaped_attributes( $content, $args = [] ) {
+	$block_html_attributes = $args['block_html_attrs'] ?? [];
+	$link_html_attributes  = $args['link_html_attrs'] ?? [];
+
+	if ( empty( $link_html_attributes ) && empty( $block_html_attributes ) ) {
+		return $content;
+	}
+
+	if ( ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $content;
+	}
+
+	$max_tags = ! empty( $link_html_attributes ) && ! empty( $block_html_attributes )
+		? 2
+		: 1;
+
+	$processor      = new WP_HTML_Tag_Processor( $content );
+	$updated        = false;
+	$tags_processed = 0;
+
+	while ( $processor->next_tag() && $tags_processed < $max_tags ) {
+		$tag = $processor->get_tag();
+
+		if ( 'STYLE' === $tag ) {
+			continue;
+		}
+
+		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+			$attribute_value = $processor->get_attribute( $name );
+			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
+
+			$processor->set_attribute( $name, $escaped_value );
+			$updated = true;
+		}
+
+		$tags_processed++;
+	}
+
+	if ( $updated ) {
+		return $processor->get_updated_html();
+	}
+
+	return $content;
+}
+
+/**
+ * Get a list of our v1 block names.
+ *
+ * @since 2.0.0
+ * @return array The block names.
+ */
+function generateblocks_get_v1_block_names() {
+	return [
+		'generateblocks/button-container',
+		'generateblocks/button',
+		'generateblocks/container',
+		'generateblocks/grid',
+		'generateblocks/headline',
+		'generateblocks/image',
+		'generateblocks/query-loop',
+	];
 }
