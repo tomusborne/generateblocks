@@ -42,6 +42,7 @@ export function withDynamicTag( WrappedComponent ) {
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
 		const [ contentMode, setContentMode ] = useState( 'edit' );
+		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
 		const isSavingPost = useSelect( ( select ) => select( 'core/editor' ).isSavingPost() );
 		const blockCacheKey = getCacheKey( clientId, context );
 
@@ -62,7 +63,13 @@ export function withDynamicTag( WrappedComponent ) {
 		}, [ tagName, htmlAttributes?.src, content ] );
 
 		useEffect( () => {
-			if ( ! contentValue || ! contentValue.includes( '{{' ) ) {
+			if ( ! previewEnabled && 'preview' === contentMode ) {
+				setContentMode( 'edit' );
+			}
+		}, [ previewEnabled, contentMode ] );
+
+		useEffect( () => {
+			if ( ! contentValue || ! contentValue.includes( '{{' ) || ! previewEnabled ) {
 				setDynamicTagValue( false );
 				return;
 			}

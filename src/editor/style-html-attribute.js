@@ -30,6 +30,12 @@ addFilter(
 	async( style, props ) => {
 		const { context, clientId } = props;
 
+		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
+
+		if ( ! previewEnabled ) {
+			return style;
+		}
+
 		// Check if any replacements need to be made
 		if ( ! style.includes( '{{' ) || ! style ) {
 			return style;
@@ -43,8 +49,8 @@ addFilter(
 		}
 
 		// Get the cached result if available.
-		if ( cache[ clientId ][ style ] ) {
-			return cache[ style ];
+		if ( cache[ blockCacheKey ][ style ] ) {
+			return cache[ blockCacheKey ][ style ];
 		}
 
 		const replacements = await replaceTags( { content: style, context, clientId } );
@@ -52,9 +58,6 @@ addFilter(
 		if ( ! replacements.length ) {
 			return style;
 		}
-
-		// Cache the result.
-		cache[ clientId ][ style ] = replacements;
 
 		const withReplacements = replacements.reduce( ( acc, { original, replacement, fallback } ) => {
 			if ( ! replacement ) {
@@ -64,6 +67,11 @@ addFilter(
 			return acc.replaceAll( original, replacement );
 		}, style );
 
-		return withReplacements ? withReplacements : style;
+		const newStyle = withReplacements ? withReplacements : style;
+
+		// Cache the result.
+		cache[ blockCacheKey ][ style ] = newStyle;
+
+		return newStyle;
 	}
 );

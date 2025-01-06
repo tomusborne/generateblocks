@@ -43,7 +43,6 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 
 	return (
 		<StylesBuilder
-			key={ attributes?.globalClasses }
 			currentSelector={ currentStyle?.selector }
 			styles={ currentStyles }
 			allStyles={ styles }
