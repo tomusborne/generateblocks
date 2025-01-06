@@ -728,6 +728,7 @@ export function DynamicTagSelect( {
 								showClear={ true }
 								onClear={ () => setUserSource( '' ) }
 								includeCurrent={ false }
+								queryClient={ queryClient }
 							/>
 						</>
 					) }
