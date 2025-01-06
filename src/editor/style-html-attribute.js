@@ -30,6 +30,12 @@ addFilter(
 	async( style, props ) => {
 		const { context, clientId } = props;
 
+		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
+
+		if ( ! previewEnabled ) {
+			return style;
+		}
+
 		// Check if any replacements need to be made
 		if ( ! style.includes( '{{' ) || ! style ) {
 			return style;
