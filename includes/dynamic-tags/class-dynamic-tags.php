@@ -499,14 +499,31 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return WP_REST_Response
 	 */
 	public function get_dynamic_tag_replacements( $request ) {
-		$content      = urldecode( $request->get_param( 'content' ) );
+		$content      = $request->get_param( 'content' );
 		$context      = $request->get_param( 'context' );
-		$fallback_id  = $context['postId'] ?? 0;
+		$client_id    = $request->get_param( 'clientId' );
+		$post_id      = $context['postId'] ?? 0;
+		$fallback_id  = $post_id;
 		$instance     = new stdClass();
 		$replacements = [];
 
 		// Set up an instance object with a context key.
 		$instance->context = $context;
+
+		// Create a unique cache key.
+		$cache_key = sprintf(
+			'replacements_%s_%s_%s',
+			md5( $content ),
+			$client_id,
+			$post_id
+		);
+
+		$replacements = wp_cache_get( $cache_key, 'generate_blocks_dynamic_tags' );
+
+		// Return the cache here if present.
+		if ( false !== $replacements ) {
+			return rest_ensure_response( $replacements );
+		}
 
 		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
 		$tags_list = [];
@@ -566,6 +583,16 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				}
 			}
 		}
+
+		// Set the cache with filterable duration.
+		/**
+		 * Set the duration of the cache for dynamic tag replacements.
+		 *
+		 * @since 2.0.0
+		 */
+		$cache_duration = apply_filters( 'generateblocks_dynamic_tags_replacement_cache_duration', 3600, $content, $context, $request );
+
+		wp_cache_set( $cache_key, $replacements, 'generateblocks_dynamic_tags', $cache_duration );
 
 		return rest_ensure_response( $replacements );
 	}
