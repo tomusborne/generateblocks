@@ -102,8 +102,6 @@ export function DynamicTagModal( {
 		};
 	}, [ isOpen ] );
 
-	console.log( queryClient );
-
 	return (
 		<>
 			<Toggle />
