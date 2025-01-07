@@ -232,16 +232,14 @@ export function LoopInnerBlocksRenderer( props ) {
 			return result;
 		}
 
-		const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props );
-
 		// If no preview ID is set, use the first item as the preview.
-		if ( undefined === previewId ) {
-			setPreviewId( postId );
+		if ( 0 !== previewId ) {
+			setPreviewId( 0 );
 		}
 
 		// If no data found, return limited context for the preview loop item.
 		return [ {
-			postId,
+			postId: applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props ),
 			postType: applyFilters( 'generateblocks.editor.looper.fallback.postType', 'post', props ),
 			'generateblocks/loopItem': {
 				ID: 0,
@@ -256,7 +254,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <Spinner /> );
 	}
 
-	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
+	return loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const contextId = loopItemContext?.postId ?? loopItemContext?.[ 'generateblocks/loopIndex' ] ?? index;
 		const key = `${ contextId }-${ index }`;
@@ -279,5 +277,5 @@ export function LoopInnerBlocksRenderer( props ) {
 				/>
 			</BlockContextProvider>
 		);
-	} ) : innerBlocksProps.children;
+	} );
 }
