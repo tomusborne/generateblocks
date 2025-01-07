@@ -246,8 +246,8 @@ export function LoopInnerBlocksRenderer( props ) {
 		}
 
 		// If no preview ID is set, use the first item as the preview.
-		if ( undefined === previewId ) {
-			setPreviewId( postId );
+		if ( 0 !== previewId ) {
+			setPreviewId( 0 );
 		}
 
 		// If no data found, return limited context for the preview loop item.
