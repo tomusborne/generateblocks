@@ -120,19 +120,6 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const context = applyFilters( 'generateblocks.editor.preview.context', props.context, { props } );
 
-	const currentPostId = useSelect( ( select ) => {
-		const { postId } = context;
-		if ( postId ) {
-			return parseInt( postId, 10 );
-		}
-
-		const { getCurrentPostId } = select( 'core/editor' );
-
-		return getCurrentPostId ? getCurrentPostId() : null;
-	}, [ context ] );
-
-	const postId = applyFilters( 'generateblocks.editor.looper.fallback.postId', currentPostId, props );
-
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
@@ -252,16 +239,16 @@ export function LoopInnerBlocksRenderer( props ) {
 
 		// If no data found, return limited context for the preview loop item.
 		return [ {
-			postId,
+			postId: applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props ),
 			postType: applyFilters( 'generateblocks.editor.looper.fallback.postType', 'post', props ),
 			'generateblocks/loopItem': {
-				ID: postId,
+				ID: 0,
 			},
 			'generateblocks/loopIndex': 1,
 			'generateblocks/loopPreviewId': previewId,
 			'generateblocks/hasLoopItems': false,
 		} ];
-	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId, postId ] );
+	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
