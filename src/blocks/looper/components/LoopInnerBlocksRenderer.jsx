@@ -139,6 +139,8 @@ export function LoopInnerBlocksRenderer( props ) {
 		queryType,
 		context,
 		props,
+		useWpQuery,
+		selectedBlock,
 	} );
 
 	if ( null !== wpQuery ) {
