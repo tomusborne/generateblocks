@@ -65,7 +65,7 @@ function generateblocks_get_option_defaults() {
 			'container_width' => 1100,
 			'css_print_method' => 'file',
 			'sync_responsive_previews' => true,
-			'disable_google_fonts' => false,
+			'disable_google_fonts' => true,
 		)
 	);
 }
