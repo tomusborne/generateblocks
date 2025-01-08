@@ -1,12 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl, TextControl, Flex, FlexBlock } from '@wordpress/components';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs, isURL } from '@wordpress/url';
 import { applyFilters } from '@wordpress/hooks';
+import { debounce } from '@wordpress/compose';
 
 import { OpenPanel } from '@edge22/components';
-import { UnitControl, Control } from '@edge22/styles-builder';
+import { UnitControl } from '@edge22/styles-builder';
 
 import {
 	ApplyFilters,
@@ -52,6 +53,13 @@ export function BlockSettings( {
 	} = useBlockStyles();
 	const [ imageData, setImageData ] = useState( null );
 	const [ hasResolved, setHasResolved ] = useState( false );
+
+	const debouncedOnStyleChange = useCallback(
+		debounce( ( property, value, atRule ) => {
+			onStyleChange( property, value, atRule );
+		}, 250 ),
+		[ onStyleChange ]
+	);
 
 	useEffect( () => {
 		if ( ! isURL( htmlAttributes?.src ) ) {
@@ -220,32 +228,29 @@ export function BlockSettings( {
 
 				<Flex>
 					<FlexBlock>
-						<Control
-							as={ UnitControl }
+						<UnitControl
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
 							value={ getStyleValue( 'width', currentAtRule ) }
-							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, currentAtRule ) }
 							alwaysVisible={ true }
 							cssProp="width"
 						/>
 					</FlexBlock>
 
 					<FlexBlock>
-						<Control
-							as={ UnitControl }
+						<UnitControl
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
 							value={ getStyleValue( 'height', currentAtRule ) }
-							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, currentAtRule ) }
 							alwaysVisible={ true }
 							cssProp="height"
 						/>
 					</FlexBlock>
 				</Flex>
 
-				<Control
-					as={ TextControl }
+				<TextControl
 					label={ __( 'Alt text', 'generateblocks' ) }
 					value={ htmlAttributes?.alt ?? '' }
 					onChange={ ( value ) => {

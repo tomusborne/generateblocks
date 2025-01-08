@@ -3,7 +3,6 @@ import { sprintf, __ } from '@wordpress/i18n';
 
 import { isArray, isObject } from 'lodash';
 import { SelectPostType, SelectPost, MultiSelect, SelectUser } from '@edge22/components';
-import { Control } from '@edge22/styles-builder';
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import { DateQueryControl } from './DateQueryControl';
@@ -19,7 +18,7 @@ function ControlComponent( props ) {
 
 	switch ( props?.type ) {
 		case 'text':
-			return <Control { ...standardProps } as={ TextControl } />;
+			return <TextControl { ...standardProps } />;
 		case 'number':
 			return (
 				<TextControl
