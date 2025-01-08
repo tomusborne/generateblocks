@@ -12,7 +12,7 @@ const getParametersList = ( query ) => {
 	) ).filter( Boolean ) );
 };
 
-export function ParameterList( { query, setParameter, removeParameter } ) {
+export function ParameterList( { query, setParameter, removeParameter, queryClient } ) {
 	const parameterList = getParametersList( query );
 
 	return (
@@ -24,6 +24,7 @@ export function ParameterList( { query, setParameter, removeParameter } ) {
 					query={ query }
 					setParameter={ setParameter }
 					removeParameter={ removeParameter }
+					queryClient={ queryClient }
 				/>
 			) ) }
 		</Stack>

@@ -3,10 +3,18 @@ import { useState, createInterpolateElement, useEffect } from '@wordpress/elemen
 import { useSelect } from '@wordpress/data';
 import { store as editorStore } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
-import getIcon from '../../utils/get-icon';
-import '../editor.scss';
-import { DynamicTagSelect } from './DynamicTagSelect';
 import { closeSmall } from '@wordpress/icons';
+
+import getIcon from '../../utils/get-icon';
+import { DynamicTagSelect } from './DynamicTagSelect';
+import '../editor.scss';
+
+import {
+	QueryClient,
+	QueryClientProvider,
+} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export function DynamicTagModal( {
 	onInsert,
@@ -138,20 +146,23 @@ export function DynamicTagModal( {
 								</ul>
 							</>
 						) : (
-							<DynamicTagSelect
-								onInsert={ ( newValue ) => {
-									onInsert( newValue, { tagToReplace: tagToEdit } );
-									setTagToEdit( null );
-									onToggle();
-								} }
-								tagName={ tagName }
-								value={ value }
-								selectedText={ tagToEdit || selectedText }
-								tagToReplace={ tagToEdit }
-								currentPost={ currentPost }
-								currentUser={ currentUser }
-								context={ context }
-							/>
+							<QueryClientProvider client={ queryClient }>
+								<DynamicTagSelect
+									onInsert={ ( newValue ) => {
+										onInsert( newValue, { tagToReplace: tagToEdit } );
+										setTagToEdit( null );
+										onToggle();
+									} }
+									tagName={ tagName }
+									value={ value }
+									selectedText={ tagToEdit || selectedText }
+									tagToReplace={ tagToEdit }
+									currentPost={ currentPost }
+									currentUser={ currentUser }
+									context={ context }
+									queryClient={ queryClient }
+								/>
+							</QueryClientProvider>
 						) }
 					</div>
 				</Modal>

@@ -2,7 +2,7 @@ import { useCallback } from '@wordpress/element';
 
 import { ControlBuilder } from './ControlBuilder';
 
-export function ParameterControl( { parameter, query, setParameter, removeParameter } ) {
+export function ParameterControl( { parameter, query, setParameter, removeParameter, queryClient } ) {
 	const { dependencies = {} } = parameter;
 	const parameterValue = query[ parameter.id ];
 	const postType = query?.post_type ?? [ 'post' ];
@@ -21,6 +21,7 @@ export function ParameterControl( { parameter, query, setParameter, removeParame
 		return (
 			<ControlBuilder
 				{ ...parameter }
+				queryClient={ queryClient }
 				postType={ postType }
 				value={ parameterValue }
 				onChange={ onChangeControl }
@@ -34,6 +35,7 @@ export function ParameterControl( { parameter, query, setParameter, removeParame
 		Array.isArray( parameterValue ) && parameterValue.map( ( value, i ) => (
 			<ControlBuilder
 				{ ...parameter }
+				queryClient={ queryClient }
 				key={ `${ parameter.id }-${ i }` }
 				postType={ postType }
 				value={ value }

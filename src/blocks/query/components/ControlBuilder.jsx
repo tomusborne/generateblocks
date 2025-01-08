@@ -13,6 +13,7 @@ import getIcon from '@utils/get-icon';
 function ControlComponent( props ) {
 	const {
 		postType,
+		queryClient,
 		...standardProps
 	} = props;
 
@@ -48,6 +49,7 @@ function ControlComponent( props ) {
 					{ ...standardProps }
 					multiple={ true }
 					currentLabel={ __( 'Current author', 'generateblocks' ) }
+					queryClient={ queryClient }
 				/>
 			);
 		case 'taxonomySelect':
@@ -59,10 +61,18 @@ function ControlComponent( props ) {
 					includeCurrent={ false }
 					multiple={ true }
 					postType={ postType }
+					queryClient={ queryClient }
 				/>
 			);
 		case 'excludePosts':
-			return <SelectPost multiple={ true } postType={ postType } { ...standardProps } />;
+			return (
+				<SelectPost
+					{ ...standardProps }
+					multiple={ true }
+					postType={ postType }
+					queryClient={ queryClient }
+				/>
+			);
 		case 'dateQuery':
 			return <DateQueryControl { ...standardProps } />;
 		case 'toggleControl':
@@ -85,6 +95,7 @@ export function ControlBuilder( props ) {
 		dependencies,
 		placeholder,
 		postType,
+		queryClient,
 	} = props;
 
 	let controlDescription = description;
@@ -114,6 +125,7 @@ export function ControlBuilder( props ) {
 		onChange,
 		min: isPostsPerPage ? -1 : undefined,
 		postType,
+		queryClient,
 		...dependencies,
 	};
 
