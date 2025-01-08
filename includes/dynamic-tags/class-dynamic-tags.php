@@ -518,11 +518,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			$post_id
 		);
 
-		$replacements = wp_cache_get( $cache_key, 'generate_blocks_dynamic_tags' );
+		$replacements_cache = wp_cache_get( $cache_key, 'generate_blocks_dynamic_tags' );
 
 		// Return the cache here if present.
-		if ( false !== $replacements ) {
-			return rest_ensure_response( $replacements );
+		if ( false !== $replacements_cache ) {
+			return rest_ensure_response( $replacements_cache );
 		}
 
 		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
