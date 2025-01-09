@@ -127,11 +127,16 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			new WP_Block(
 				$block->parsed_block,
 				array(
-					'generateblocks/noResults' => $query_data['no_results'],
-					'generateblocks/queryData' => $query_data['data'],
-					'generateblocks/query'     => $query_data['args'],
-					'generateblocks/queryType' => $query_type,
-					'generateblocks/maxPages'  => $max_pages,
+					'generateblocks/queryData' => [
+						'id'             => $attributes['uniqueId'] ?? '',
+						'noResults'      => $query_data['no_results'],
+						'data'           => $query_data['data'],
+						'args'           => $query_data['args'],
+						'type'           => $query_type,
+						'maxPages'       => $max_pages,
+						'inherit'        => $attributes['inheritQuery'] ?? false,
+						'paginationType' => $pagination_type,
+					],
 				)
 			)
 		)->render( array( 'dynamic' => false ) );

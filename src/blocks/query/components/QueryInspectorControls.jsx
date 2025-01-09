@@ -60,23 +60,24 @@ export function QueryInspectorControls( { attributes, setAttributes, context } )
 					help={ selectedQueryType?.help }
 				/>
 			) }
+
+			<SelectControl
+				label={ __( 'Pagination type', 'generateblocks' ) }
+				value={ attributes.paginationType }
+				options={ [
+					{
+						label: __( 'Standard', 'generateblocks' ),
+						value: 'standard',
+					},
+					{
+						label: __( 'Instant', 'generateblocks' ),
+						value: 'instant',
+					},
+				] }
+				onChange={ ( value ) => setAttributes( { paginationType: value } ) }
+			/>
 			{ 'WP_Query' === attributes.queryType && (
 				<>
-					<SelectControl
-						label={ __( 'Pagination type', 'generateblocks' ) }
-						value={ attributes.paginationType }
-						options={ [
-							{
-								label: __( 'Standard', 'generateblocks' ),
-								value: 'standard',
-							},
-							{
-								label: __( 'Instant', 'generateblocks' ),
-								value: 'instant',
-							},
-						] }
-						onChange={ ( value ) => setAttributes( { paginationType: value } ) }
-					/>
 					<ToggleControl
 						label={ __( 'Inherit query from template', 'generateblocks' ) }
 						help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
