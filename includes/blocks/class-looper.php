@@ -54,8 +54,8 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @return string  The rendered content.
 	 */
 	public static function render_loop_items( $attributes, $block ) {
-		$query_data = $block->context['generateblocks/queryData'] ?? null;
-		$query_type = $block->context['generateblocks/queryType'] ?? null;
+		$query_data = $block->context['generateblocks/queryData']['data'] ?? null;
+		$query_type = $block->context['generateblocks/queryData']['type'] ?? null;
 		$output     = '';
 
 		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type ) {
@@ -85,7 +85,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @return string  The rendered content.
 	 */
 	public static function render_wp_query( $query, $attributes, $block ) {
-		$query_id     = $block->context['generateblocks/queryId'] ?? null;
+		$query_id     = $block->context['generateblocks/queryData']['id'] ?? null;
 		$page_key     = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$per_page     = $query->query_vars['posts_per_page'] ?? get_option( 'posts_per_page', 10 );
 		$page         = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
@@ -106,7 +106,6 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 					array(
 						'postType'                 => 'post',
 						'postId'                   => 0,
-						'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 						'generateblocks/loopIndex' => 1,
 						'generateblocks/loopItem'  => [ 'ID' => 0 ],
 					)
@@ -126,7 +125,6 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 							array(
 								'postType'                 => get_post_type(),
 								'postId'                   => get_the_ID(),
-								'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 								'generateblocks/loopIndex' => $offset + $query->current_post + 1,
 								'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
 							)

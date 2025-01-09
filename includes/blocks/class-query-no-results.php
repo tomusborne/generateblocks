@@ -21,7 +21,7 @@ class GenerateBlocks_Block_Query_No_Results extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$no_results = $block->context['generateblocks/noResults'] ?? false;
+		$no_results = $block->context['generateblocks/queryData']['noResults'] ?? false;
 
 		if ( ! $no_results ) {
 			return '';

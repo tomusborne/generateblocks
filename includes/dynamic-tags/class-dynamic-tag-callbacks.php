@@ -700,9 +700,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_previous_posts_page_url( $options, $block, $instance ) {
-		$page_key      = isset( $instance->context['generateblocks/queryId'] ) ? 'query-' . $instance->context['generateblocks/queryId'] . '-page' : 'query-page';
+		$query_id      = $instance->context['generateblocks/queryData']['id'] ?? '';
+		$page_key      = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
+		$inherit_query = $instance->context['generateblocks/queryData']['inherit'] ?? false;
 		$output   = '';
 
 		if ( $inherit_query ) {
@@ -727,10 +728,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_next_posts_page_url( $options, $block, $instance ) {
-		$page_key      = isset( $instance->context['generateblocks/queryId'] ) ? 'query-' . $instance->context['generateblocks/queryId'] . '-page' : 'query-page';
+		$query_id      = $instance->context['generateblocks/queryData']['id'] ?? '';
+		$page_key      = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$args          = $instance->context['generateblocks/query'] ?? [];
-		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
+		$args          = $instance->context['generateblocks/queryData']['args'] ?? [];
+		$inherit_query = $instance->context['generateblocks/queryData']['inherit'] ?? false;
 		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
@@ -747,8 +749,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 				$output = next_posts( $wp_query->max_num_pages, false );
 			}
 		} else {
-			$query_data  = $instance->context['generateblocks/queryData'] ?? null;
-			$query_type  = $instance->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+			$query_data  = $instance->context['generateblocks/queryData']['data'] ?? null;
+			$query_type  = $instance->context['generateblocks/queryData']['type'] ?? null;
 			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
 
 			if ( ! $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {

@@ -21,14 +21,14 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 	 * @param object $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$query_id      = $block->context['generateblocks/queryId'] ?? null;
+		$query_id      = $block->context['generateblocks/queryData']['id'] ?? null;
 		$page_key      = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$args          = $block->context['generateblocks/query'] ?? [];
+		$args          = $block->context['generateblocks/queryData']['args'] ?? [];
 		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$content       = '';
 		$mid_size      = isset( $block->attributes['midSize'] ) ? (int) $block->attributes['midSize'] : null;
-		$inherit_query = $block->context['generateblocks/inheritQuery'] ?? false;
+		$inherit_query = $block->context['generateblocks/queryData']['inherit'] ?? false;
 
 		if ( $inherit_query ) {
 			$paginate_args = [ 'prev_next' => false ];
@@ -39,8 +39,8 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 
 			$content = paginate_links( $paginate_args );
 		} else {
-			$query_data = $block->context['generateblocks/queryData'] ?? null;
-			$max_pages  = $block->context['generateblocks/maxPages'] ?? 0;
+			$query_data = $block->context['generateblocks/queryData']['data'] ?? null;
+			$max_pages  = $block->context['generateblocks/queryData']['maxPages'] ?? 0;
 
 			if ( ! $query_data ) {
 				return '';
@@ -96,7 +96,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			return '';
 		}
 
-		$pagination_type    = $block->context['generateblocks/paginationType'] ?? '';
+		$pagination_type    = $block->context['generateblocks/queryData']['paginationType'] ?? '';
 		$instant_pagination = GenerateBlocks_Block_Query::TYPE_INSTANT_PAGINATION === $pagination_type;
 
 		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {

@@ -17,5 +17,5 @@
 		"html": false
     },
     "editorScript": "file:./index.js",
-	"usesContext": [ "generateblocks/noResults" ]
+	"usesContext": [ "generateblocks/queryData" ]
 }
