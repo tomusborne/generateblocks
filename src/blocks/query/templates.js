@@ -122,6 +122,9 @@ export const TEMPLATES = [
 							[ 'generateblocks/text', {
 								tagName: 'h2',
 								content: '{{post_title link:post}}',
+								styles: {
+									marginBottom: '5px',
+								},
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
