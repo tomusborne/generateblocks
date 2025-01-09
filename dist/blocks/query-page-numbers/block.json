@@ -59,7 +59,6 @@
   ],
   "usesContext": [
     "generateblocks/queryData",
-    "generateblocks/maxPages",
     "generateblocks/queryType",
     "generateblocks/query",
     "generateblocks/queryId",

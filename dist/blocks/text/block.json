@@ -82,7 +82,6 @@
     "postType",
     "generateblocks/query",
     "generateblocks/queryData",
-    "generateblocks/maxPages",
     "generateblocks/queryType",
     "generateblocks/inheritQuery",
     "generateblocks/queryId",

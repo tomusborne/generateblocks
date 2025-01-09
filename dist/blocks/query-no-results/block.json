@@ -25,6 +25,6 @@
   },
   "editorScript": "file:./index.js",
   "usesContext": [
-    "generateblocks/noResults"
+    "generateblocks/queryData"
   ]
 }

@@ -66,7 +66,6 @@
   },
   "usesContext": [
     "generateblocks/queryData",
-    "generateblocks/maxPages",
     "generateblocks/queryType",
     "generateblocks/paginationType",
     "postId"

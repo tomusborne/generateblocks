@@ -60,7 +60,6 @@
   ],
   "usesContext": [
     "generateblocks/queryData",
-    "generateblocks/maxPages",
     "generateblocks/queryType",
     "generateblocks/loopIndex",
     "generateblocks/loopItem",

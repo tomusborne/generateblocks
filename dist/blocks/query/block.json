@@ -63,10 +63,6 @@
       "type": "object",
       "default": {}
     },
-    "queryData": {
-      "type": "object",
-      "default": {}
-    },
     "inheritQuery": {
       "type": "boolean",
       "default": false
