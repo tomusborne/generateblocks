@@ -40,6 +40,7 @@ export const transforms = {
 					globalClasses,
 					anchor,
 					className,
+					url,
 				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/container' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
@@ -47,6 +48,10 @@ export const transforms = {
 
 				if ( anchor ) {
 					newHtmlAttributes.id = anchor;
+				}
+
+				if ( url ) {
+					newHtmlAttributes.href = url;
 				}
 
 				const metaData = {};
@@ -68,10 +73,12 @@ export const transforms = {
 					);
 				} );
 
+				const newTagName = url ? 'a' : tagName;
+
 				return createBlock(
 					'generateblocks/element',
 					{
-						tagName,
+						tagName: newTagName,
 						styles,
 						htmlAttributes: newHtmlAttributes,
 						metadata: metaData,
