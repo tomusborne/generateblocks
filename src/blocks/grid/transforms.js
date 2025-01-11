@@ -4,6 +4,15 @@ import { createBlock, getBlockType } from '@wordpress/blocks';
 import { getAtRuleValue } from '@edge22/styles-builder';
 import hasNumericValue from '@utils/has-numeric-value';
 
+const GRID_MAPPINGS = {
+	'40,60': '2fr 3fr',
+	'60,40': '3fr 2fr',
+	'30,70': '3fr 7fr',
+	'70,30': '7fr 3fr',
+	'20,80': '2fr 8fr',
+	'80,20': '8fr 2fr',
+};
+
 function getMostCommon( widths ) {
 	if ( widths.length === 0 ) {
 		return '';
@@ -51,6 +60,20 @@ function getGridValue( width ) {
 
 function getGapValue( value ) {
 	return hasNumericValue( value ) ? `${ value }px` : '';
+}
+
+function convertToGridValue( widths ) {
+	// Early return if not exactly 2 widths
+	if ( ! Array.isArray( widths ) || widths.length !== 2 ) {
+		return null;
+	}
+
+	// Normalize widths by removing '%' and creating a key
+	const normalizedKey = widths
+		.map( ( width ) => width.replace( '%', '' ) )
+		.join( ',' );
+
+	return GRID_MAPPINGS[ normalizedKey ] || null;
 }
 
 export const transforms = {
@@ -121,9 +144,11 @@ export const transforms = {
 
 				const tabletAtRule = getAtRuleValue( 'mediumSmallWidth' );
 				const mobileAtRule = getAtRuleValue( 'smallWidth' );
-				const desktopGridValue = getGridValue( mostCommonDesktopWidth );
 				const tabletGridValue = getGridValue( mostCommonTabletWidth );
 				const mobileGridValue = getGridValue( mostCommonMobileWidth );
+
+				const desktopWidths = blockWidths.desktop;
+				const desktopGridValue = convertToGridValue( desktopWidths ) || getGridValue( mostCommonDesktopWidth );
 
 				return createBlock(
 					'generateblocks/element',
