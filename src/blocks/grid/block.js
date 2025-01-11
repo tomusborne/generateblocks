@@ -12,6 +12,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { getBlockAttributes } from '../../block-context';
 import gridContext from '../../block-context/grid';
+import { transforms } from './transforms';
 
 const attributes = getBlockAttributes(
 	blockAttributes,
@@ -59,4 +60,5 @@ registerBlockType( 'generateblocks/grid', {
 
 		return __( 'Grid', 'generateblocks' );
 	},
+	transforms,
 } );
