@@ -93,8 +93,6 @@ export function withStyles( WrappedComponent ) {
 			selector,
 			setCurrentStyle,
 			setNestedRule,
-			setAtRule,
-			styles: frontendStyles,
 		} );
 
 		return (
