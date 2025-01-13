@@ -1,0 +1,70 @@
+@use 'sass:math';
+@import '../../../common';
+
+.gb-datetime-control {
+	.components-base-control {
+		margin-bottom: 0 !important;
+	}
+
+	.components-datetime__time-separator {
+		border-bottom-color: var(--wp-components-color-gray-600, #949494);
+		border-top-color: var(--wp-components-color-gray-600, #949494);
+	}
+
+	.components-datetime__date > :last-child {
+		grid-template-columns: 0.5fr repeat(5, minmax(0px, 1fr)) 0.5fr; // Copied from Core, adds minmax to prevent layout bug
+	}
+
+	.components-flex-item:empty {
+		display: none;
+	}
+
+	.components-datetime__time-wrapper {
+		flex-wrap: wrap;
+	}
+}
+
+$label-margin-bottom: 12px;
+
+.gb-date-query {
+	&__inner {
+		padding-bottom: var(--gap);
+		padding-top: var(--gap);
+	}
+
+	.components-base-control__field > .components-base-control__label {
+		margin-bottom: $label-margin-bottom;
+	}
+
+	.components-toggle-group-control {
+		min-height: 35px;
+	}
+
+	&__toggle.components-button {
+		padding-left: 0;
+	}
+}
+
+.gb-parameter-component {
+	position: relative;
+
+	+ .gb-parameter-component {
+		padding-top: 12px;
+		margin-block-start: 0 !important;
+	}
+
+	.gb-remove-parameter {
+		height: auto;
+		justify-content: flex-end !important;
+		min-width: auto;
+		position: absolute;
+		right: 0;
+		top: math.div($label-margin-bottom, 2);
+
+		&.components-button.has-icon svg {
+			margin-right: 0;
+			height: 15px;
+			width: 15px;
+	  }
+  }
+}
