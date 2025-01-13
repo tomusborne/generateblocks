@@ -45,6 +45,7 @@ function getGridValue( width ) {
 			gridValue = 'repeat(2, minmax(0, 1fr))';
 			break;
 		case '33.33%':
+		case '33%':
 			gridValue = 'repeat(3, minmax(0, 1fr))';
 			break;
 		case '25%':
