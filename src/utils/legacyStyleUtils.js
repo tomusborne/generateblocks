@@ -152,6 +152,10 @@ export function convertLocalToStyles( attributeData, blockAttributes, hoverSelec
 						height: iconStyles.height,
 					};
 				}
+			} else if ( 'useGlobalMaxWidth' === attributeName ) {
+				if ( blockAttributes.useGlobalMaxWidth ) {
+					result.maxWidth = 'var(--gb-container-width)';
+				}
 			} else if ( 'iconColor' === attributeName ) {
 				result[ '.gb-shape svg' ] = {
 					...result[ '.gb-shape svg' ],
