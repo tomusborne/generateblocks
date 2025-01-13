@@ -82,6 +82,17 @@ export const transforms = {
 		{
 			type: 'block',
 			blocks: [ 'generateblocks/element' ],
+			isMatch: ( {
+				isQueryLoop,
+			} ) => {
+				if (
+					isQueryLoop
+				) {
+					return false;
+				}
+
+				return true;
+			},
 			transform: ( attributes, blocks ) => {
 				const {
 					htmlAttributes,
