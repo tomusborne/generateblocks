@@ -202,8 +202,8 @@ export function LoopInnerBlocksRenderer( props ) {
 			}
 
 			const items = data.slice(
-				offset > -1 ? offset : 0,
-				offset > -1 ? offset + perPage : perPage
+				offset > -1 ? Math.min( offset, data.length - 1 ) : 0,
+				offset > -1 ? Math.min( offset + perPage, data.length ) : perPage
 			);
 
 			const result = items.map( ( item, index ) => {
