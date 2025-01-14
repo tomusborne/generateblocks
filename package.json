@@ -20,7 +20,7 @@
 	"dependencies": {
 		"@edge22/block-styles": "^1.1.36",
 		"@edge22/components": "^1.1.51",
-		"@edge22/styles-builder": "^1.2.53",
+		"@edge22/styles-builder": "^1.2.54",
 		"@tanstack/react-query": "^5.62.11",
 		"@wordpress/block-editor": "^12.12.0",
 		"@wordpress/blocks": "^12.21.0",
