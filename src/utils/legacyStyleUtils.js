@@ -35,7 +35,8 @@ export function convertLocalToStyles( attributeData, blockAttributes, hoverSelec
 			.replace( 'Tablet', '' )
 			.replace( 'Mobile', '' )
 			.replace( 'Hover', '' )
-			.replace( 'textColor', 'color' );
+			.replace( 'textColor', 'color' )
+			.replace( 'zindex', 'zIndex' );
 
 		const dummyElement = document.createElement( 'div' );
 		const computedStyle = getComputedStyle( dummyElement );
