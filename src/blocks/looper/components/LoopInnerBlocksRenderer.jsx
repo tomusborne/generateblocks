@@ -201,10 +201,11 @@ export function LoopInnerBlocksRenderer( props ) {
 				perPage = data.length;
 			}
 
-			const items = data.slice(
-				offset > -1 ? offset : 0,
-				offset > -1 ? offset + perPage : perPage
-			);
+			const items = 'WP_Query' !== queryType
+				? data.slice(
+					offset > -1 ? offset : 0,
+					offset > -1 ? offset + perPage : perPage
+				) : data;
 
 			const result = items.map( ( item, index ) => {
 				const { ID = null, id = null, post_type: postType = 'post' } = item;
