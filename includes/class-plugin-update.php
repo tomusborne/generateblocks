@@ -12,34 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Process option updates if necessary.
  */
-class GenerateBlocks_Plugin_Update {
-	/**
-	 * Class instance.
-	 *
-	 * @access private
-	 * @var $instance Class instance.
-	 */
-	private static $instance;
-
-	/**
-	 * Initiator
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
+class GenerateBlocks_Plugin_Update extends GenerateBlocks_Singleton {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		if ( is_admin() ) {
-			add_action( 'admin_init', __CLASS__ . '::init', 5 );
-		} else {
-			add_action( 'wp', __CLASS__ . '::init', 5 );
-		}
+	public function init() {
+		add_action( 'admin_init', [ $this, 'updates' ], 5 );
 	}
 
 	/**
@@ -47,7 +25,7 @@ class GenerateBlocks_Plugin_Update {
 	 *
 	 * @since 1.1.0
 	 */
-	public static function init() {
+	public function updates() {
 		if ( is_customize_preview() ) {
 			return;
 		}
@@ -55,10 +33,7 @@ class GenerateBlocks_Plugin_Update {
 		$saved_version = get_option( 'generateblocks_version', false );
 
 		if ( false === $saved_version ) {
-			if ( 'admin_init' === current_action() ) {
-				// If we're in the admin, add our version to the database.
-				update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
-			}
+			update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 
 			// Not an existing install, so no need to proceed further.
 			return;
@@ -68,12 +43,35 @@ class GenerateBlocks_Plugin_Update {
 			return;
 		}
 
+		if ( version_compare( $saved_version, '2.0.0-alpha.1', '<' ) ) {
+			self::v_2_0_0();
+		}
+
 		// Force regenerate our static CSS files.
 		update_option( 'generateblocks_dynamic_css_posts', array() );
 
 		// Last thing to do is update our version.
 		update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 	}
+
+	/**
+	 * Update options for version 2.0.0.
+	 */
+	public static function v_2_0_0() {
+		$settings = get_option( 'generateblocks', [] );
+
+		// `disable_google_fonts` use to be false by default.
+		// If the user has come from 1.x and they haven't set this option,
+		// set it back to false.
+		if ( empty( $settings['disable_google_fonts'] ) ) {
+			$settings['disable_google_fonts'] = false;
+		}
+
+		update_option( 'generateblocks', $settings );
+
+		// Turn on v1 blocks by default for users coming from 1.x.
+		update_option( 'gb_use_v1_blocks', true, false );
+	}
 }
 
-GenerateBlocks_Plugin_Update::get_instance();
+GenerateBlocks_Plugin_Update::get_instance()->init();
