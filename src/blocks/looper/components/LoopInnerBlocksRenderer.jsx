@@ -4,7 +4,7 @@ import {
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters, addAction } from '@wordpress/hooks';
@@ -131,6 +131,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		queryParams: [],
 	};
 	const { getSelectedBlock } = useSelect( blockEditorStore );
+	const { selectBlock } = useDispatch( blockEditorStore );
 	const selectedBlock = getSelectedBlock();
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, { query, context, queryType, attributes, selectedBlock } );
 
@@ -169,7 +170,13 @@ export function LoopInnerBlocksRenderer( props ) {
 	addAction(
 		'generateblocks.editor.loopItem.togglePreview',
 		'generateblocks/looper/togglePreview',
-		setPreviewId
+		( id, blockProps ) => {
+			setPreviewId( id );
+
+			if ( blockProps.clientId ) {
+				selectBlock( blockProps.clientId );
+			}
+		}
 	);
 
 	const innerBlocksProps = useInnerBlocksProps(
