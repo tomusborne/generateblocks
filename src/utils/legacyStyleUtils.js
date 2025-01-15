@@ -163,6 +163,16 @@ export function convertLocalToStyles( attributeData, blockAttributes, hoverSelec
 					color: blockAttributes.iconColor,
 					fill: 'currentColor',
 				};
+			} else if ( 'linkColor' === attributeName ) {
+				result.a = {
+					...result.a,
+					color: blockAttributes.linkColor,
+				};
+			} else if ( 'linkColorHover' === attributeName ) {
+				result[ 'a:hover' ] = {
+					...result[ 'a:hover' ],
+					color: blockAttributes.linkColorHover,
+				};
 			} else if ( 'opacities' === attributeName ) {
 				applyEffectsStyles(
 					result,
