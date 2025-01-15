@@ -233,8 +233,6 @@ export function BlockSettings( {
 							label={ __( 'Width', 'generateblocks' ) }
 							value={ getStyleValue( 'width', currentAtRule ) }
 							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, currentAtRule ) }
-							alwaysVisible={ true }
-							cssProp="width"
 						/>
 					</FlexBlock>
 
@@ -244,8 +242,6 @@ export function BlockSettings( {
 							label={ __( 'Height', 'generateblocks' ) }
 							value={ getStyleValue( 'height', currentAtRule ) }
 							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, currentAtRule ) }
-							alwaysVisible={ true }
-							cssProp="height"
 						/>
 					</FlexBlock>
 				</Flex>
@@ -261,8 +257,6 @@ export function BlockSettings( {
 							},
 						} );
 					} }
-					alwaysVisible={ true }
-					cssProp={ false }
 				/>
 			</OpenPanel>
 
