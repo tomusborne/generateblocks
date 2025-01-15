@@ -109,6 +109,14 @@ export const transforms = {
 					return 'span';
 				};
 
+				const iconColors = icon
+					? {
+						'.gb-shape svg': {
+							...styles[ '.gb-shape svg' ],
+							fill: 'currentColor',
+						},
+					} : {};
+
 				return createBlock( 'generateblocks/text', {
 					globalClasses,
 					content: text,
@@ -117,6 +125,7 @@ export const transforms = {
 					styles: {
 						...styles,
 						textDecoration: 'none',
+						...iconColors,
 					},
 					icon,
 					iconOnly: removeText,
