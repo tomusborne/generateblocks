@@ -73,6 +73,8 @@ export function convertLocalToStyles( attributeData, blockAttributes, hoverSelec
 						addToMedia( result, tabletMediaQuery, cleanedObjectAttributeName, value );
 					} else if ( key.includes( 'Mobile' ) && cleanedObjectAttributeName ) {
 						addToMedia( result, mobileMediaQuery, cleanedObjectAttributeName, value );
+					} else if ( key.includes( 'Hover' ) && cleanedObjectAttributeName ) {
+						result[ hoverSelector ][ cleanedObjectAttributeName ] = value;
 					} else if ( cleanedObjectAttributeName ) {
 						result[ cleanedObjectAttributeName ] = value;
 					}
