@@ -77,6 +77,7 @@ export function withStyles( WrappedComponent ) {
 			atRule,
 			setAtRule,
 			defaultAtRules,
+			isSelected,
 		} );
 
 		useGenerateCSSEffect( {
