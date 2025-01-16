@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/query-no-results",
+    "title": "No Results",
+    "category": "generateblocks",
+    "description": "Display blocks when your query has no results.",
+    "keywords": [ "text", "heading", "headline", "paragraph" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {},
+	"ancestor": [ "generateblocks/query" ],
+    "supports": {
+        "align": false,
+		"className": false,
+		"customClassName": false,
+		"html": false
+    },
+    "editorScript": "file:./index.js",
+	"usesContext": [ "generateblocks/queryData" ]
+}

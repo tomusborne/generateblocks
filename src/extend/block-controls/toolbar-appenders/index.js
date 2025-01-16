@@ -75,6 +75,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			}
 		};
 
+		const useV1Blocks = generateBlocksInfo.useV1Blocks;
 		let buttons = '';
 
 		if (
@@ -107,35 +108,37 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>;
 		}
 
-		buttons = <>
-			{ buttons }
-			<ToolbarButton
-				icon={ getIcon( 'add-to-container' ) }
-				label={ __( 'Add to Container', 'generateblocks' ) }
-				onClick={ () => onConvertToContainer( '' ) }
-			/>
-		</>;
-
-		if ( blocksSelection.length > 1 ) {
+		if ( useV1Blocks ) {
 			buttons = <>
 				{ buttons }
 				<ToolbarButton
-					icon={ getIcon( 'add-to-row' ) }
-					label={ __( 'Add to Row', 'generateblocks' ) }
-					onClick={ () => onConvertToContainer( 'row' ) }
+					icon={ getIcon( 'add-to-container' ) }
+					label={ __( 'Add to Container', 'generateblocks' ) }
+					onClick={ () => onConvertToContainer( '' ) }
 				/>
 			</>;
-		}
 
-		if ( blocksSelection.length > 1 ) {
-			buttons = <>
-				{ buttons }
-				<ToolbarButton
-					icon={ getIcon( 'add-to-stack' ) }
-					label={ __( 'Add to Stack', 'generateblocks' ) }
-					onClick={ () => onConvertToContainer( 'stack' ) }
-				/>
-			</>;
+			if ( blocksSelection.length > 1 ) {
+				buttons = <>
+					{ buttons }
+					<ToolbarButton
+						icon={ getIcon( 'add-to-row' ) }
+						label={ __( 'Add to Row', 'generateblocks' ) }
+						onClick={ () => onConvertToContainer( 'row' ) }
+					/>
+				</>;
+			}
+
+			if ( blocksSelection.length > 1 ) {
+				buttons = <>
+					{ buttons }
+					<ToolbarButton
+						icon={ getIcon( 'add-to-stack' ) }
+						label={ __( 'Add to Stack', 'generateblocks' ) }
+						onClick={ () => onConvertToContainer( 'stack' ) }
+					/>
+				</>;
+			}
 		}
 
 		return (
