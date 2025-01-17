@@ -62,6 +62,7 @@ function EditBlock( props ) {
 		onStyleChange,
 		editorHtmlAttributes,
 		styles,
+		name,
 	} = props;
 
 	const {
@@ -103,10 +104,12 @@ function EditBlock( props ) {
 		return {
 			selectorShortcuts: {
 				default: {
-					label: __( 'Numbers', 'generateblocks-pro' ),
+					label: __( 'Numbers', 'generateblocks' ),
 					items: [
-						{ label: __( 'Page Number', 'generateblocks-pro' ), value: '.page-numbers' },
-						{ label: __( 'Current Page Number', 'generateblocks-pro' ), value: '.page-numbers.current' },
+						{ label: __( 'Page Number', 'generateblocks' ), value: '.page-numbers' },
+						{ label: __( 'Hovered Page Number', 'generateblocks' ), value: '.page-numbers:is(:hover, :focus)' },
+						{ label: __( 'Current Page Number', 'generateblocks' ), value: '.page-numbers.current' },
+						{ label: __( 'Dots', 'generateblocks' ), value: '.page-numbers.dots' },
 					],
 				},
 			},

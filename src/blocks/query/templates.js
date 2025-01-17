@@ -65,7 +65,13 @@ export const PAGINATION_TEMPLATE = [ 'generateblocks/element',
 					'.page-numbers': {
 						...buttonStyles,
 					},
-					'.page-numbers:is(.current, .dots)': {
+					'.page-numbers.current': {
+						borderTopWidth: '0',
+						borderRightWidth: '0',
+						borderBottomWidth: '0',
+						borderLeftWidth: '0',
+					},
+					'.page-numbers.dots': {
 						borderTopWidth: '0',
 						borderRightWidth: '0',
 						borderBottomWidth: '0',
