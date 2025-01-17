@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "generateblocks/query-page-numbers",
+  "title": "Page Numbers",
+  "category": "generateblocks",
+  "description": "Display page numbers for a paginated query loop.",
+  "keywords": [
+    "pagination",
+    "numbers"
+  ],
+  "version": "1.0.0",
+  "textdomain": "generateblocks",
+  "ancestor": [
+    "generateblocks/query"
+  ],
+  "attributes": {
+    "uniqueId": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "div",
+        "section",
+        "nav"
+      ]
+    },
+    "styles": {
+      "type": "object",
+      "default": {}
+    },
+    "css": {
+      "type": "string",
+      "default": ""
+    },
+    "globalClasses": {
+      "type": "array",
+      "default": []
+    },
+    "htmlAttributes": {
+      "type": "object",
+      "default": {}
+    },
+    "midSize": {
+      "type": "number",
+      "default": 3
+    }
+  },
+  "supports": {
+    "align": false,
+    "className": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": [
+    "file:./index.css"
+  ],
+  "usesContext": [
+    "generateblocks/queryData",
+    "generateblocks/queryType",
+    "generateblocks/query",
+    "generateblocks/queryId",
+    "generateblocks/inheritQuery",
+    "generateblocks/paginationType",
+    "generateblocks/loopIndex",
+    "generateblocks/loopItem"
+  ]
+}
