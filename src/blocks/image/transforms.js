@@ -118,12 +118,29 @@ const transforms = {
 					metaData.name = blockLabel;
 				}
 
+				const customStyles = {};
+
+				if ( ! styles.width ) {
+					customStyles.width = 'auto';
+				}
+
+				if ( ! styles.height ) {
+					customStyles.height = 'auto';
+				}
+
+				if ( ! styles.maxWidth ) {
+					customStyles.maxWidth = '100%';
+				}
+
 				return createBlock( 'generateblocks/media', {
 					tagName: 'img',
 					mediaId,
 					htmlAttributes: newHtmlAttributes,
 					linkHtmlAttributes,
-					styles,
+					styles: {
+						...styles,
+						...customStyles,
+					},
 					globalClasses,
 					metadata: metaData,
 				} );
@@ -205,12 +222,29 @@ const transforms = {
 					metaData.name = blockLabel;
 				}
 
+				const customStyles = {};
+
+				if ( ! styles.width ) {
+					customStyles.width = 'auto';
+				}
+
+				if ( ! styles.height ) {
+					customStyles.height = 'auto';
+				}
+
+				if ( ! styles.maxWidth ) {
+					customStyles.maxWidth = '100%';
+				}
+
 				const imageBlock = createBlock( 'generateblocks/media', {
 					tagName: 'img',
 					mediaId,
 					htmlAttributes: newHtmlAttributes,
 					linkHtmlAttributes,
-					styles,
+					styles: {
+						...styles,
+						...customStyles,
+					},
 					globalClasses,
 					metadata: metaData,
 				} );
