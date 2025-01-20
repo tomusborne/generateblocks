@@ -1050,7 +1050,12 @@ class GenerateBlocks_Dynamic_Content {
 			return '';
 		}
 
-		$media = get_post( $id );
+		$media  = get_post( $id );
+		$status = $media->post_status ?? '';
+
+		if ( 'publish' !== $status && ! current_user_can( 'read_private_posts' ) ) {
+			return '';
+		}
 
 		return isset( $media ) ? $media->post_content : '';
 	}
