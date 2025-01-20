@@ -2,13 +2,14 @@ import { Button, DropdownMenu, MenuGroup, MenuItem } from '@wordpress/components
 import { useLibrary } from './library-provider';
 import { __, sprintf } from '@wordpress/i18n';
 import { check, chevronDown } from '@wordpress/icons';
+import { decodeEntities } from '@wordpress/html-entities';
 
 export default function CategoryList( { bulkInsertEnabled } ) {
 	const { categories, activeCategory, setActiveCategory } = useLibrary();
 
 	const getNameById = ( id ) => {
 		const item = categories.find( ( element ) => element.id === id );
-		return item ? item.name : null;
+		return item ? decodeEntities( item.name ) : null;
 	};
 
 	return (
@@ -46,7 +47,7 @@ export default function CategoryList( { bulkInsertEnabled } ) {
 										onClose();
 									} }
 								>
-									{ category.name }
+									{ decodeEntities( category.name ) }
 								</MenuItem>
 							) ) }
 						</MenuGroup>
@@ -68,7 +69,7 @@ export default function CategoryList( { bulkInsertEnabled } ) {
 							isPressed={ category.id === activeCategory }
 							onClick={ () => setActiveCategory( category.id ) }
 						>
-							{ category.name }
+							{ decodeEntities( category.name ) }
 						</Button>
 					) ) }
 				</>
