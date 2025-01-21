@@ -704,9 +704,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$page_key      = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$inherit_query = $instance->context['generateblocks/queryData']['inherit'] ?? false;
+		$has_query     = isset( $instance->context['generateblocks/queryData'] );
 		$output   = '';
 
-		if ( $inherit_query ) {
+		if ( $inherit_query || ! $has_query ) {
 			global $paged;
 
 			if ( $paged > 1 ) {
@@ -733,10 +734,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$args          = $instance->context['generateblocks/queryData']['args'] ?? [];
 		$inherit_query = $instance->context['generateblocks/queryData']['inherit'] ?? false;
+		$has_query     = isset( $instance->context['generateblocks/queryData'] );
 		$per_page      = $args['posts_per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
-		if ( $inherit_query ) {
+		if ( $inherit_query || ! $has_query ) {
 			global $wp_query, $paged;
 
 			if ( ! $paged ) {
