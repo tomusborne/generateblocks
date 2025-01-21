@@ -2,6 +2,7 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
+import { useSelect } from '@wordpress/data';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
@@ -49,8 +50,12 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
+	const {
+		isBlockMultiSelected,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+
 	const blockProps = useBlockProps();
-	const shouldWrapBlock = isSelected || ( 'img' === tagName && ! temporaryURL && ! htmlAttributes?.src );
+	const shouldWrapBlock = isSelected || isBlockMultiSelected( clientId ) || ( 'img' === tagName && ! temporaryURL && ! htmlAttributes?.src );
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
 		'data-block': clientId,
