@@ -85,7 +85,7 @@ function EditBlock( props ) {
 
 	const TagNameWithIcon = tagName || 'p';
 	const richTextProps = {
-		identifier: content,
+		identifier: 'content',
 		value: contentValue,
 		onChange: ( value ) => setAttributes( { content: value } ),
 		onMerge: mergeBlocks,
