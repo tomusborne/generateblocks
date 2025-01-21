@@ -13,7 +13,7 @@ A small collection of lightweight WordPress blocks that can accomplish nearly an
 
 == Description ==
 
-Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
+Add incredible versatility to your editor without bloating it with tons of one-dimensional blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
 [GenerateBlocks](https://generatepress.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com/theme?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
 
@@ -27,7 +27,7 @@ Organize your content into rows and sections. The Container block is the foundat
 
 Create advanced layouts with flexible grids. The Grid block gives you the ability to create any kind of layout you can imagine.
 
-= Headline =
+= Text =
 
 Craft text-rich content with advanced typography. Everything from headings to paragraphs - take full control of your text.
 
@@ -35,13 +35,50 @@ Craft text-rich content with advanced typography. Everything from headings to pa
 
 Drive conversions with beautiful buttons.
 
-= Query Loop =
+= Query =
 
-Build a list of posts from any post type using advanced query parameters.
+Build a list of posts from any post type using advanced query parameters. Query post meta and option fields in GenerateBlocks Pro.
 
 = Image =
 
-Add static or dynamic images to your content to make a visual statement.
+Add images to your content to make a visual statement.
+
+= Shape =
+
+Add custom SVG shapes to your pages with ease.
+
+= Dynamic Tags =
+
+Use our powerful dynamic tags to display dynamic content inside your blocks.
+
+* Post title
+* Post excerpt
+* Post permalink
+* Post date
+* Featured image
+* Post meta
+* Author meta
+* Comment count
+* Comments URL
+* Author archives URL
+* Author avatar URL
+* Term list
+* Previous posts URL
+* Next posts URL
+* Media
+
+In GenerateBlocks Pro, you get additional dynamic tags:
+
+* Archive title
+* Archive description
+* Site option
+* Term meta
+* User meta
+* Current year
+* Site title
+* Site tagline
+* Loop index number
+* Loop item
 
 = Performance =
 
@@ -53,7 +90,15 @@ Built to the highest coding standards for security, stability and future compati
 
 = Fully responsive =
 
-Every block comes with tablet and mobile controls, giving you total control of your responsive design.
+Style your blocks for different screen sizes.
+
+* Desktop: @media (min-width:1025px)
+* Desktop & Tablet: @media (min-width:768px)
+* Tablet: @media (max-width:1024px) and (min-width:768px)
+* Tablet & Mobile: @media (max-width:1024px)
+* Mobile: @media (max-width:767px)
+
+In GenerateBlocks Pro, you can create as many custom media queries as you need.
 
 = Documentation =
 
@@ -84,6 +129,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 2.0.0 =
+* Security: Prevent logged-in contributors from querying private post content
 * New: All blocks re-written from scratch for better performance and control
 * New: Version 1 blocks still exist where used and function normally
 * New: Version 1 blocks can be enabled by default with simple filter
