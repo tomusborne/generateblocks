@@ -375,6 +375,8 @@ add_filter( 'excerpt_allowed_blocks', 'generateblocks_set_excerpt_allowed_blocks
 function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/headline';
 	$allowed[] = 'generateblocks/container';
+	$allowed[] = 'generateblocks/text';
+	$allowed[] = 'generateblocks/element';
 
 	return $allowed;
 }
@@ -388,6 +390,7 @@ add_filter( 'excerpt_allowed_wrapper_blocks', 'generateblocks_set_excerpt_allowe
  */
 function generateblocks_set_excerpt_allowed_wrapper_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/container';
+	$allowed[] = 'generateblocks/element';
 
 	return $allowed;
 }
