@@ -502,7 +502,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$content      = $request->get_param( 'content' );
 		$context      = $request->get_param( 'context' );
 		$client_id    = $request->get_param( 'clientId' );
-		$block        = $request->get_param( 'block' ) ?? [];
 		$post_id      = $context['postId'] ?? 0;
 		$fallback_id  = $post_id;
 		$instance     = new stdClass();
@@ -563,7 +562,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					$replacements[] = [
 						'original' => "{{{$tag}}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", $block, $instance ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
@@ -572,13 +571,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					$replacements[] = [
 						'original' => "{{{$tag}}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", $block, $instance ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} else {
 					$replacements[] = [
 						'original' => "{{{$tag}}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$tag}}}", $block, $instance ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$tag}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				}
