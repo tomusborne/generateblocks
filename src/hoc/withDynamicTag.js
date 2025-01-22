@@ -38,6 +38,7 @@ export function withDynamicTag( WrappedComponent ) {
 			content,
 			htmlAttributes,
 			tagName,
+			uniqueId,
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
@@ -85,7 +86,16 @@ export function withDynamicTag( WrappedComponent ) {
 			}
 
 			async function fetchData() {
-				const response = await replaceTags( { content: contentValue, context, clientId } );
+				const response = await replaceTags( {
+					content: contentValue,
+					context,
+					clientId,
+					block: {
+						attrs: {
+							uniqueId,
+						},
+					},
+				} );
 
 				setDynamicTagValue( response );
 
@@ -102,6 +112,7 @@ export function withDynamicTag( WrappedComponent ) {
 			isSavingPost,
 			blockCacheKey,
 			isSelected,
+			uniqueId,
 		] );
 
 		return (
