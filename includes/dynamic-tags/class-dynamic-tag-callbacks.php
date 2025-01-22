@@ -233,7 +233,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the title.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -253,7 +253,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the permalink.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -273,7 +273,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the post date.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -307,7 +307,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the featured image.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -357,7 +357,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the post meta.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -391,7 +391,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the comments count.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return int
 	 */
@@ -429,7 +429,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the comments URL.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -467,7 +467,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the author meta.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -617,17 +617,25 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the post's excerpt, optionally with a custom read more link.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
 	public static function get_post_excerpt( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id       = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$block_id = $block['attrs']['uniqueId'] ?? '';
 
-		if ( ! $id ) {
+		if ( ! $id || ! $block_id ) {
 			return self::output( '', $options, $instance );
 		}
 
+		static $seen_ids = [];
+
+		if ( isset( $seen_ids[ $block_id ] ) && $id === $seen_ids[ $block_id ] ) {
+			return self::output( '', $options, $instance );
+		}
+
+		$seen_ids[ $block_id ] = $id;
 		$read_more             = $options['readMore'] ?? '';
 		$pre_read_more         = $options['pre'] ?? '';
 		$use_theme_read_more   = isset( $options['useTheme'] ) ? true : false;
@@ -695,7 +703,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the previous post page URL.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -724,7 +732,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the next post page URL.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
@@ -782,7 +790,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * Get the media.
 	 *
 	 * @param array  $options The options.
-	 * @param object $block The block.
+	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
 	 */
