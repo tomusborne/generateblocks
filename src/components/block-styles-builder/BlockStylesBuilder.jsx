@@ -42,9 +42,11 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 	const { styles, globalClasses = [] } = attributes;
 	const currentStyles = getStylesObject( styles, atRule, nestedRule );
 	const computedStyleDeps = useMemo( () => {
-		return {
-			...globalClasses,
+		const deps = {
+			globalClasses,
 		};
+
+		return JSON.stringify( deps );
 	}, [ globalClasses ] );
 
 	return (
