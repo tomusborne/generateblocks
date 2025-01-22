@@ -1,7 +1,7 @@
 import apiFetch from '@wordpress/api-fetch';
 import { applyFilters } from '@wordpress/hooks';
 
-export async function replaceTags( { content, context = {}, clientId } ) {
+export async function replaceTags( { content, context = {}, clientId, block = {} } ) {
 	// Define an async function to fetch data
 	try {
 		const response = await apiFetch( {
@@ -11,6 +11,7 @@ export async function replaceTags( { content, context = {}, clientId } ) {
 				content,
 				context: applyFilters( 'generateblocks.editor.preview.context', context, { content, clientId } ),
 				clientId,
+				block,
 			},
 		} );
 
