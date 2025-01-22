@@ -28,9 +28,8 @@ addFilter(
 	'generateblocks.editor.htmlAttributes.style',
 	'generateblocks/styleWithReplacements',
 	async( style, props ) => {
-		const { context, clientId, attributes } = props;
+		const { context, clientId } = props;
 
-		const { uniqueId } = attributes;
 		const previewEnabled = 'enabled' === generateBlocksEditor?.dynamicTagsPreview;
 
 		if ( ! previewEnabled ) {
@@ -54,16 +53,7 @@ addFilter(
 			return cache[ blockCacheKey ][ style ];
 		}
 
-		const replacements = await replaceTags( {
-			content: style,
-			context,
-			clientId,
-			block: {
-				attrs: {
-					uniqueId,
-				},
-			},
-		} );
+		const replacements = await replaceTags( { content: style, context, clientId } );
 
 		if ( ! replacements.length ) {
 			return style;

@@ -622,20 +622,19 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_post_excerpt( $options, $block, $instance ) {
-		$id       = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$block_id = $block['attrs']['uniqueId'] ?? '';
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 
-		if ( ! $id || ! $block_id ) {
+		if ( ! $id ) {
 			return self::output( '', $options, $instance );
 		}
 
 		static $seen_ids = [];
 
-		if ( isset( $seen_ids[ $block_id ] ) && $id === $seen_ids[ $block_id ] ) {
+		if ( isset( $seen_ids[ $id ] ) ) {
 			return self::output( '', $options, $instance );
 		}
 
-		$seen_ids[ $block_id ] = $id;
+		$seen_ids[ $id ] = true;
 		$read_more             = $options['readMore'] ?? '';
 		$pre_read_more         = $options['pre'] ?? '';
 		$use_theme_read_more   = isset( $options['useTheme'] ) ? true : false;
@@ -695,6 +694,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 				100
 			);
 		}
+
+		unset( $seen_ids[ $id ] );
 
 		return self::output( $output, $options, $instance );
 	}
