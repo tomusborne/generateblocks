@@ -20,6 +20,42 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
+	wp_localize_script(
+		'generateblocks-media-editor-script',
+		'generateblocksBlockMedia',
+		[
+			'standardPlaceholder'   => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
+			'squarePlaceholder'     => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
+		]
+	);
+
+	wp_localize_script(
+		'generateblocks-text-editor-script',
+		'generateblocksBlockText',
+		[
+			'defaultButtonAttributes' => apply_filters(
+				'generateblocks_default_button_attributes',
+				[
+					'styles' => [
+						'display' => 'inline-flex',
+						'alignItems' => 'center',
+						'backgroundColor' => '#215bc2',
+						'color' => '#ffffff',
+						'paddingTop' => '1rem',
+						'paddingRight' => '2rem',
+						'paddingBottom' => '1rem',
+						'paddingLeft' => '2rem',
+						'textDecoration' => 'none',
+						'&:is(:hover, :focus)' => [
+							'backgroundColor' => '#1a4a9b',
+							'color' => '#ffffff',
+						],
+					],
+				]
+			),
+		]
+	);
+
 	global $pagenow;
 
 	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
@@ -57,7 +93,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
-		array( 'wp-edit-blocks' ),
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
 
@@ -82,6 +118,7 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
+			'useV1Blocks' => generateblocks_use_v1_blocks(),
 		)
 	);
 
@@ -176,13 +213,105 @@ function generateblocks_do_block_editor_assets() {
 		array( 'wp-components' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
 	);
+
+	$packages_asset_info = generateblocks_get_enqueue_assets( 'packages' );
+	wp_register_style(
+		'generateblocks-packages',
+		GENERATEBLOCKS_DIR_URL . 'dist/packages.css',
+		'',
+		$packages_asset_info['version']
+	);
+
+	// Enqueue scripts for all edge22 packages in the plugin.
+	$package_json = GENERATEBLOCKS_DIR . 'package.json';
+
+	if ( file_exists( $package_json ) ) {
+		$package_json_parsed = json_decode(
+			file_get_contents( $package_json ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			true
+		);
+
+		$edge22_packages = array_filter(
+			$package_json_parsed['dependencies'],
+			function( $package_name ) {
+				return 0 === strpos( $package_name, '@edge22/' );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		foreach ( $edge22_packages as $name => $version ) {
+			$name = str_replace( '@edge22/', '', $name );
+			$path = GENERATEBLOCKS_DIR . "dist/{$name}-imported.asset.php";
+
+			if ( ! file_exists( $path ) ) {
+				continue;
+			}
+
+			$package_info = require $path;
+
+			wp_register_script(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.js',
+				$package_info['dependencies'],
+				$version,
+				true
+			);
+
+			wp_register_style(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.css',
+				[],
+				$version
+			);
+		}
+	}
+
+	$editor_assets = generateblocks_get_enqueue_assets( 'editor' );
+
+	wp_enqueue_script(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.js',
+		$editor_assets['dependencies'],
+		$editor_assets['version'],
+		true
+	);
+
+	$tags = GenerateBlocks_Register_Dynamic_Tag::get_tags();
+	$tag_list = [];
+
+	foreach ( $tags as $tag => $data ) {
+		$relevant_data = $data;
+		unset( $relevant_data['return'] );
+		if ( $data ) {
+			$tag_list[] = $relevant_data;
+		}
+	}
+
+	wp_localize_script(
+		'generateblocks-editor',
+		'generateBlocksEditor',
+		[
+			'useV1Blocks'        => generateblocks_use_v1_blocks(),
+			'dynamicTags'        => $tag_list,
+			'hasGPFontLibrary'   => function_exists( 'generatepress_is_module_active' )
+				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
+				: false,
+			'dateFormat' => get_option( 'date_format' ),
+			'wpContentUrl' => content_url(),
+			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
+			'dynamicTagsPreview' => apply_filters( 'generateblocks_dynamic_tags_preview', true ) ? 'enabled' : 'disabled',
+		]
+	);
+
+	wp_enqueue_style(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/editor.css' )
+	);
 }
 
-if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
-	add_filter( 'block_categories', 'generateblocks_do_category' );
-} else {
-	add_filter( 'block_categories_all', 'generateblocks_do_category' );
-}
+add_filter( 'block_categories_all', 'generateblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
@@ -190,15 +319,15 @@ if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
-	return array_merge(
-		array(
-			array(
-				'slug'  => 'generateblocks',
-				'title' => __( 'GenerateBlocks', 'generateblocks' ),
-			),
-		),
-		$categories
+	array_unshift(
+		$categories,
+		[
+			'slug'  => 'generateblocks',
+			'title' => __( 'GenerateBlocks', 'generateblocks' ),
+		]
 	);
+
+	return $categories;
 }
 
 add_action( 'wp_enqueue_scripts', 'generateblocks_do_google_fonts' );
@@ -246,6 +375,8 @@ add_filter( 'excerpt_allowed_blocks', 'generateblocks_set_excerpt_allowed_blocks
 function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/headline';
 	$allowed[] = 'generateblocks/container';
+	$allowed[] = 'generateblocks/text';
+	$allowed[] = 'generateblocks/element';
 
 	return $allowed;
 }
@@ -259,6 +390,7 @@ add_filter( 'excerpt_allowed_wrapper_blocks', 'generateblocks_set_excerpt_allowe
  */
 function generateblocks_set_excerpt_allowed_wrapper_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/container';
+	$allowed[] = 'generateblocks/element';
 
 	return $allowed;
 }
@@ -462,6 +594,26 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
+	$blocks_to_reset = [
+		'.editor-styles-wrapper .wp-block-generateblocks-text:where(:not(h1, h2, h3, h4, h5, h6, p))',
+		'.editor-styles-wrapper .wp-block-generateblocks-element',
+		'.editor-styles-wrapper .wp-block-generateblocks-shape',
+		'.editor-styles-wrapper .wp-block-generateblocks-media',
+		'.editor-styles-wrapper .wp-block-generateblocks-query',
+		'.editor-styles-wrapper .wp-block-generateblocks-query-no-results',
+		'.editor-styles-wrapper .wp-block-generateblocks-query-page-numbers',
+		'.editor-styles-wrapper .wp-block-generateblocks-looper',
+		'.editor-styles-wrapper .wp-block-generateblocks-loop-item',
+	];
+
+	$heading_blocks_to_reset = [
+		'.editor-styles-wrapper .wp-block-generateblocks-text:where(h1, h2, h3, h4, h5, h6, p)',
+	];
+
+	$css  = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';
+	$css .= implode( ',', $heading_blocks_to_reset ) . '{max-width:unset;margin-left:0;margin-right:0;}';
+	$editor_settings['styles'][] = [ 'css' => $css ];
+
 	return $editor_settings;
 }
 
@@ -472,9 +624,102 @@ add_filter( 'generateblocks_css_output', 'generateblocks_add_general_css' );
  * @param string $css Existing CSS.
  */
 function generateblocks_add_general_css( $css ) {
+	$container_width = generateblocks_get_global_container_width();
+
+	if ( $container_width ) {
+		$css .= ':root{--gb-container-width:' . $container_width . ';}';
+	}
+
 	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
 	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
 	$css .= '.gb-highlight{background:none;}';
+	$css .= '.gb-shape{line-height:0;}';
 
 	return $css;
+}
+
+add_filter( 'block_editor_settings_all', 'generateblocks_do_block_editor_styles', 15 );
+/**
+ * Add our block editor styles.
+ *
+ * @param array $editor_settings The existing editor settings.
+ */
+function generateblocks_do_block_editor_styles( $editor_settings ) {
+	$container_width = generateblocks_get_global_container_width();
+
+	$editor_settings['styles'][] = array(
+		'css' => ':root{--gb-container-width:' . $container_width . ';}',
+	);
+
+	$editor_settings['styles'][] = array(
+		'css' => '.gb-shape{line-height:0;}',
+	);
+
+	return $editor_settings;
+}
+
+add_action( 'admin_head', 'generateblocks_admin_head_scripts', 0 );
+/**
+ * Output permissions for use in admin objects.
+ *
+ * @return void
+ */
+function generateblocks_admin_head_scripts() {
+	$permissions = apply_filters(
+		'generateblocks_permissions',
+		[
+			'isAdminUser'       => current_user_can( 'manage_options' ),
+			'canEditPosts'      => current_user_can( 'edit_posts' ),
+			'isGbProActive'     => is_plugin_active( 'generateblocks-pro/plugin.php' ),
+			'isGpPremiumActive' => is_plugin_active( 'gp-premium/gp-premium.php' ),
+		]
+	);
+
+	$permission_object = wp_json_encode( $permissions );
+
+	echo sprintf(
+		'<script>
+				const gbPermissions = %s;
+				Object.freeze( gbPermissions );
+		</script>',
+		$permission_object // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	);
+}
+
+add_filter( 'render_block', 'generateblocks_do_html_attributes_escaping', 20, 2 );
+/**
+ * Filter the rendered block content and escape HTML attributes.
+ *
+ * @param string $content The block content about to be appended to the post content.
+ * @param array  $block    The full block, including name and attributes.
+ * @return string
+ */
+function generateblocks_do_html_attributes_escaping( $content, $block ) {
+	$html_attributes = $block['attrs']['htmlAttributes'] ?? [];
+	$link_attributes = $block['attrs']['linkHtmlAttributes'] ?? [];
+
+	if ( empty( $html_attributes ) && empty( $link_attributes ) ) {
+		return $content;
+	}
+
+	$v1_block_names  = generateblocks_get_v1_block_names();
+	$block_name      = $block['blockName'] ?? '';
+
+	// Only do this for our non-v1 blocks.
+	if (
+		! generateblocks_str_starts_with( $block_name, 'generateblocks' ) ||
+		in_array( $block_name, $v1_block_names, true )
+	) {
+		return $content;
+	}
+
+	$content = generateblocks_with_escaped_attributes(
+		$content,
+		[
+			'block_html_attrs' => $html_attributes,
+			'link_html_attrs'  => $link_attributes,
+		]
+	);
+
+	return $content;
 }

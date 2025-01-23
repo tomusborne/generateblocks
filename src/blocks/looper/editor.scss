@@ -1,0 +1,18 @@
+.gb-block-preview {
+	isolation: isolate;
+
+	&:where(a, button ),
+	*:not(.gb-block-preview__toggle) {
+		pointer-events: none !important;
+	}
+
+	&__toggle {
+		cursor: pointer;
+		position: absolute;
+    inset: 0;
+    box-shadow: none !important;
+    border: none !important;
+    background: none !important;
+		z-index: 10;
+	}
+}
