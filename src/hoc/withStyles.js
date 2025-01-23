@@ -9,6 +9,7 @@ import {
 	buildChangedStylesObject,
 	getSelector,
 	Style,
+	useDecodeStyleKeys,
 } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -94,6 +95,11 @@ export function withStyles( WrappedComponent ) {
 			selector,
 			setCurrentStyle,
 			setNestedRule,
+		} );
+
+		useDecodeStyleKeys( {
+			styles,
+			setAttributes,
 		} );
 
 		return (
