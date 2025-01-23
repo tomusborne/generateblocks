@@ -2,8 +2,8 @@
 Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
-Requires at least: 5.9
-Tested up to: 6.6
+Requires at least: 6.5
+Tested up to: 6.7
 Requires PHP: 7.2
 Stable tag: 1.9.1
 License: GPLv2 or later
@@ -13,7 +13,7 @@ A small collection of lightweight WordPress blocks that can accomplish nearly an
 
 == Description ==
 
-Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
+Add incredible versatility to your editor without bloating it with tons of one-dimensional blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
 [GenerateBlocks](https://generatepress.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com/theme?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
 
@@ -27,7 +27,7 @@ Organize your content into rows and sections. The Container block is the foundat
 
 Create advanced layouts with flexible grids. The Grid block gives you the ability to create any kind of layout you can imagine.
 
-= Headline =
+= Text =
 
 Craft text-rich content with advanced typography. Everything from headings to paragraphs - take full control of your text.
 
@@ -35,13 +35,50 @@ Craft text-rich content with advanced typography. Everything from headings to pa
 
 Drive conversions with beautiful buttons.
 
-= Query Loop =
+= Query =
 
-Build a list of posts from any post type using advanced query parameters.
+Build a list of posts from any post type using advanced query parameters. Query post meta and option fields in GenerateBlocks Pro.
 
 = Image =
 
-Add static or dynamic images to your content to make a visual statement.
+Add images to your content to make a visual statement.
+
+= Shape =
+
+Add custom SVG shapes to your pages with ease.
+
+= Dynamic Tags =
+
+Use our powerful dynamic tags to display dynamic content inside your blocks.
+
+* Post title
+* Post excerpt
+* Post permalink
+* Post date
+* Featured image
+* Post meta
+* Author meta
+* Comment count
+* Comments URL
+* Author archives URL
+* Author avatar URL
+* Term list
+* Previous posts URL
+* Next posts URL
+* Media
+
+In GenerateBlocks Pro, you get additional dynamic tags:
+
+* Archive title
+* Archive description
+* Site option
+* Term meta
+* User meta
+* Current year
+* Site title
+* Site tagline
+* Loop index number
+* Loop item
 
 = Performance =
 
@@ -53,7 +90,15 @@ Built to the highest coding standards for security, stability and future compati
 
 = Fully responsive =
 
-Every block comes with tablet and mobile controls, giving you total control of your responsive design.
+Style your blocks for different screen sizes.
+
+* Desktop: @media (min-width:1025px)
+* Desktop & Tablet: @media (min-width:768px)
+* Tablet: @media (max-width:1024px) and (min-width:768px)
+* Tablet & Mobile: @media (max-width:1024px)
+* Mobile: @media (max-width:767px)
+
+In GenerateBlocks Pro, you can create as many custom media queries as you need.
 
 = Documentation =
 
@@ -82,6 +127,32 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 2.0.0 =
+* Security: Prevent logged-in contributors from querying private post content
+* New: All blocks re-written from scratch for better performance and control
+* New: Version 1 blocks still exist where used and function normally
+* New: Version 1 blocks can be enabled by default with simple filter
+* New: Element block - replaces the Container and Grid blocks
+* New: Element blocks comes with Container and Grid variations in the block inserter
+* New: Text block - replaces the Headline and Button blocks
+* New: Text blocks comes with Headline, Text, and Button variations in the block inserter
+* New: Query block - replaces the Query Loop block
+* New: Looper block - replaces the Grid block inside of the Query block
+* New: Loop Item block - replaces the Post Template (Container) in the Query block
+* New: No Results block - add content that displays if no Query results are found
+* New: Page Numbers block - add page numbers for pagination in your Query block
+* New: Shape block - add any SVG shape to your pages
+* New: Media block - replaces the Image block
+* New: Local blocks now have the full styles builder found in GB Pro Global Styles
+* New: Local blocks can now be designed at any breakpoint or nested rule
+* New: Filter block design options in the editor based on whether they have a value
+* New: Filter block design options in the editor based on whether they're inheriting a value
+* New: Dynamic tags system. Insert dynamic data anywhere in your blocks
+* New: Multiple dynamic tags can be inserted into a single block
+* New: --gb-container-width CSS variable for getting the global max-width
+* Performance: Local blocks now generate their CSS and HTML as you build in the editor
+* Performance: Blocks are output as static HTML/CSS on the frontend for better performance
 
 = 1.9.1 =
 * Fix: Patterns not loading properly in Chrome
