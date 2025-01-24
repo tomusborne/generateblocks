@@ -1,7 +1,7 @@
 import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useMemo, useEffect } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
-import { doAction } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
@@ -30,8 +30,9 @@ function EditBlock( props ) {
 
 	const {
 		tagName,
-		isBlockPreview = false,
 	} = attributes;
+
+	const { selectBlock } = useDispatch( 'core/block-editor' );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -47,10 +48,6 @@ function EditBlock( props ) {
 		},
 		true
 	);
-
-	if ( isBlockPreview ) {
-		classNames.push( 'gb-block-preview' );
-	}
 
 	const blockProps = useBlockProps( {
 		className: classNames.join( ' ' ).trim(),
@@ -109,6 +106,9 @@ function EditBlock( props ) {
 	const contextPostId = context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0;
 	const previewId = context?.[ 'generateblocks/loopPreviewId' ] ?? 0;
 	const hasLoopItems = context?.[ 'generateblocks/hasLoopItems' ] ?? false;
+	const setPreviewId = context?.[ 'generateblocks/setLoopPreviewId' ] ?? null;
+	const queryId = context?.[ 'generateblocks/queryId' ] ?? '';
+	const itemPreviewId = previewId[ queryId ] || 0;
 
 	return (
 		<>
@@ -132,13 +132,21 @@ function EditBlock( props ) {
 			</InspectorControls>
 			<TagName { ...otherInnerBlocksProps }>
 				{ innerBlocksChildren }
-				{ !! hasLoopItems && previewId !== contextPostId && (
+				{ ( !! hasLoopItems && itemPreviewId !== contextPostId ) && (
 					<button
 						className="gb-block-preview__toggle"
 						data-block-id={ clientId }
 						data-context-post-id={ contextPostId }
 						onClick={ () => {
-							doAction( 'generateblocks.editor.loopItem.togglePreview', contextPostId, props );
+							if ( setPreviewId ) {
+								setPreviewId( ( prev ) => {
+									return {
+										...prev,
+										[ queryId ]: contextPostId,
+									};
+								} );
+								selectBlock( clientId );
+							}
 						} }
 						type="button"
 						aria-label={ __( 'Set this block as active', 'generateblocks' ) }

@@ -4,10 +4,10 @@ import {
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
-import { applyFilters, addAction } from '@wordpress/hooks';
+import { applyFilters } from '@wordpress/hooks';
 import apiFetch from '@wordpress/api-fetch';
 
 import { BlockAppender } from '@components/index';
@@ -123,6 +123,7 @@ export function LoopInnerBlocksRenderer( props ) {
 	const {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
+		'generateblocks/queryId': queryId = null,
 	} = context;
 	let dataState = {
 		data: null,
@@ -131,7 +132,6 @@ export function LoopInnerBlocksRenderer( props ) {
 		queryParams: [],
 	};
 	const { getSelectedBlock } = useSelect( blockEditorStore );
-	const { selectBlock } = useDispatch( blockEditorStore );
 	const selectedBlock = getSelectedBlock();
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, { query, context, queryType, attributes, selectedBlock } );
 
@@ -165,19 +165,9 @@ export function LoopInnerBlocksRenderer( props ) {
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
-	const [ previewId, setPreviewId ] = useState();
-
-	addAction(
-		'generateblocks.editor.loopItem.togglePreview',
-		'generateblocks/looper/togglePreview',
-		( id, blockProps ) => {
-			setPreviewId( id );
-
-			if ( blockProps.clientId ) {
-				selectBlock( blockProps.clientId );
-			}
-		}
-	);
+	const [ previewId, setPreviewId ] = useState( {
+		[ queryId ]: null,
+	} );
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
@@ -231,20 +221,11 @@ export function LoopInnerBlocksRenderer( props ) {
 					'generateblocks/loopIndex': index + 1, // Preview doesn't support pagination so this index is correct.
 					'generateblocks/loopPreviewId': previewId,
 					'generateblocks/hasLoopItems': true,
+					'generateblocks/setLoopPreviewId': setPreviewId,
 				};
 			} );
 
-			// If no preview ID is set, use the first item as the preview.
-			if ( undefined === previewId ) {
-				setPreviewId( result[ 0 ]?.postId ?? 0 );
-			}
-
 			return result;
-		}
-
-		// If no preview ID is set, use the first item as the preview.
-		if ( 0 !== previewId ) {
-			setPreviewId( 0 );
 		}
 
 		// If no data found, return limited context for the preview loop item.
@@ -256,9 +237,10 @@ export function LoopInnerBlocksRenderer( props ) {
 			},
 			'generateblocks/loopIndex': 1,
 			'generateblocks/loopPreviewId': previewId,
+			'generateblocks/setLoopPreviewId': setPreviewId,
 			'generateblocks/hasLoopItems': false,
 		} ];
-	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId ] );
+	}, [ data, hasResolvedData, query?.posts_per_page, query?.offset, previewId, queryId ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
@@ -268,13 +250,15 @@ export function LoopInnerBlocksRenderer( props ) {
 		// Include index in case the postId is the same for all loop items.
 		const contextId = loopItemContext?.postId ?? loopItemContext?.[ 'generateblocks/loopIndex' ] ?? index;
 		const key = `${ contextId }-${ index }`;
-		const previewIdInt = parseInt( previewId, 10 );
 		let isActive = 0 === index;
 
-		if ( previewIdInt ) {
-			isActive = contextId ? contextId === previewIdInt : false;
-		}
+		if ( previewId[ queryId ] ) {
+			const previewIdInt = parseInt( previewId[ queryId ], 10 );
 
+			if ( previewIdInt ) {
+				isActive = contextId ? contextId === previewIdInt : false;
+			}
+		}
 		return (
 			<BlockContextProvider
 				key={ key }
