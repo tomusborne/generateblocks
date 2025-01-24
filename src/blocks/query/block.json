@@ -1,0 +1,86 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/query",
+    "title": "Query",
+    "category": "generateblocks",
+    "description": "Query posts and display them in a loop.",
+    "keywords": [ "query", "loop", "posts" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+			"uniqueId": {
+				"type": "string",
+				"default": ""
+			},
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"article",
+				"aside",
+				"header",
+				"footer",
+				"nav",
+				"main"
+			]
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
+		"globalClasses": {
+			"type": "array",
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"queryType": {
+			"type": "string",
+			"default": "WP_Query"
+		},
+		"paginationType": {
+			"type": "string",
+			"default": "standard",
+			"enum": [
+				"standard",
+				"instant"
+			]
+		},
+		"query": {
+			"type": "object",
+			"default": {}
+		},
+		"inheritQuery": {
+			"type": "boolean",
+			"default": false
+		},
+		"showTemplateSelector": {
+			"type": "boolean",
+			"default": false
+		}
+    },
+    "supports": {
+			"align": false,
+			"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": [
+		"file:./index.css"
+	],
+	"providesContext": {
+		"generateblocks/query": "query",
+		"generateblocks/queryId": "uniqueId",
+		"generateblocks/inheritQuery": "inheritQuery",
+		"generateblocks/paginationType": "paginationType",
+		"generateblocks/queryType": "queryType"
+	}
+}
