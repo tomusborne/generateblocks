@@ -101,7 +101,7 @@ function EditBlock( props ) {
 	}, [ tagName ] );
 
 	const contextPostId = context?.postId ?? context?.[ 'generateblocks/loopIndex' ] ?? 0;
-	const previewId = context?.[ 'generateblocks/loopPreviewId' ] ?? 0;
+	const previewId = context?.[ 'generateblocks/loopPreviewId' ] ?? {};
 	const hasLoopItems = context?.[ 'generateblocks/hasLoopItems' ] ?? false;
 	const setPreviewId = context?.[ 'generateblocks/setLoopPreviewId' ] ?? null;
 	const queryId = context?.[ 'generateblocks/queryId' ] ?? '';
