@@ -106,7 +106,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 					array(
 						'postType'                 => 'post',
 						'postId'                   => 0,
-						'generateblocks/queryData' => $block->context['generateblocks/queryData'] ?? [],
+						'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 						'generateblocks/loopIndex' => 1,
 						'generateblocks/loopItem'  => [ 'ID' => 0 ],
 					)
@@ -126,7 +126,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 							array(
 								'postType'                 => get_post_type(),
 								'postId'                   => get_the_ID(),
-								'generateblocks/queryData' => $block->context['generateblocks/queryData'] ?? [],
+								'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 								'generateblocks/loopIndex' => $offset + $query->current_post + 1,
 								'generateblocks/loopItem'  => self::sanitize_loop_item( $post ),
 							)
