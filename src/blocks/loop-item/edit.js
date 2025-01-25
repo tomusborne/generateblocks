@@ -1,6 +1,5 @@
 import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useMemo, useEffect } from '@wordpress/element';
-import { useDispatch } from '@wordpress/data';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -31,8 +30,6 @@ function EditBlock( props ) {
 	const {
 		tagName,
 	} = attributes;
-
-	const { selectBlock } = useDispatch( 'core/block-editor' );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -145,7 +142,6 @@ function EditBlock( props ) {
 										[ queryId ]: contextPostId,
 									};
 								} );
-								selectBlock( clientId );
 							}
 						} }
 						type="button"
