@@ -61,10 +61,16 @@
 		"className": false
     },
 	"usesContext": [
+		"postId",
+		"postType",
+		"generateblocks/query",
 		"generateblocks/queryData",
 		"generateblocks/queryType",
+		"generateblocks/inheritQuery",
+		"generateblocks/queryId",
 		"generateblocks/paginationType",
-		"postId"
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [
