@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/text",
+    "title": "Text",
+    "category": "generateblocks",
+    "description": "A text element where you can choose your own tag name, content, and styles.",
+    "keywords": [ "text", "heading", "headline", "paragraph" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+        "uniqueId": {
+            "type": "string",
+			"default": ""
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"p",
+				"span",
+				"div",
+				"h1",
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"h6",
+				"a",
+				"button",
+				"figcaption",
+				"li"
+			]
+		},
+		"content": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": ".gb-text"
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
+		"globalClasses": {
+			"type": "array",
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"icon": {
+			"type": "string",
+			"source": "html",
+			"selector": ".gb-shape"
+		},
+		"iconLocation": {
+			"type": "string",
+			"default": "before"
+		},
+		"iconOnly": {
+			"type": "boolean",
+			"default": false
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false,
+		"splitting": true
+    },
+	"usesContext": [
+		"postId",
+		"postType",
+		"generateblocks/query",
+		"generateblocks/queryData",
+		"generateblocks/queryType",
+		"generateblocks/inheritQuery",
+		"generateblocks/queryId",
+		"generateblocks/paginationType",
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
+	],
+    "editorScript": "file:./index.js",
+    "editorStyle": [
+		"file:./index.css"
+	]
+}
