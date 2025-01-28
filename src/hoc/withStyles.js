@@ -62,7 +62,7 @@ export function withStyles( WrappedComponent ) {
 		function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
 			if ( nestedRuleValue ) {
 				if ( atRuleValue ) {
-					return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
+					return styles?.[ nestedRuleValue ]?.[ atRuleValue ]?.[ property ] ?? '';
 				}
 
 				return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
