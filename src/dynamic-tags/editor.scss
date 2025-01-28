@@ -1,0 +1,121 @@
+$input-height: 35px;
+
+.gb-dynamic-tag-modal {
+	height: min(70%, 700px);
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		min-height: 250px; // Ensure's autocomplete is visible.
+
+		.components-button {
+			align-self: flex-start;
+		}
+	}
+
+	.components-base-control__help {
+		margin-bottom: 0;
+	}
+
+	.components-checkbox-control {
+		.components-base-control__help {
+			margin-top: 0;
+		}
+	}
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+
+	.components-text-control__input,
+	.components-select-control__input,
+	.components-text-control__input[type=color],
+	.components-text-control__input[type=date],
+	.components-text-control__input[type=datetime-local],
+	.components-text-control__input[type=datetime],
+	.components-text-control__input[type=email],
+	.components-text-control__input[type=month],
+	.components-text-control__input[type=number],
+	.components-text-control__input[type=password],
+	.components-text-control__input[type=tel],
+	.components-text-control__input[type=text],
+	.components-text-control__input[type=time],
+	.components-text-control__input[type=url],
+	.components-text-control__input[type=week] {
+		height: $input-height !important;
+	}
+
+	.components-combobox-control__suggestions-container {
+		position: relative;
+		padding: 0;
+
+		& > div {
+			height: $input-height;
+		}
+
+		div {
+			padding: 0;
+		}
+
+		input.components-combobox-control__input[type=text] {
+			padding: 0 8px;
+		}
+
+		.components-form-token-field__suggestions-list {
+			position: absolute;
+			max-height: 200px;
+			background: #fff;
+			top: calc(100% + 5px);
+			border: 1px solid currentColor;
+			z-index: 1;
+			box-shadow: 0 0 0;
+			border-radius: 3px;
+		}
+	}
+}
+
+.gb-dynamic-tag-content-mode {
+	padding-right: 8px;
+
+	&__toggle.components-button {
+		padding-inline: 10px !important;
+		font-size: 12px;
+
+		&:before {
+			left: 0;
+			right: 0;
+		}
+
+		svg {
+			margin-right: -3px;
+		}
+	}
+}
+
+.gb-dynamic-tag-toolbar-button[disabled] {
+	opacity: 1;
+}
+
+.gb-dynamic-tag-modal__found-tags {
+	margin: 0;
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 5px 10px;
+
+		&:nth-child(odd) {
+			background: #f7f7f7;
+		}
+
+		.components-button {
+			align-self: auto;
+
+			&.is-link {
+				text-decoration: none;
+			}
+		}
+	}
+}

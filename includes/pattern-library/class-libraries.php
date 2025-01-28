@@ -189,11 +189,23 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	 * @return GenerateBlocks_Library_DTO
 	 */
 	protected function get_default(): GenerateBlocks_Library_DTO {
+		$use_legacy_pattern_library = generateblocks_use_v1_blocks();
+		$domain                     = 'https://patterns.generatepress.com';
+		$public_key                 = 'betRRDVi8W0Td2eKAS52oVkG4HxqEj9r';
+
+		if (
+			$use_legacy_pattern_library ||
+			apply_filters( 'generateblocks_force_v1_pattern_library', false )
+		) {
+			$domain     = 'https://patterns.generateblocks.com';
+			$public_key = 'GxroZpidKoLZ2ofWNJdXtanAK9ZozWKo';
+		}
+
 		return ( new GenerateBlocks_Library_DTO() )
 			->set( 'id', $this->default_library_id )
 			->set( 'name', __( 'Free', 'generateblocks' ) )
-			->set( 'domain', 'https://patterns.generateblocks.com' )
-			->set( 'public_key', 'GxroZpidKoLZ2ofWNJdXtanAK9ZozWKo' )
+			->set( 'domain', $domain )
+			->set( 'public_key', $public_key )
 			->set( 'is_enabled', true )
 			->set( 'is_default', true );
 	}

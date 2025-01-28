@@ -190,6 +190,8 @@ class GenerateBlocks_Enqueue_CSS {
 			wp_register_style( 'generateblocks', false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 			wp_enqueue_style( 'generateblocks' );
 
+			$css = html_entity_decode( $css, ENT_QUOTES, 'UTF-8' );
+
 			wp_add_inline_style(
 				'generateblocks',
 				wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -251,6 +253,8 @@ class GenerateBlocks_Enqueue_CSS {
 			if ( defined( 'FS_CHMOD_FILE' ) ) {
 				$chmod_file = FS_CHMOD_FILE;
 			}
+
+			$content = html_entity_decode( $content, ENT_QUOTES, 'UTF-8' );
 
 			if ( ! $filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
 
