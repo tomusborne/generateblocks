@@ -1,4 +1,5 @@
 import { useMemo } from '@wordpress/element';
+import { transformStyles } from '@wordpress/block-editor';
 
 import { defaultAtRules, getCss, cleanStylesObject } from '@edge22/styles-builder';
 import {
@@ -27,6 +28,7 @@ export function withStyles( WrappedComponent ) {
 		const {
 			uniqueId,
 			styles,
+			css,
 		} = attributes;
 
 		const {
@@ -73,6 +75,18 @@ export function withStyles( WrappedComponent ) {
 			return styles?.[ property ] ?? '';
 		}
 
+		const initialEditorCss = useMemo( () => {
+			if ( ! css ) {
+				return '';
+			}
+
+			const editorStyles = [ {
+				css,
+			} ];
+
+			return transformStyles( editorStyles, '.editor-styles-wrapper' )?.[ 0 ];
+		}, [] );
+
 		useAtRuleEffect( {
 			deviceType,
 			atRule,
@@ -109,6 +123,7 @@ export function withStyles( WrappedComponent ) {
 					getCss={ getCss }
 					styles={ frontendStyles }
 					clientId={ clientId }
+					initialEditorCss={ initialEditorCss }
 					name={ name }
 				/>
 				<WrappedComponent
