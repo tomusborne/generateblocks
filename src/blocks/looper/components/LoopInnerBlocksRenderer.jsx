@@ -33,10 +33,13 @@ function BlockPreview( { blocks, isHidden } ) {
 const MemoizedBlockPreview = memo( BlockPreview );
 
 function useWpQuery( shouldRequest = true, { query, attributes, selectedBlock, context, queryType } ) {
-	const currentPost = useSelect( ( select ) => {
+	const { currentPostId, currentPostAuthor } = useSelect( ( select ) => {
 		const { getCurrentPost } = select( 'core/editor' );
-
-		return getCurrentPost ? getCurrentPost() : null;
+		const currentPost = getCurrentPost ? getCurrentPost() : null;
+		return {
+			currentPostId: currentPost?.id,
+			currentPostAuthor: currentPost?.author,
+		};
 	} );
 
 	const {
@@ -89,8 +92,8 @@ function useWpQuery( shouldRequest = true, { query, attributes, selectedBlock, c
 						context,
 						queryType,
 						block: selectedBlock,
-						postId: currentPost?.id,
-						authorId: currentPost?.author,
+						postId: currentPostId,
+						authorId: currentPostAuthor,
 					},
 				} );
 
@@ -104,7 +107,7 @@ function useWpQuery( shouldRequest = true, { query, attributes, selectedBlock, c
 		}
 
 		fetchPosts();
-	}, [ query, currentPost ] );
+	}, [ query, currentPostId, currentPostAuthor ] );
 
 	const result = { data, isResolvingData: isLoading, hasResolvedData: data?.length > 0 };
 
