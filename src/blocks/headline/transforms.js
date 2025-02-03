@@ -62,12 +62,14 @@ const transforms = {
 				googleFont,
 				useGlobalStyle = false,
 				isGlobalStyle = false,
+				content,
 			} ) => {
 				if (
 					variantRole ||
 					useGlobalStyle ||
 					isGlobalStyle ||
-					googleFont
+					googleFont ||
+					undefined === content
 				) {
 					return false;
 				}
