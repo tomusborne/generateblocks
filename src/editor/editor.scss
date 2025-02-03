@@ -1,0 +1,13 @@
+$blue: #1e72bd;
+.components-autocomplete__result.components-button:not(.is-selected) {
+	// Set the default color for generateblocks icons to blue.
+	:is(.gb-block-icon, .gblocks-block-icon) {
+		color: $blue;
+	}
+}
+
+.block-editor-block-types-list__item {
+	:is(.gb-block-icon, .gblocks-block-icon) {
+		color: $blue;
+	}
+}
