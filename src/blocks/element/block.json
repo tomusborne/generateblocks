@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/element",
+    "title": "Container",
+    "category": "generateblocks",
+    "description": "An HTML element that you can add blocks inside of.",
+    "keywords": [ "element", "container", "group" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+        "uniqueId": {
+            "type": "string",
+			"default": ""
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"article",
+				"aside",
+				"header",
+				"footer",
+				"nav",
+				"main",
+				"figure",
+				"a",
+				"ul",
+				"ol",
+				"li",
+				"dl",
+				"dt",
+				"dd"
+			]
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
+		"globalClasses": {
+			"type": "array",
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"align": {
+			"type": "string",
+			"default": ""
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+	"usesContext": [
+		"postId",
+		"postType",
+		"generateblocks/query",
+		"generateblocks/queryData",
+		"generateblocks/queryType",
+		"generateblocks/inheritQuery",
+		"generateblocks/queryId",
+		"generateblocks/paginationType",
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
+	],
+    "editorScript": "file:./index.js",
+    "editorStyle": [
+		"file:./index.css"
+	]
+}
