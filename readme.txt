@@ -128,6 +128,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 2.0.1 =
+* Fix: WordPress.org zip package issue
+
 = 2.0.0 =
 * Security: Prevent logged-in contributors from querying private post content
 * New: All blocks re-written from scratch for better performance and control
