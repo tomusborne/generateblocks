@@ -11,5 +11,5 @@ export default function getAttribute( name, props, getName = false ) {
 		return attributeName;
 	}
 
-	return attributes[ attributeName ];
+	return attributes[ attributeName ] ?? '';
 }
