@@ -840,21 +840,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		// Sanitize the key name
 		$key = sanitize_key( $options['key'] );
 
-		// Get the default value if set
 		$default = isset( $options['default'] ) ? sanitize_text_field( $options['default'] ) : '';
 
-		// Check if parameter exists and get its value
 		if ( ! isset( $_GET[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return self::output( $default, $options, $instance );
 		}
 
-		// Sanitize the value based on context
 		$raw_value = wp_unslash( $_GET[ $key ] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-		// Handle arrays
 		$value = is_array( $raw_value ) 
 			? implode( $options['delimiter'], array_map( 'sanitize_text_field', $raw_value ) ) 
 			: sanitize_text_field( $raw_value );
