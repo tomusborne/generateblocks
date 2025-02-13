@@ -854,6 +854,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			? implode( $options['delimiter'], array_map( 'sanitize_text_field', $raw_value ) ) 
 			: sanitize_text_field( $raw_value );
 
+		if ( empty( $value ) ) {
+			return self::output( $default, $options, $instance );
+		}
+
 		return self::output( $value, $options, $instance );
 	}
 }
