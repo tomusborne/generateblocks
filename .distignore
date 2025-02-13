@@ -12,7 +12,6 @@ tests
 .gitignore
 .nvmrc
 package-lock.json
-package.json
 composer.json
 composer.lock
 phpcs.xml.dist
