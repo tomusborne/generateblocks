@@ -87,6 +87,7 @@ export function withStyles( WrappedComponent ) {
 			setAttributes,
 			getCss,
 			getSelector,
+			isSelected,
 		} );
 
 		useStyleSelectorEffect( {
