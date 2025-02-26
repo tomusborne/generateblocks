@@ -18,7 +18,7 @@
 		"url": "https://generateblocks.com/support"
 	},
 	"dependencies": {
-		"@edge22/block-styles": "^1.1.39",
+		"@edge22/block-styles": "^1.1.41",
 		"@edge22/components": "^1.1.52",
 		"@edge22/styles-builder": "^1.2.68",
 		"@tanstack/react-query": "^5.62.11",
