@@ -128,6 +128,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 2.1.0 =
+* Tweak: Improve editor performance
+
 = 2.0.1 =
 * Fix: WordPress.org zip package issue
 
