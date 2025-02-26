@@ -27,6 +27,7 @@ export function withStyles( WrappedComponent ) {
 		const {
 			uniqueId,
 			styles,
+			css,
 		} = attributes;
 
 		const {
@@ -88,6 +89,7 @@ export function withStyles( WrappedComponent ) {
 			getCss,
 			getSelector,
 			isSelected,
+			blockCss: css,
 		} );
 
 		useStyleSelectorEffect( {
