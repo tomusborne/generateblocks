@@ -1,4 +1,4 @@
-export function getColorShortcuts( { tagName, icon, name } ) {
+export function getColorShortcuts( { tagName, icon } ) {
 	const colorShortcuts = [
 		{
 			name: 'Text',
