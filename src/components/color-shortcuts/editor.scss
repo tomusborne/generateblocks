@@ -1,0 +1,10 @@
+.gb-color-shortcuts {
+	display: flex;
+	align-items: center;
+
+	&__label {
+		margin-right: auto;
+		font-size: 12px;
+		opacity: 0.8;
+	}
+}
