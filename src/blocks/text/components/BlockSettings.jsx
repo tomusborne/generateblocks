@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
+import { OpenPanel, IconControl } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -81,21 +81,12 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
-				panelId="settings"
-			>
-				<TagNameControl
-					blockName="generateblocks/text"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-			</OpenPanel>
+				panelId="colors"
+				onStyleChange={ onStyleChange }
+				getStyleValue={ getStyleValue }
+				attributes={ attributes }
+				currentAtRule={ currentAtRule }
+			/>
 
 			<OpenPanel
 				{ ...panelProps }
@@ -144,12 +135,6 @@ export function BlockSettings( {
 
 				{ !! icon && (
 					<>
-						<ColorPicker
-							label={ __( 'Icon Color', 'generateblocks' ) }
-							value={ getStyleValue( 'color', currentAtRule, '.gb-shape svg' ) }
-							onChange={ ( value ) => onStyleChange( 'color', value, currentAtRule, '.gb-shape svg' ) }
-						/>
-
 						{ ! iconOnly && (
 							<SelectControl
 								label={ __( 'Icon Location', 'generateblocks' ) }
@@ -173,26 +158,26 @@ export function BlockSettings( {
 								onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
 							/>
 						</BaseControl>
-
-						<TextControl
-							label={ __( 'ARIA Label', 'generateblocks' ) }
-							value={ htmlAttributes[ 'aria-label' ] ?? '' }
-							onChange={ ( value ) => {
-								const newHtmlAttributes = { ...htmlAttributes };
-
-								if ( ! value && htmlAttributes[ 'aria-label' ] ) {
-									delete newHtmlAttributes[ 'aria-label' ];
-								} else if ( value ) {
-									newHtmlAttributes[ 'aria-label' ] = value;
-								}
-
-								setAttributes( {
-									htmlAttributes: newHtmlAttributes,
-								} );
-							} }
-						/>
 					</>
 				) }
+			</OpenPanel>
+
+			<OpenPanel
+				{ ...panelProps }
+				shouldRender={ '' === currentAtRule }
+				panelId="settings"
+			>
+				<TagNameControl
+					blockName="generateblocks/text"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
+				/>
 			</OpenPanel>
 
 			<DynamicTagsOnboarder />

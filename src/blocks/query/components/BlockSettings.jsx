@@ -6,14 +6,20 @@ import {
 } from '@components/index.js';
 
 import { QueryInspectorControls } from './QueryInspectorControls';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
 	onStyleChange,
+	getStyleValue,
 	name,
 	attributes,
 	setAttributes,
 	context,
 } ) {
+	const {
+		currentAtRule,
+	} = useBlockStyles();
+
 	const panelProps = {
 		name,
 		attributes,
@@ -42,6 +48,16 @@ export function BlockSettings( {
 					context={ context }
 				/>
 			</OpenPanel>
+
+			<OpenPanel
+				{ ...panelProps }
+				panelId="colors"
+				onStyleChange={ onStyleChange }
+				getStyleValue={ getStyleValue }
+				attributes={ attributes }
+				currentAtRule={ currentAtRule }
+			/>
+
 			<OpenPanel
 				{ ...panelProps }
 				panelId="settings"
