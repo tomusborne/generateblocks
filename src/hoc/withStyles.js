@@ -90,6 +90,7 @@ export function withStyles( WrappedComponent ) {
 			getSelector,
 			isSelected,
 			blockCss: css,
+			clientId,
 		} );
 
 		useStyleSelectorEffect( {
