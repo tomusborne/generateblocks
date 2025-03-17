@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { SelectControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl } from '@edge22/components';
+import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -81,15 +81,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				panelId="colors"
-				onStyleChange={ onStyleChange }
-				getStyleValue={ getStyleValue }
-				attributes={ attributes }
-				currentAtRule={ currentAtRule }
-			/>
-
-			<OpenPanel
-				{ ...panelProps }
 				shouldRender={ '' === currentAtRule }
 				panelId="icon"
 			>
@@ -135,6 +126,12 @@ export function BlockSettings( {
 
 				{ !! icon && (
 					<>
+						<ColorPicker
+							label={ __( 'Icon Color', 'generateblocks' ) }
+							value={ getStyleValue( 'color', currentAtRule, '.gb-shape svg' ) }
+							onChange={ ( value ) => onStyleChange( 'color', value, currentAtRule, '.gb-shape svg' ) }
+						/>
+
 						{ ! iconOnly && (
 							<SelectControl
 								label={ __( 'Icon Location', 'generateblocks' ) }

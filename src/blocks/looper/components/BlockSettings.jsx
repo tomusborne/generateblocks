@@ -60,15 +60,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				panelId="colors"
-				onStyleChange={ onStyleChange }
-				getStyleValue={ getStyleValue }
-				attributes={ attributes }
-				currentAtRule={ currentAtRule }
-			/>
-
-			<OpenPanel
-				{ ...panelProps }
 				panelId="settings"
 			>
 				<TagNameControl
