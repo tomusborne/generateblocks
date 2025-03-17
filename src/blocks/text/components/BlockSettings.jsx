@@ -38,6 +38,8 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		onStyleChange,
+		getStyleValue,
 	};
 
 	const icons = applyFilters(

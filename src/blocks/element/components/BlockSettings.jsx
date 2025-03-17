@@ -49,6 +49,8 @@ export function BlockSettings( {
 		attributes,
 		setAttributes,
 		clientId,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	return (
@@ -151,35 +153,6 @@ export function BlockSettings( {
 			<OpenPanel
 				{ ...panelProps }
 				shouldRender={ '' === currentAtRule }
-				panelId="settings"
-			>
-				<TagNameControl
-					blockName="generateblocks/element"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
-				) }
-			</OpenPanel>
-
-			<OpenPanel
-				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
 				panelId="shapes"
 			>
 				<BaseControl
@@ -258,6 +231,35 @@ export function BlockSettings( {
 					onStyleChange={ onStyleChange }
 					context={ context }
 				/>
+			</OpenPanel>
+
+			<OpenPanel
+				{ ...panelProps }
+				shouldRender={ '' === currentAtRule }
+				panelId="settings"
+			>
+				<TagNameControl
+					blockName="generateblocks/element"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! styles?.display ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
+				/>
+
+				{ 'a' === tagName && (
+					<BaseControl>
+						<Notice
+							status="warning"
+							isDismissible={ false }
+						>
+							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+						</Notice>
+					</BaseControl>
+				) }
 			</OpenPanel>
 
 			<DynamicTagsOnboarder />
