@@ -1,5 +1,4 @@
 import { applyFilters } from '@wordpress/hooks';
-import { useMemo } from '@wordpress/element';
 
 import {
 	StylesBuilder,
@@ -41,13 +40,6 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 
 	const { styles, globalClasses = [] } = attributes;
 	const currentStyles = getStylesObject( styles, atRule, nestedRule );
-	const computedStyleDeps = useMemo( () => {
-		const deps = {
-			globalClasses,
-		};
-
-		return JSON.stringify( deps );
-	}, [ globalClasses ] );
 
 	return (
 		<StylesBuilder
@@ -80,7 +72,7 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 			scope="local"
 			allowCustomAdvancedSelector={ allowCustomAdvancedSelector }
 			allowCustomAtRule={ allowCustomAtRule }
-			computedStyleDeps={ computedStyleDeps }
+			appliedGlobalStyles={ globalClasses }
 		/>
 	);
 }
