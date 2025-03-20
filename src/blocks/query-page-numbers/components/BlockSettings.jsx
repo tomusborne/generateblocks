@@ -24,6 +24,8 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	return (
