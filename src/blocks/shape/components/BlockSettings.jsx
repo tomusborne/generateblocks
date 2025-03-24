@@ -49,6 +49,8 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	const iconType = className?.includes( 'gb-shape--divider' ) ? 'divider' : 'icon';

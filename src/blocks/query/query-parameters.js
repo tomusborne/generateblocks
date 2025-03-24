@@ -129,7 +129,7 @@ export function getParameters() {
 		},
 		{
 			id: 'post_parent__in',
-			type: 'includePosts',
+			type: 'includeParent',
 			default: [],
 			dependencies: {
 				postType: 'post_type',
@@ -141,7 +141,7 @@ export function getParameters() {
 		},
 		{
 			id: 'post_parent__not_in',
-			type: 'excludePosts',
+			type: 'excludeParent',
 			default: [],
 			dependencies: {
 				postType: 'post_type',
