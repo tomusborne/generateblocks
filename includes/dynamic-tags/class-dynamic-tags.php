@@ -178,7 +178,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'placeholder' => __( 'No comments', 'generateblocks' ),
 						'type'        => 'text',
 					],
-					'one' => [
+					'single' => [
 						'label'       => __( 'One comment text', 'generateblocks' ),
 						'placeholder' => __( 'One comment', 'generateblocks' ),
 						'type'        => 'text',
