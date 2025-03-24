@@ -1,4 +1,6 @@
 import { applyFilters } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
+import { useMemo } from '@wordpress/element';
 
 import {
 	StylesBuilder,
@@ -40,6 +42,46 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 
 	const { styles, globalClasses = [] } = attributes;
 	const currentStyles = getStylesObject( styles, atRule, nestedRule );
+	const selectorShortcuts = useMemo( () => {
+		if ( Object.keys( shortcuts.selectorShortcuts ).length ) {
+			return shortcuts.selectorShortcuts;
+		}
+
+		return {
+			default: {
+				items: [
+					{ label: 'Hover', value: '&:hover' },
+					{ label: 'Hover & Focus', value: '&:is(:hover, :focus)' },
+					{ label: 'Links', value: 'a' },
+					{ label: 'Hovered links', value: 'a:hover' },
+				],
+			},
+			interactions: {
+				label: __( 'Interactions', 'generateblocks' ),
+				items: [
+					{ label: 'Hover', value: '&:hover' },
+					{ label: 'Focus', value: '&:focus' },
+					{ label: 'Hover & Focus', value: '&:is(:hover, :focus)' },
+				],
+			},
+			links: {
+				label: __( 'Links', 'generateblocks' ),
+				items: [
+					{ label: 'Links', value: 'a' },
+					{ label: 'Hovered links', value: 'a:hover' },
+					{ label: 'Hovered & focused links', value: 'a:is(:hover, :focus)' },
+					{ label: 'Visited links', value: 'a:visited' },
+				],
+			},
+			pseudoElements: {
+				label: __( 'Pseudo Elements', 'generateblocks' ),
+				items: [
+					{ label: 'Before', value: '&:before' },
+					{ label: 'After', value: '&:after' },
+				],
+			},
+		};
+	}, [ shortcuts ] );
 
 	return (
 		<StylesBuilder
@@ -62,7 +104,7 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 				const newStyles = updateStylesObjectKey( styles, oldKey, newKey, nestedRuleValue );
 				setAttributes( { styles: newStyles } );
 			} }
-			selectorShortcuts={ shortcuts.selectorShortcuts }
+			selectorShortcuts={ selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
 			onEditStyle={ setGlobalStyle }
 			cancelEditStyle={ cancelEditGlobalStyle }
