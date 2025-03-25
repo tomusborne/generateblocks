@@ -31,7 +31,7 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
@@ -63,13 +63,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				shouldRender={ 'a' === tagName && '' === atRule }
 				panelId="link-destination"
 			>
 				<URLControls
@@ -83,7 +83,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="icon"
 			>
 				<IconControl
@@ -130,8 +130,8 @@ export function BlockSettings( {
 					<>
 						<ColorPicker
 							label={ __( 'Icon Color', 'generateblocks' ) }
-							value={ getStyleValue( 'color', currentAtRule, '.gb-shape svg' ) }
-							onChange={ ( value ) => onStyleChange( 'color', value, currentAtRule, '.gb-shape svg' ) }
+							value={ getStyleValue( 'color', atRule, '.gb-shape svg' ) }
+							onChange={ ( value ) => onStyleChange( 'color', value, atRule, '.gb-shape svg' ) }
 						/>
 
 						{ ! iconOnly && (
@@ -163,7 +163,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
 				<TagNameControl
@@ -172,7 +172,7 @@ export function BlockSettings( {
 					onChange={ ( value ) => {
 						setAttributes( { tagName: value } );
 
-						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
+						if ( 'a' === value && ! getStyleValue( 'display', atRule ) ) {
 							onStyleChange( 'display', 'block' );
 						}
 					} }

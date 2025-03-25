@@ -4,10 +4,10 @@ import { useMemo } from '@wordpress/element';
 
 import {
 	StylesBuilder,
-	defaultAtRules,
 	getStylesObject,
 	deleteStylesObjectKey,
 	updateStylesObjectKey,
+	getPreviewWidth,
 } from '@edge22/styles-builder';
 import {
 	TABS_STORAGE_KEY,
@@ -22,7 +22,6 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 		setNestedRule,
 		setDeviceType,
 		getPreviewDevice,
-		deviceType,
 		setGlobalStyle,
 		cancelEditGlobalStyle,
 		currentStyle,
@@ -98,7 +97,12 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 			onNestedRuleChange={ ( value ) => setNestedRule( value ) }
 			onAtRuleChange={ ( value ) => {
 				setAtRule( value );
-				setDeviceType( getPreviewDevice( value, deviceType, defaultAtRules ) );
+				const previewWidth = getPreviewWidth( value );
+				const previewDevice = getPreviewDevice( previewWidth );
+
+				if ( previewDevice ) {
+					setDeviceType( previewDevice );
+				}
 			} }
 			onUpdateKey={ ( oldKey, newKey, nestedRuleValue ) => {
 				const newStyles = updateStylesObjectKey( styles, oldKey, newKey, nestedRuleValue );

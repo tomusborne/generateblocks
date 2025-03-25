@@ -49,14 +49,14 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 	const [ imageData, setImageData ] = useState( null );
 	const [ hasResolved, setHasResolved ] = useState( false );
 
 	const debouncedOnStyleChange = useCallback(
-		debounce( ( property, value, atRule ) => {
-			onStyleChange( property, value, atRule );
+		debounce( ( property, value, atRuleValue ) => {
+			onStyleChange( property, value, atRuleValue );
 		}, 250 ),
 		[ onStyleChange ]
 	);
@@ -146,13 +146,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
 				<ImageUpload
@@ -233,8 +233,8 @@ export function BlockSettings( {
 						<UnitControl
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
-							value={ getStyleValue( 'width', currentAtRule ) }
-							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, currentAtRule ) }
+							value={ getStyleValue( 'width', atRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, atRule ) }
 						/>
 					</FlexBlock>
 
@@ -242,8 +242,8 @@ export function BlockSettings( {
 						<UnitControl
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
-							value={ getStyleValue( 'height', currentAtRule ) }
-							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, currentAtRule ) }
+							value={ getStyleValue( 'height', atRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, atRule ) }
 						/>
 					</FlexBlock>
 				</Flex>
