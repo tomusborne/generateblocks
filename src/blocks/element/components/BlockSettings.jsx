@@ -41,7 +41,7 @@ export function BlockSettings( {
 	} = useDispatch( blockEditorStore );
 	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
@@ -59,13 +59,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				shouldRender={ 'a' === tagName && '' === atRule }
 				panelId="link-destination"
 			>
 				<URLControls
@@ -82,8 +82,8 @@ export function BlockSettings( {
 				shouldRender={
 					'grid' === getStyleValue( 'display' ) &&
 					(
-						'grid' === getStyleValue( 'display', currentAtRule ) ||
-						'' === getStyleValue( 'display', currentAtRule )
+						'grid' === getStyleValue( 'display', atRule ) ||
+						'' === getStyleValue( 'display', atRule )
 					)
 				}
 				panelId="grid"
@@ -93,17 +93,17 @@ export function BlockSettings( {
 					id="grid-template-columns"
 				>
 					<GridColumnSelector
-						value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
+						value={ getStyleValue( 'gridTemplateColumns', atRule ) }
 						onClick={ ( value ) => {
-							if ( value === getStyleValue( 'gridTemplateColumns', currentAtRule ) ) {
+							if ( value === getStyleValue( 'gridTemplateColumns', atRule ) ) {
 								// If the same layout is clicked, remove the layout.
-								onStyleChange( 'gridTemplateColumns', '', currentAtRule );
+								onStyleChange( 'gridTemplateColumns', '', atRule );
 								return;
 							}
 
-							onStyleChange( 'gridTemplateColumns', value, currentAtRule );
+							onStyleChange( 'gridTemplateColumns', value, atRule );
 
-							if ( '' !== currentAtRule ) {
+							if ( '' !== atRule ) {
 								// Don't add/remove blocks for at rules.
 								return;
 							}
@@ -152,7 +152,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="shapes"
 			>
 				<BaseControl
@@ -220,7 +220,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'container' === getElementType( tagName ) && '' === currentAtRule }
+				shouldRender={ 'container' === getElementType( tagName ) && '' === atRule }
 				panelId="inline-background-image"
 			>
 				<InlineBackgroundImage
@@ -235,7 +235,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
 				<TagNameControl

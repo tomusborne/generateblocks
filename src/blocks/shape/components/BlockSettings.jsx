@@ -42,7 +42,7 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
@@ -80,13 +80,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="shape"
 			>
 				<IconControl
@@ -119,8 +119,8 @@ export function BlockSettings( {
 						<UnitControl
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
-							value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
-							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule, 'svg' ) }
+							value={ getStyleValue( 'width', atRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'width', value, atRule, 'svg' ) }
 						/>
 					</FlexBlock>
 
@@ -128,8 +128,8 @@ export function BlockSettings( {
 						<UnitControl
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
-							value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
-							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule, 'svg' ) }
+							value={ getStyleValue( 'height', atRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'height', value, atRule, 'svg' ) }
 						/>
 					</FlexBlock>
 				</Flex>
@@ -138,13 +138,13 @@ export function BlockSettings( {
 					items={ shapeColorControls }
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
+					currentAtRule={ atRule }
 				/>
 			</OpenPanel>
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="settings"
 			/>
 		</ApplyFilters>

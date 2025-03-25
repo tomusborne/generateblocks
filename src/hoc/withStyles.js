@@ -1,6 +1,6 @@
 import { useMemo } from '@wordpress/element';
 
-import { defaultAtRules, getCss, cleanStylesObject } from '@edge22/styles-builder';
+import { defaultAtRules, getCss, cleanStylesObject, getPreviewWidth } from '@edge22/styles-builder';
 import {
 	useAtRuleEffect,
 	useStyleSelectorEffect,
@@ -80,6 +80,7 @@ export function withStyles( WrappedComponent ) {
 			setAtRule,
 			defaultAtRules,
 			isSelected,
+			getPreviewWidth,
 		} );
 
 		useGenerateCSSEffect( {

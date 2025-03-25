@@ -19,12 +19,12 @@ export function AlignmentToolbar( {
 	withBlockWidth = false,
 } ) {
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	function getAlignmentIcon() {
 		if ( withTextAlign ) {
-			const alignment = getStyleValue( 'textAlign', currentAtRule );
+			const alignment = getStyleValue( 'textAlign', atRule );
 
 			switch ( alignment ) {
 				case 'center':
@@ -88,14 +88,14 @@ export function AlignmentToolbar( {
 									<MenuItem
 										key={ value }
 										icon={ icon }
-										isPressed={ value === getStyleValue( 'textAlign', currentAtRule ) }
+										isPressed={ value === getStyleValue( 'textAlign', atRule ) }
 										onClick={ () => {
-											if ( value === getStyleValue( 'textAlign', currentAtRule ) ) {
-												onStyleChange( 'textAlign', '', currentAtRule );
+											if ( value === getStyleValue( 'textAlign', atRule ) ) {
+												onStyleChange( 'textAlign', '', atRule );
 												return;
 											}
 
-											onStyleChange( 'textAlign', value, currentAtRule );
+											onStyleChange( 'textAlign', value, atRule );
 										} }
 									>
 										{ label }
@@ -104,7 +104,7 @@ export function AlignmentToolbar( {
 							</MenuGroup>
 						) }
 
-						{ !! withBlockWidth && '' === currentAtRule && undefined !== align && (
+						{ !! withBlockWidth && '' === atRule && undefined !== align && (
 							<BlockWidth
 								align={ align }
 								onChange={ ( value ) => setAttributes( { align: value } ) }
