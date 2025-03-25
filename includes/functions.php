@@ -1997,7 +1997,12 @@ function generateblocks_str_starts_with( $string, $prefix ) {
  * @return bool
  */
 function generateblocks_use_v1_blocks() {
-	return get_option( 'gb_use_v1_blocks', false );
+	$option = get_option( 'gb_use_v1_blocks', false );
+
+	return apply_filters(
+		'generateblocks_use_v1_blocks',
+		$option
+	);
 }
 
 /**
