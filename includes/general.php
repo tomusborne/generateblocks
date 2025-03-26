@@ -676,7 +676,7 @@ function generateblocks_set_editor_permissions() {
 	);
 
 	$permission_object = wp_json_encode( $permissions );
-	wp_register_script( 'generateblocks-editor-permissions', '', [], '', false );
+	wp_register_script( 'generateblocks-editor-permissions', '', [], '1.0', false );
 	wp_enqueue_script( 'generateblocks-editor-permissions' );
 	$script = sprintf(
 		'const gbPermissions = %s;
