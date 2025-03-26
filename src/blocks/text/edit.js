@@ -96,22 +96,15 @@ function EditBlock( props ) {
 		...( Platform.isNative && { deleteEnter: true } ), // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
 	};
 	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
+		const visibleSelectors = [];
 
-		if ( 'a' === tagName || 'button' === tagName ) {
+		if ( 'a' !== tagName && 'button' !== tagName ) {
 			visibleSelectors.push(
 				{
-					label: __( 'Hover', 'generateblocks' ),
-					value: '&:is(:hover, :focus)',
+					label: __( 'Links', 'generateblocks' ),
+					value: 'a',
 				}
 			);
-
-			delete selectorShortcuts.links;
 		}
 
 		if ( icon ) {

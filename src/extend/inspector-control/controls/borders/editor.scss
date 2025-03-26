@@ -1,4 +1,8 @@
 .gblocks-border-row {
+	& > .components-base-control__field > label {
+		display: inline-block;
+	}
+
 	.gblocks-flex-control {
 		align-items: center;
 
