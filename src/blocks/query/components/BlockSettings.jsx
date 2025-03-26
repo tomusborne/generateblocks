@@ -9,6 +9,7 @@ import { QueryInspectorControls } from './QueryInspectorControls';
 
 export function BlockSettings( {
 	onStyleChange,
+	getStyleValue,
 	name,
 	attributes,
 	setAttributes,
@@ -18,6 +19,8 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	const {
@@ -29,6 +32,7 @@ export function BlockSettings( {
 			name="generateblocks.editor.blockControls"
 			blockName={ name }
 			onStyleChange={ onStyleChange }
+			getStyleValue={ getStyleValue }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>

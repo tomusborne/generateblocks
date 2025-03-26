@@ -173,12 +173,25 @@ export function withHtmlAttributes( WrappedComponent ) {
 				<InspectorAdvancedControls>
 					<TextControl
 						label="HTML ID"
-						value={ htmlAttributes.id }
+						value={ htmlAttributes.id ?? '' }
 						onChange={ ( value ) => {
 							setAttributes( {
 								htmlAttributes: {
 									...htmlAttributes,
 									id: value,
+								},
+							} );
+						} }
+					/>
+
+					<TextControl
+						label="ARIA Label"
+						value={ htmlAttributes[ 'aria-label' ] ?? '' }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									'aria-label': value,
 								},
 							} );
 						} }
