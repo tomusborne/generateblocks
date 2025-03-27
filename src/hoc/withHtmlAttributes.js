@@ -61,6 +61,23 @@ function shallowEqual( obj1, obj2 ) {
 	return true;
 }
 
+function sanitizeId( input ) {
+	const cleaned = input.trim()
+		.replace( /[^A-Za-z0-9-_:.]+/g, '-' )
+		.replace( /-+/g, '-' )
+		.replace( /^-|-$/g, '' );
+
+	if ( ! cleaned ) {
+		return '';
+	}
+
+	if ( /^[A-Za-z]/.test( cleaned ) ) {
+		return cleaned;
+	}
+
+	return `id-${ cleaned }`;
+}
+
 export function withHtmlAttributes( WrappedComponent ) {
 	return ( ( props ) => {
 		const {
@@ -181,6 +198,16 @@ export function withHtmlAttributes( WrappedComponent ) {
 									id: value,
 								},
 							} );
+						} }
+						onBlur={ () => {
+							if ( htmlAttributes.id ) {
+								setAttributes( {
+									htmlAttributes: {
+										...htmlAttributes,
+										id: sanitizeId( htmlAttributes.id ),
+									},
+								} );
+							}
 						} }
 					/>
 
