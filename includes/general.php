@@ -658,13 +658,13 @@ function generateblocks_do_block_editor_styles( $editor_settings ) {
 	return $editor_settings;
 }
 
-add_action( 'admin_head', 'generateblocks_admin_head_scripts', 0 );
+add_action( 'enqueue_block_editor_assets', 'generateblocks_set_editor_permissions', 0 );
 /**
- * Output permissions for use in admin objects.
+ * Output permissions for use in the editor.
  *
  * @return void
  */
-function generateblocks_admin_head_scripts() {
+function generateblocks_set_editor_permissions() {
 	$permissions = apply_filters(
 		'generateblocks_permissions',
 		[
@@ -676,14 +676,14 @@ function generateblocks_admin_head_scripts() {
 	);
 
 	$permission_object = wp_json_encode( $permissions );
-
-	echo sprintf(
-		'<script>
-				const gbPermissions = %s;
-				Object.freeze( gbPermissions );
-		</script>',
-		$permission_object // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	wp_register_script( 'generateblocks-editor-permissions', '', [], '1.0', false );
+	wp_enqueue_script( 'generateblocks-editor-permissions' );
+	$script = sprintf(
+		'const gbPermissions = %s;
+		Object.freeze( gbPermissions );',
+		$permission_object
 	);
+	wp_add_inline_script( 'generateblocks-editor-permissions', $script );
 }
 
 add_filter( 'render_block', 'generateblocks_do_html_attributes_escaping', 20, 2 );

@@ -26,13 +26,15 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	return (
@@ -41,13 +43,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				shouldRender={ 'a' === tagName && '' === atRule }
 				panelId="link-destination"
 			>
 				<URLControls
@@ -61,7 +63,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="inline-background-image"
 			>
 				<InlineBackgroundImage
@@ -76,7 +78,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
 				<TagNameControl
