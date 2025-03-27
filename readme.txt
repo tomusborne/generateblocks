@@ -154,6 +154,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Improve block keywords
 * Tweak: Sanitize block ID attribute value
 * Tweak: Allow the `download` attribute to have a value
+* Tweak: Add searching notice to styles builder
 
 = 2.0.1 =
 * Fix: WordPress.org zip package issue
