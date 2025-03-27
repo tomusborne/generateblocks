@@ -2162,6 +2162,19 @@ function generateblocks_with_escaped_attributes( $content, $args = [] ) {
 			$attribute_value = $processor->get_attribute( $name );
 			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
 
+			// WordPress strips out the `download` value by default, even though it's acceptable to give it a value.
+			// If we have a `download` attribute, let's re-add the value if it exists.
+			if ( 'download' === $name ) {
+				$attributes_with_download = $block_html_attributes;
+
+				if ( 2 === $max_tags && 0 === $tags_processed ) {
+					$attributes_with_download = $link_html_attributes;
+				}
+
+				$download_value = $attributes_with_download[ $name ] ?? true;
+				$escaped_value = generateblocks_get_escaped_html_attribute( $name, $download_value );
+			}
+
 			$processor->set_attribute( $name, $escaped_value );
 			$updated = true;
 		}
