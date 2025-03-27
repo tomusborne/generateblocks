@@ -42,7 +42,7 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 	const { styles, globalClasses = [] } = attributes;
 	const currentStyles = getStylesObject( styles, atRule, nestedRule );
 	const selectorShortcuts = useMemo( () => {
-		if ( Object.keys( shortcuts.selectorShortcuts ).length ) {
+		if ( shortcuts.selectorShortcuts && Object.keys( shortcuts.selectorShortcuts ).length ) {
 			return shortcuts.selectorShortcuts;
 		}
 
