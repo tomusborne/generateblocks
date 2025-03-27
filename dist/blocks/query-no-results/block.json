@@ -6,10 +6,7 @@
   "category": "generateblocks",
   "description": "Display blocks when your query has no results.",
   "keywords": [
-    "text",
-    "heading",
-    "headline",
-    "paragraph"
+    "no results"
   ],
   "version": "1.0.0",
   "textdomain": "generateblocks",

@@ -6,10 +6,10 @@
   "category": "generateblocks",
   "description": "A custom SVG shape.",
   "keywords": [
-    "text",
-    "heading",
-    "headline",
-    "paragraph"
+    "icon",
+    "shape",
+    "svg",
+    "image"
   ],
   "version": "1.0.0",
   "textdomain": "generateblocks",
