@@ -71,21 +71,7 @@ function EditBlock( props ) {
 
 	const TagName = tagName || 'div';
 	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
-
-		if ( 'a' === tagName ) {
-			visibleSelectors.push(
-				{
-					label: __( 'Hover', 'generateblocks' ),
-					value: '&:is(:hover, :focus)',
-				}
-			);
-		}
+		const visibleSelectors = [];
 
 		visibleSelectors.push(
 			{
