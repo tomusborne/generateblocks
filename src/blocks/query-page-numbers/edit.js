@@ -94,12 +94,7 @@ function EditBlock( props ) {
 	const TagName = tagName || 'div';
 
 	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
+		const visibleSelectors = [];
 
 		return {
 			selectorShortcuts: {
