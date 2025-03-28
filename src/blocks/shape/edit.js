@@ -1,7 +1,6 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
@@ -38,12 +37,7 @@ function EditBlock( props ) {
 	);
 
 	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
+		const visibleSelectors = [];
 
 		visibleSelectors.push(
 			{
