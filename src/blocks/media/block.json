@@ -5,7 +5,7 @@
     "title": "Image",
     "category": "generateblocks",
     "description": "A self-closing media element.",
-    "keywords": [ "element", "container", "group" ],
+    "keywords": [ "image", "media", "img" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
     "attributes": {
