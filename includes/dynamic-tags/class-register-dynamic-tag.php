@@ -104,7 +104,9 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @return string
 	 */
 	public static function replace_tags( $content, $block, $instance ) {
-		$block_html = $block['innerHTML'] ?? $content;
+		$block_html = ! empty( $block['innerHTML'] )
+			? $block['innerHTML']
+			: $content;
 
 		if ( ! generateblocks_str_contains( $block_html, '{{' ) ) {
 			return $content;
@@ -121,7 +123,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 			$data           = self::$tags[ $tag_name ];
 			$full_tag       = $match[0];
-			$full_tag       = self::maybe_prepend_protocol( $content, $full_tag );
+			$full_tag       = self::maybe_prepend_protocol( $block_html, $full_tag );
 			$options_string = isset( $match[2] ) ? ltrim( $match[2], ' ' ) : '';
 			$options        = self::parse_options( $options_string, $tag_name );
 			$replacement    = $data['return']( $options, $block, $instance );
