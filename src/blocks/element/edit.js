@@ -65,6 +65,7 @@ function EditBlock( props ) {
 	const TagName = tagName || 'div';
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [];
+		const blockSelectors = { ...selectorShortcuts };
 
 		if ( 'a' !== tagName ) {
 			visibleSelectors.push(
@@ -75,8 +76,22 @@ function EditBlock( props ) {
 			);
 		}
 
+		if ( 'a' === tagName || 'button' === tagName ) {
+			if ( blockSelectors?.links ) {
+				delete blockSelectors.links;
+			}
+
+			const defaultItems = blockSelectors?.default?.items || [];
+
+			if ( defaultItems.length > 0 ) {
+				blockSelectors.default.items = defaultItems.filter( ( item ) => {
+					return 'a' !== item.value && ! item.value.startsWith( 'a:' );
+				} );
+			}
+		}
+
 		return {
-			selectorShortcuts,
+			selectorShortcuts: blockSelectors,
 			visibleShortcuts: visibleSelectors,
 		};
 	}, [ tagName ] );
