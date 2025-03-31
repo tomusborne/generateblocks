@@ -146,6 +146,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: `UnitControl` values starting with a dash
 * Fix: Image block selection in WP 6.8
 * Fix: Dynamic tag parsing all blocks in Container at once
+* Fix: Allow 0 as nested post meta key
 * Tweak: Improve editor performance
 * Tweak: Always show popular user meta fields in dropdown
 * Tweak: Add support for device visibility feature in Pro
