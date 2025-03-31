@@ -104,11 +104,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @return string
 	 */
 	public static function replace_tags( $content, $block, $instance ) {
-		if ( ! generateblocks_str_contains( $content, '{{' ) ) {
+		$block_html = $block['innerHTML'] ?? $content;
+
+		if ( ! generateblocks_str_contains( $block_html, '{{' ) ) {
 			return $content;
 		}
 
-		$matches = self::find_matches( $content, self::$tags );
+		$matches = self::find_matches( $block_html, self::$tags );
 
 		foreach ( $matches as $match ) {
 			$tag_name = $match[1] ?? '';
