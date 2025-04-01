@@ -1,0 +1,3 @@
+img[data-gb-id][role="button"] {
+	pointer-events: auto; // https://github.com/WordPress/gutenberg/blob/20c77f5e3510053e2a20e3258288fceb7b0c7521/packages/block-editor/src/components/block-draggable/content.scss#L23
+}
