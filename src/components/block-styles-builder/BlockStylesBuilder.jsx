@@ -1,12 +1,13 @@
 import { applyFilters } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
 
 import {
 	StylesBuilder,
-	defaultAtRules,
 	getStylesObject,
 	deleteStylesObjectKey,
 	updateStylesObjectKey,
+	getPreviewWidth,
 } from '@edge22/styles-builder';
 import {
 	TABS_STORAGE_KEY,
@@ -21,7 +22,6 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 		setNestedRule,
 		setDeviceType,
 		getPreviewDevice,
-		deviceType,
 		setGlobalStyle,
 		cancelEditGlobalStyle,
 		currentStyle,
@@ -41,13 +41,46 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 
 	const { styles, globalClasses = [] } = attributes;
 	const currentStyles = getStylesObject( styles, atRule, nestedRule );
-	const computedStyleDeps = useMemo( () => {
-		const deps = {
-			globalClasses,
-		};
+	const selectorShortcuts = useMemo( () => {
+		if ( shortcuts.selectorShortcuts && Object.keys( shortcuts.selectorShortcuts ).length ) {
+			return shortcuts.selectorShortcuts;
+		}
 
-		return JSON.stringify( deps );
-	}, [ globalClasses ] );
+		return {
+			default: {
+				items: [
+					{ label: 'Hover', value: '&:hover' },
+					{ label: 'Hover & Focus', value: '&:is(:hover, :focus)' },
+					{ label: 'Links', value: 'a' },
+					{ label: 'Hovered links', value: 'a:hover' },
+				],
+			},
+			interactions: {
+				label: __( 'Interactions', 'generateblocks' ),
+				items: [
+					{ label: 'Hover', value: '&:hover' },
+					{ label: 'Focus', value: '&:focus' },
+					{ label: 'Hover & Focus', value: '&:is(:hover, :focus)' },
+				],
+			},
+			links: {
+				label: __( 'Links', 'generateblocks' ),
+				items: [
+					{ label: 'Links', value: 'a' },
+					{ label: 'Hovered links', value: 'a:hover' },
+					{ label: 'Hovered & focused links', value: 'a:is(:hover, :focus)' },
+					{ label: 'Visited links', value: 'a:visited' },
+				],
+			},
+			pseudoElements: {
+				label: __( 'Pseudo Elements', 'generateblocks' ),
+				items: [
+					{ label: 'Before', value: '&:before' },
+					{ label: 'After', value: '&:after' },
+				],
+			},
+		};
+	}, [ shortcuts ] );
 
 	return (
 		<StylesBuilder
@@ -64,13 +97,18 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 			onNestedRuleChange={ ( value ) => setNestedRule( value ) }
 			onAtRuleChange={ ( value ) => {
 				setAtRule( value );
-				setDeviceType( getPreviewDevice( value, deviceType, defaultAtRules ) );
+				const previewWidth = getPreviewWidth( value );
+				const previewDevice = getPreviewDevice( previewWidth );
+
+				if ( previewDevice ) {
+					setDeviceType( previewDevice );
+				}
 			} }
 			onUpdateKey={ ( oldKey, newKey, nestedRuleValue ) => {
 				const newStyles = updateStylesObjectKey( styles, oldKey, newKey, nestedRuleValue );
 				setAttributes( { styles: newStyles } );
 			} }
-			selectorShortcuts={ shortcuts.selectorShortcuts }
+			selectorShortcuts={ selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
 			onEditStyle={ setGlobalStyle }
 			cancelEditStyle={ cancelEditGlobalStyle }
@@ -80,7 +118,7 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 			scope="local"
 			allowCustomAdvancedSelector={ allowCustomAdvancedSelector }
 			allowCustomAtRule={ allowCustomAtRule }
-			computedStyleDeps={ computedStyleDeps }
+			appliedGlobalStyles={ globalClasses }
 		/>
 	);
 }
