@@ -14,6 +14,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 	/**
+	 * Keep track of all blocks of this type on the page.
+	 *
+	 * @var array $block_ids The current block id.
+	 */
+	protected static $block_ids = [];
+
+	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/query-page-numbers';
+
+	/**
 	 * Render the Shape block.
 	 *
 	 * @param array  $attributes    The block attributes.

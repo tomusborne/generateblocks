@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Loop_Item extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/loop-item';
+
+	/**
 	 * Render the Element block.
 	 *
 	 * @param array  $attributes    The block attributes.

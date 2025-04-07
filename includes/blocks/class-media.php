@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Media extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/media';
+
+	/**
 	 * Render the Void Element block.
 	 *
 	 * @param array  $attributes    The block attributes.
