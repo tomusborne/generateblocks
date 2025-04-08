@@ -3,7 +3,7 @@ Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 6.5
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2
 Stable tag: 2.0.2
 License: GPLv2 or later
