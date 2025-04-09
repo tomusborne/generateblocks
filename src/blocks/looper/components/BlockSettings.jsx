@@ -64,13 +64,15 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/looper"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-					} }
-				/>
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/looper"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
+						} }
+					/>
+				) }
 			</OpenPanel>
 		</ApplyFilters>
 	);

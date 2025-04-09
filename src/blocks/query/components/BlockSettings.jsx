@@ -6,6 +6,7 @@ import {
 } from '@components/index.js';
 
 import { QueryInspectorControls } from './QueryInspectorControls';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
 	onStyleChange,
@@ -26,6 +27,10 @@ export function BlockSettings( {
 	const {
 		tagName,
 	} = attributes;
+
+	const {
+		atRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters
@@ -50,13 +55,15 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/query"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-					} }
-				/>
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/query"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
+						} }
+					/>
+				) }
 			</OpenPanel>
 		</ApplyFilters>
 	);
