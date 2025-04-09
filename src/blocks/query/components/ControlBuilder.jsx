@@ -63,6 +63,17 @@ function ControlComponent( props ) {
 					queryClient={ queryClient }
 				/>
 			);
+		case 'includeParent':
+		case 'excludeParent':
+			return (
+				<SelectPost
+					{ ...standardProps }
+					multiple={ true }
+					postType={ postType }
+					queryClient={ queryClient }
+					includeCurrent={ true }
+				/>
+			);
 		case 'excludePosts':
 			return (
 				<SelectPost

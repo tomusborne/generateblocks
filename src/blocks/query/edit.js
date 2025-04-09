@@ -76,10 +76,6 @@ function EditBlock( props ) {
 	const shortcuts = useMemo( () => {
 		const visibleShortcuts = [
 			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-			{
 				label: __( 'Links', 'generateblocks' ),
 				value: 'a',
 			},

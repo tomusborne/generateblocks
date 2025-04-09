@@ -44,7 +44,7 @@ function useWpQuery( shouldRequest = true, { query, attributes, selectedBlock, c
 
 	const {
 		isAdminUser = false,
-	} = gbPermissions; // eslint-disable-line
+	} = gbPermissions ?? {};
 
 	const [ data, setData ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );

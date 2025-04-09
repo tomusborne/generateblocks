@@ -6,9 +6,11 @@ import {
 } from '@components/index.js';
 
 import { QueryInspectorControls } from './QueryInspectorControls';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
 	onStyleChange,
+	getStyleValue,
 	name,
 	attributes,
 	setAttributes,
@@ -18,17 +20,24 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	const {
 		tagName,
 	} = attributes;
 
+	const {
+		atRule,
+	} = useBlockStyles();
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
 			blockName={ name }
 			onStyleChange={ onStyleChange }
+			getStyleValue={ getStyleValue }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
@@ -46,13 +55,15 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/query"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-					} }
-				/>
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/query"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
+						} }
+					/>
+				) }
 			</OpenPanel>
 		</ApplyFilters>
 	);

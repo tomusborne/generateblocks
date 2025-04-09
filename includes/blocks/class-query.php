@@ -25,6 +25,13 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/query';
+
+	/**
 	 * Get the query data based on the type.
 	 *
 	 * @param string $query_type The type of query (WP_Query, post_meta, etc).

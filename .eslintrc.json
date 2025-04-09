@@ -14,7 +14,8 @@
 		"generateblocksBlockMedia": "readonly",
 		"generateBlocksEditor": "readonly",
 		"generateblocksDashboard": "readonly",
-		"generateblocksBlockText": "readonly"
+		"generateblocksBlockText": "readonly",
+		"gbPermissions": "readonly"
 	},
 	"env": {
 	  "browser": true,

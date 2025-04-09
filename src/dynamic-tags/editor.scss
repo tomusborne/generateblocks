@@ -72,6 +72,10 @@ $input-height: 35px;
 			box-shadow: 0 0 0;
 			border-radius: 3px;
 		}
+
+		.components-button.is-small.has-icon:not(.has-text) {
+			align-self: inherit;
+		}
 	}
 }
 

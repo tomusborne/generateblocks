@@ -14,6 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Block_Query_No_Results extends GenerateBlocks_Block {
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/query-no-results';
+
+	/**
 	 * Render the Shape block.
 	 *
 	 * @param array  $attributes    The block attributes.

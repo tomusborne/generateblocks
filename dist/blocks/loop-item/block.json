@@ -6,10 +6,8 @@
   "category": "generateblocks",
   "description": "The item that is looped inside of the Looper.",
   "keywords": [
-    "text",
-    "heading",
-    "headline",
-    "paragraph"
+    "loop",
+    "loop item"
   ],
   "version": "1.0.0",
   "textdomain": "generateblocks",

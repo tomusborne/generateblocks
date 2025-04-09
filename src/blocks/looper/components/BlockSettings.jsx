@@ -18,13 +18,15 @@ export function BlockSettings( {
 	setAttributes,
 } ) {
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	const {
@@ -37,7 +39,7 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
@@ -50,10 +52,10 @@ export function BlockSettings( {
 			>
 				<GridColumnSelector
 					label={ __( 'Layout', 'generateblocks' ) }
-					value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
+					value={ getStyleValue( 'gridTemplateColumns', atRule ) }
 					onClick={ ( value ) => {
-						onStyleChange( 'display', 'grid', currentAtRule );
-						onStyleChange( 'gridTemplateColumns', value, currentAtRule );
+						onStyleChange( 'display', 'grid', atRule );
+						onStyleChange( 'gridTemplateColumns', value, atRule );
 					} }
 				/>
 			</OpenPanel>
@@ -62,13 +64,15 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/looper"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-					} }
-				/>
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/looper"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
+						} }
+					/>
+				) }
 			</OpenPanel>
 		</ApplyFilters>
 	);

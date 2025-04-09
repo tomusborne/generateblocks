@@ -5,7 +5,7 @@
     "title": "Shape",
     "category": "generateblocks",
     "description": "A custom SVG shape.",
-    "keywords": [ "text", "heading", "headline", "paragraph" ],
+    "keywords": [ "icon", "shape", "svg", "image" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
     "attributes": {

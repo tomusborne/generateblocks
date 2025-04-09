@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/looper';
+
+	/**
 	 * Sanitize a loop item's data for security.
 	 *
 	 * @param array|object $loop_item The loop item to sanitize.

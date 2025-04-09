@@ -10,12 +10,12 @@ function splitSpaces( value ) {
 
 export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
-	const currentPosition = getStyleValue( 'position', currentAtRule );
-	const currentTopValue = getStyleValue( 'top', currentAtRule );
-	const currentBottomValue = getStyleValue( 'bottom', currentAtRule );
-	const currentTransformsValue = getStyleValue( 'transform', currentAtRule );
+	const currentPosition = getStyleValue( 'position', atRule );
+	const currentTopValue = getStyleValue( 'top', atRule );
+	const currentBottomValue = getStyleValue( 'bottom', atRule );
+	const currentTransformsValue = getStyleValue( 'transform', atRule );
 	const locationValue = useMemo( () => {
 		if ( 'absolute' !== currentPosition ) {
 			return '';
@@ -61,7 +61,7 @@ export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 				] }
 				onChange={ ( value ) => {
 					const newValues = {};
-					const existingTransformsValue = getStyleValue( 'transform', currentAtRule );
+					const existingTransformsValue = getStyleValue( 'transform', atRule );
 					const existingTransforms = existingTransformsValue ? splitSpaces( existingTransformsValue ) : [];
 					const scaleValue = existingTransforms.find( ( transform ) => transform.startsWith( 'scale' ) );
 					let newScaleValue = 'top' === value ? 'scale(1, -1)' : '';
@@ -89,7 +89,7 @@ export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 						newValues.transform = newValues.transform.trim();
 					}
 
-					onStyleChange( newValues, currentAtRule );
+					onStyleChange( newValues, atRule );
 				} }
 			/>
 
@@ -98,7 +98,7 @@ export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 				checked={ flippedHorizontallyValue }
 				onChange={ ( value ) => {
 					const newValues = {};
-					const existingTransformsValue = getStyleValue( 'transform', currentAtRule );
+					const existingTransformsValue = getStyleValue( 'transform', atRule );
 					const existingTransforms = existingTransformsValue ? splitSpaces( existingTransformsValue ) : [];
 					const scaleValue = existingTransforms.find( ( transform ) => transform.startsWith( 'scale' ) );
 					let newScaleValue = value ? 'scale(-1, 1)' : '';
@@ -118,7 +118,7 @@ export function ShapeDividerControls( { getStyleValue, onStyleChange } ) {
 						newValues.transform = newValues.transform.trim();
 					}
 
-					onStyleChange( newValues, currentAtRule );
+					onStyleChange( newValues, atRule );
 				} }
 			/>
 		</>
