@@ -1139,6 +1139,13 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 					continue;
 				}
 
+				if (
+					isset( $blocks[ $name ] ) &&
+					is_callable( [ $blocks[ $name ], 'enqueue_assets' ] )
+				) {
+					$blocks[ $name ]::enqueue_assets();
+				}
+
 				if ( $store_block_id_only ) {
 					$all_blocks[ $name ]::store_block_id( $id );
 				} elseif ( ! $all_blocks[ $name ]::block_id_exists( $id ) ) {
@@ -1153,10 +1160,6 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 								return $output .= wp_strip_all_tags( $css );
 							}
 						);
-
-						if ( is_callable( [ $blocks[ $name ], 'enqueue_assets' ] ) ) {
-							$blocks[ $name ]::enqueue_assets();
-						}
 					}
 
 					// Generate CSS for our legacy block.
