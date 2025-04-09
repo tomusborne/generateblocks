@@ -86,20 +86,21 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === atRule }
 				panelId="shape"
 			>
-				<IconControl
-					label={ __( 'Shape', 'generateblocks' ) }
-					value={ html }
-					onChange={ ( value ) => setAttributes( { html: value } ) }
-					onClear={ () => setAttributes( { html: '' } ) }
-					icons={ icons }
-					iconType={ iconType }
-					clearLabel={ __( 'Clear', 'generateblocks' ) }
-					openLabel={ __( 'Open Library', 'generateblocks' ) }
-					modalTitle={ __( 'Shape Library', 'generateblocks' ) }
-				/>
+				{ '' === atRule && (
+					<IconControl
+						label={ __( 'Shape', 'generateblocks' ) }
+						value={ html }
+						onChange={ ( value ) => setAttributes( { html: value } ) }
+						onClear={ () => setAttributes( { html: '' } ) }
+						icons={ icons }
+						iconType={ iconType }
+						clearLabel={ __( 'Clear', 'generateblocks' ) }
+						openLabel={ __( 'Open Library', 'generateblocks' ) }
+						modalTitle={ __( 'Shape Library', 'generateblocks' ) }
+					/>
+				) }
 
 				<ShapeDividerControls
 					onStyleChange={ onStyleChange }
@@ -144,7 +145,6 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === atRule }
 				panelId="settings"
 			/>
 		</ApplyFilters>

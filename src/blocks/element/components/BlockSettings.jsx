@@ -235,30 +235,33 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/element"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
+				{ '' === atRule && (
+					<>
+						<TagNameControl
+							blockName="generateblocks/element"
+							value={ tagName }
+							onChange={ ( value ) => {
+								setAttributes( { tagName: value } );
 
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
+								if ( 'a' === value && ! styles?.display ) {
+									onStyleChange( 'display', 'block' );
+								}
+							} }
+						/>
 
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
+						{ 'a' === tagName && (
+							<BaseControl>
+								<Notice
+									status="warning"
+									isDismissible={ false }
+								>
+									{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+								</Notice>
+							</BaseControl>
+						) }
+					</>
 				) }
 			</OpenPanel>
 

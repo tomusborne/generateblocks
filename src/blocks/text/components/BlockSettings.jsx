@@ -163,20 +163,21 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/text"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/text"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
 
-						if ( 'a' === value && ! getStyleValue( 'display', atRule ) ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
+							if ( 'a' === value && ! getStyleValue( 'display', atRule ) ) {
+								onStyleChange( 'display', 'block' );
+							}
+						} }
+					/>
+				) }
 			</OpenPanel>
 
 			<DynamicTagsOnboarder />
