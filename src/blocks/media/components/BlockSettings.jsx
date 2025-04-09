@@ -152,80 +152,83 @@ export function BlockSettings( {
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === atRule }
 				panelId="settings"
 			>
-				<ImageUpload
-					context={ context }
-					value={ htmlAttributes?.src ?? '' }
-					onInsert={ ( value ) => {
-						const newHtmlAttributes = {
-							...htmlAttributes,
-							src: value,
-						};
-
-						setAttributes( {
-							htmlAttributes: newHtmlAttributes,
-						} );
-					} }
-					onSelectImage={ onSelectImage }
-					allowDynamicTags={ true }
-					onInsertDynamicTag={ ( value ) => {
-						const newHtmlAttributes = {
-							...htmlAttributes,
-							src: value,
-						};
-
-						setAttributes( {
-							htmlAttributes: newHtmlAttributes,
-							mediaId: 0,
-						} );
-					} }
-				/>
-
-				<URLControls
-					setAttributes={ setAttributes }
-					htmlAttributes={ linkHtmlAttributes }
-					attributesName="linkHtmlAttributes"
-					context={ context }
-					tagName={ tagName }
-				/>
-
-				{ applyFilters(
-					'generateblocks.blockSettings.afterImageUrlControls',
-					null,
-					panelProps
-				) }
-
-				{ !! sizes?.length && (
-					<SelectControl
-						label={ __( 'Size', 'generateblocks' ) }
-						options={ sizes }
-						value={ imageSizeValue }
-						onChange={ ( value ) => {
-							if ( '' === value ) {
-								setAttributes( {
-									htmlAttributes: {
-										...htmlAttributes,
-										src: imageData?.full_url ?? '',
-										width: imageData?.width ?? '',
-										height: imageData?.height ?? '',
-									},
-								} );
-
-								return;
-							}
-
-							setAttributes( {
-								htmlAttributes: {
+				{ '' === atRule && (
+					<>
+						<ImageUpload
+							context={ context }
+							value={ htmlAttributes?.src ?? '' }
+							onInsert={ ( value ) => {
+								const newHtmlAttributes = {
 									...htmlAttributes,
-									src: imageData?.sizes[ value ]?.url ?? '',
-									width: imageData?.sizes[ value ]?.width ?? '',
-									height: imageData?.sizes[ value ]?.height ?? '',
-								},
-							} );
-						} }
-					/>
+									src: value,
+								};
+
+								setAttributes( {
+									htmlAttributes: newHtmlAttributes,
+								} );
+							} }
+							onSelectImage={ onSelectImage }
+							allowDynamicTags={ true }
+							onInsertDynamicTag={ ( value ) => {
+								const newHtmlAttributes = {
+									...htmlAttributes,
+									src: value,
+								};
+
+								setAttributes( {
+									htmlAttributes: newHtmlAttributes,
+									mediaId: 0,
+								} );
+							} }
+						/>
+
+						<URLControls
+							setAttributes={ setAttributes }
+							htmlAttributes={ linkHtmlAttributes }
+							attributesName="linkHtmlAttributes"
+							context={ context }
+							tagName={ tagName }
+						/>
+
+						{ applyFilters(
+							'generateblocks.blockSettings.afterImageUrlControls',
+							null,
+							panelProps
+						) }
+
+						{ !! sizes?.length && (
+							<SelectControl
+								label={ __( 'Size', 'generateblocks' ) }
+								options={ sizes }
+								value={ imageSizeValue }
+								onChange={ ( value ) => {
+									if ( '' === value ) {
+										setAttributes( {
+											htmlAttributes: {
+												...htmlAttributes,
+												src: imageData?.full_url ?? '',
+												width: imageData?.width ?? '',
+												height: imageData?.height ?? '',
+											},
+										} );
+
+										return;
+									}
+
+									setAttributes( {
+										htmlAttributes: {
+											...htmlAttributes,
+											src: imageData?.sizes[ value ]?.url ?? '',
+											width: imageData?.sizes[ value ]?.width ?? '',
+											height: imageData?.sizes[ value ]?.height ?? '',
+										},
+									} );
+								} }
+							/>
+						) }
+					</>
 				) }
 
 				<Flex>
@@ -248,18 +251,20 @@ export function BlockSettings( {
 					</FlexBlock>
 				</Flex>
 
-				<TextControl
-					label={ __( 'Alt text', 'generateblocks' ) }
-					value={ htmlAttributes?.alt ?? '' }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								alt: value,
-							},
-						} );
-					} }
-				/>
+				{ '' === atRule && (
+					<TextControl
+						label={ __( 'Alt text', 'generateblocks' ) }
+						value={ htmlAttributes?.alt ?? '' }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									alt: value,
+								},
+							} );
+						} }
+					/>
+				) }
 			</OpenPanel>
 
 			<DynamicTagsOnboarder />
