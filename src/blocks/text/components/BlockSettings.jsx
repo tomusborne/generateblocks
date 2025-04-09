@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, BaseControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, BaseControl, ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { OpenPanel, IconControl, ColorPicker } from '@edge22/components';
@@ -31,13 +31,15 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
 		name,
 		attributes,
 		setAttributes,
+		onStyleChange,
+		getStyleValue,
 	};
 
 	const icons = applyFilters(
@@ -61,13 +63,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				shouldRender={ 'a' === tagName && '' === atRule }
 				panelId="link-destination"
 			>
 				<URLControls
@@ -81,25 +83,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
-				panelId="settings"
-			>
-				<TagNameControl
-					blockName="generateblocks/text"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-			</OpenPanel>
-
-			<OpenPanel
-				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="icon"
 			>
 				<IconControl
@@ -146,8 +130,8 @@ export function BlockSettings( {
 					<>
 						<ColorPicker
 							label={ __( 'Icon Color', 'generateblocks' ) }
-							value={ getStyleValue( 'color', currentAtRule, '.gb-shape svg' ) }
-							onChange={ ( value ) => onStyleChange( 'color', value, currentAtRule, '.gb-shape svg' ) }
+							value={ getStyleValue( 'color', atRule, '.gb-shape svg' ) }
+							onChange={ ( value ) => onStyleChange( 'color', value, atRule, '.gb-shape svg' ) }
 						/>
 
 						{ ! iconOnly && (
@@ -173,25 +157,26 @@ export function BlockSettings( {
 								onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
 							/>
 						</BaseControl>
-
-						<TextControl
-							label={ __( 'ARIA Label', 'generateblocks' ) }
-							value={ htmlAttributes[ 'aria-label' ] ?? '' }
-							onChange={ ( value ) => {
-								const newHtmlAttributes = { ...htmlAttributes };
-
-								if ( ! value && htmlAttributes[ 'aria-label' ] ) {
-									delete newHtmlAttributes[ 'aria-label' ];
-								} else if ( value ) {
-									newHtmlAttributes[ 'aria-label' ] = value;
-								}
-
-								setAttributes( {
-									htmlAttributes: newHtmlAttributes,
-								} );
-							} }
-						/>
 					</>
+				) }
+			</OpenPanel>
+
+			<OpenPanel
+				{ ...panelProps }
+				panelId="settings"
+			>
+				{ '' === atRule && (
+					<TagNameControl
+						blockName="generateblocks/text"
+						value={ tagName }
+						onChange={ ( value ) => {
+							setAttributes( { tagName: value } );
+
+							if ( 'a' === value && ! getStyleValue( 'display', atRule ) ) {
+								onStyleChange( 'display', 'block' );
+							}
+						} }
+					/>
 				) }
 			</OpenPanel>
 
