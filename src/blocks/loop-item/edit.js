@@ -71,21 +71,8 @@ function EditBlock( props ) {
 
 	const TagName = tagName || 'div';
 	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
-
-		if ( 'a' === tagName ) {
-			visibleSelectors.push(
-				{
-					label: __( 'Hover', 'generateblocks' ),
-					value: '&:is(:hover, :focus)',
-				}
-			);
-		}
+		const visibleSelectors = [];
+		const blockSelectors = { ...selectorShortcuts };
 
 		visibleSelectors.push(
 			{
@@ -94,8 +81,22 @@ function EditBlock( props ) {
 			}
 		);
 
+		if ( 'a' === tagName || 'button' === tagName ) {
+			if ( blockSelectors?.links ) {
+				delete blockSelectors.links;
+			}
+
+			const defaultItems = blockSelectors?.default?.items || [];
+
+			if ( defaultItems.length > 0 ) {
+				blockSelectors.default.items = defaultItems.filter( ( item ) => {
+					return 'a' !== item.value && ! item.value.startsWith( 'a:' );
+				} );
+			}
+		}
+
 		return {
-			selectorShortcuts,
+			selectorShortcuts: blockSelectors,
 			visibleShortcuts: visibleSelectors,
 		};
 	}, [ tagName ] );
