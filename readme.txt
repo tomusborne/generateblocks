@@ -134,6 +134,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Add `static` value to the "Position" control
 * Feature: Add `aria-label` field to all blocks
 * Feature: Add `inline-grid` option
+* Feature: Add inherited values as placeholders
 * Fix: Missing "current parent" query parameter
 * Fix: Fallback preview support in color picker
 * Fix: Inability to type some units in the `UnitControl`
@@ -147,6 +148,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Image block selection in WP 6.8
 * Fix: Dynamic tag parsing all blocks in Container at once
 * Fix: Allow 0 as nested post meta key
+* Fix: Ensure block style assets load in wp_head
+* Fix: Dimension control tab order
 * Tweak: Improve editor performance
 * Tweak: Always show popular user meta fields in dropdown
 * Tweak: Add support for device visibility feature in Pro
@@ -157,6 +160,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Sanitize block ID attribute value
 * Tweak: Allow the `download` attribute to have a value
 * Tweak: Add searching notice to styles builder
+* Tweak: Add `generateblocks_block_css` filter
 
 = 2.0.2 =
 * Fix: Image block selection in WP 6.8
