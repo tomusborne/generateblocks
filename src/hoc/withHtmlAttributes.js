@@ -158,7 +158,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 				const value = updatedHtmlAttributes[ key ];
 
 				// Remove non-boolean attributes if they have empty values.
-				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute ) {
+				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute && 'alt' !== key ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 
