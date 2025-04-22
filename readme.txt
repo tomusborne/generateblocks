@@ -150,6 +150,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Allow 0 as nested post meta key
 * Fix: Ensure block style assets load in wp_head
 * Fix: Dimension control tab order
+* Fix: Conditional loading of instant pagination script
 * Tweak: Improve editor performance
 * Tweak: Always show popular user meta fields in dropdown
 * Tweak: Add support for device visibility feature in Pro
@@ -161,6 +162,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Allow the `download` attribute to have a value
 * Tweak: Add searching notice to styles builder
 * Tweak: Add `generateblocks_block_css` filter
+* Tweak: Add `generateblocks_process_block_css` action
+* Tweak: Add default `alt` tag to images
 
 = 2.0.2 =
 * Fix: Image block selection in WP 6.8
