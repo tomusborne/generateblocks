@@ -30,6 +30,9 @@ registerBlockVariation(
 				objectFit: 'cover',
 				width: 'auto',
 			},
+			htmlAttributes: {
+				alt: '',
+			},
 		},
 		isActive: ( blockAttributes ) => 'img' === blockAttributes.tagName,
 		isDefault: true,
