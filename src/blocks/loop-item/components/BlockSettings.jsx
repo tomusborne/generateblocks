@@ -80,7 +80,7 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				{ '' !== atRule && (
+				{ '' === atRule && (
 					<>
 						<TagNameControl
 							blockName="generateblocks/loop-item"
