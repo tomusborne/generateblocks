@@ -21,6 +21,13 @@ class GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = '';
+
+	/**
 	 * Store our block ID in memory.
 	 *
 	 * @param string $id The block ID to store.
@@ -64,6 +71,13 @@ class GenerateBlocks_Block {
 		// Store this block ID in memory.
 		static::store_block_id( $id );
 
-		return $attributes['css'] ?? '';
+		return apply_filters(
+			'generateblocks_block_css',
+			$attributes['css'] ?? '',
+			[
+				'attributes' => $attributes ?? [],
+				'block_name' => static::$block_name ?? '',
+			]
+		);
 	}
 }

@@ -61,6 +61,23 @@ function shallowEqual( obj1, obj2 ) {
 	return true;
 }
 
+function sanitizeId( input ) {
+	const cleaned = input.trim()
+		.replace( /[^A-Za-z0-9-_:.]+/g, '-' )
+		.replace( /-+/g, '-' )
+		.replace( /^-|-$/g, '' );
+
+	if ( ! cleaned ) {
+		return '';
+	}
+
+	if ( /^[A-Za-z]/.test( cleaned ) ) {
+		return cleaned;
+	}
+
+	return `id-${ cleaned }`;
+}
+
 export function withHtmlAttributes( WrappedComponent ) {
 	return ( ( props ) => {
 		const {
@@ -141,7 +158,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 				const value = updatedHtmlAttributes[ key ];
 
 				// Remove non-boolean attributes if they have empty values.
-				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute ) {
+				if ( ! booleanAttributes.includes( key ) && '' === value && ! isDataAttribute && 'alt' !== key ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 
@@ -173,12 +190,35 @@ export function withHtmlAttributes( WrappedComponent ) {
 				<InspectorAdvancedControls>
 					<TextControl
 						label="HTML ID"
-						value={ htmlAttributes.id }
+						value={ htmlAttributes.id ?? '' }
 						onChange={ ( value ) => {
 							setAttributes( {
 								htmlAttributes: {
 									...htmlAttributes,
 									id: value,
+								},
+							} );
+						} }
+						onBlur={ () => {
+							if ( htmlAttributes.id ) {
+								setAttributes( {
+									htmlAttributes: {
+										...htmlAttributes,
+										id: sanitizeId( htmlAttributes.id ),
+									},
+								} );
+							}
+						} }
+					/>
+
+					<TextControl
+						label="ARIA Label"
+						value={ htmlAttributes[ 'aria-label' ] ?? '' }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									'aria-label': value,
 								},
 							} );
 						} }

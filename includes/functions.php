@@ -1139,6 +1139,22 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 					continue;
 				}
 
+				do_action(
+					'generateblocks_process_block_css',
+					[
+						'block_short_name' => $name,
+						'attributes'       => $attributes,
+						'current_filter'   => current_filter(),
+					]
+				);
+
+				if (
+					isset( $blocks[ $name ] ) &&
+					is_callable( [ $blocks[ $name ], 'enqueue_assets' ] )
+				) {
+					$blocks[ $name ]::enqueue_assets();
+				}
+
 				if ( $store_block_id_only ) {
 					$all_blocks[ $name ]::store_block_id( $id );
 				} elseif ( ! $all_blocks[ $name ]::block_id_exists( $id ) ) {
@@ -1153,10 +1169,6 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 								return $output .= wp_strip_all_tags( $css );
 							}
 						);
-
-						if ( is_callable( [ $blocks[ $name ], 'enqueue_assets' ] ) ) {
-							$blocks[ $name ]::enqueue_assets();
-						}
 					}
 
 					// Generate CSS for our legacy block.
@@ -1997,7 +2009,12 @@ function generateblocks_str_starts_with( $string, $prefix ) {
  * @return bool
  */
 function generateblocks_use_v1_blocks() {
-	return get_option( 'gb_use_v1_blocks', false );
+	$option = get_option( 'gb_use_v1_blocks', false );
+
+	return apply_filters(
+		'generateblocks_use_v1_blocks',
+		$option
+	);
 }
 
 /**
@@ -2156,6 +2173,19 @@ function generateblocks_with_escaped_attributes( $content, $args = [] ) {
 		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
 			$attribute_value = $processor->get_attribute( $name );
 			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
+
+			// WordPress strips out the `download` value by default, even though it's acceptable to give it a value.
+			// If we have a `download` attribute, let's re-add the value if it exists.
+			if ( 'download' === $name ) {
+				$attributes_with_download = $block_html_attributes;
+
+				if ( 2 === $max_tags && 0 === $tags_processed ) {
+					$attributes_with_download = $link_html_attributes;
+				}
+
+				$download_value = $attributes_with_download[ $name ] ?? true;
+				$escaped_value = generateblocks_get_escaped_html_attribute( $name, $download_value );
+			}
 
 			$processor->set_attribute( $name, $escaped_value );
 			$updated = true;
