@@ -1139,6 +1139,15 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 					continue;
 				}
 
+				do_action(
+					'generateblocks_process_block_css',
+					[
+						'block_short_name' => $name,
+						'attributes'       => $attributes,
+						'current_filter'   => current_filter(),
+					]
+				);
+
 				if (
 					isset( $blocks[ $name ] ) &&
 					is_callable( [ $blocks[ $name ], 'enqueue_assets' ] )
