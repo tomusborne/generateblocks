@@ -26,13 +26,15 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 
 	const panelProps = {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	return (
@@ -41,13 +43,13 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				shouldRender={ 'a' === tagName && '' === atRule }
 				panelId="link-destination"
 			>
 				<URLControls
@@ -61,7 +63,7 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
+				shouldRender={ '' === atRule }
 				panelId="inline-background-image"
 			>
 				<InlineBackgroundImage
@@ -76,30 +78,33 @@ export function BlockSettings( {
 
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>
-				<TagNameControl
-					blockName="generateblocks/loop-item"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
+				{ '' === atRule && (
+					<>
+						<TagNameControl
+							blockName="generateblocks/loop-item"
+							value={ tagName }
+							onChange={ ( value ) => {
+								setAttributes( { tagName: value } );
 
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
+								if ( 'a' === value && ! styles?.display ) {
+									onStyleChange( 'display', 'block' );
+								}
+							} }
+						/>
 
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
+						{ 'a' === tagName && (
+							<BaseControl>
+								<Notice
+									status="warning"
+									isDismissible={ false }
+								>
+									{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+								</Notice>
+							</BaseControl>
+						) }
+					</>
 				) }
 			</OpenPanel>
 		</ApplyFilters>

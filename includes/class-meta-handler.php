@@ -134,8 +134,8 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_value( $key, $parent_value, $single_only = true, $fallback = '' ) {
-		// Stop here if the key is empty.
-		if ( empty( $key ) ) {
+		// Stop here if the key is empty, and not "0".
+		if ( empty( $key ) && ! is_numeric( $key ) ) {
 			if ( $single_only ) {
 				$parent_value = self::is_array_or_object( $parent_value ) ? $fallback : (string) $parent_value;
 

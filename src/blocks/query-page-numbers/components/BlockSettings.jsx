@@ -7,6 +7,7 @@ import {
 	ApplyFilters,
 	TagNameControl,
 } from '@components/index.js';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
 	getStyleValue,
@@ -24,7 +25,13 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
+
+	const {
+		atRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters
@@ -39,23 +46,27 @@ export function BlockSettings( {
 				{ ...panelProps }
 				panelId="settings"
 			>
-				<RangeControl
-					type="number"
-					label={ __( 'Mid Size', 'generateblocks' ) }
-					value={ midSize }
-					onChange={ ( value ) => setAttributes( { midSize: value } ) }
-					step="1"
-					min="0"
-					max="10"
-				/>
+				{ '' === atRule && (
+					<>
+						<RangeControl
+							type="number"
+							label={ __( 'Mid Size', 'generateblocks' ) }
+							value={ midSize }
+							onChange={ ( value ) => setAttributes( { midSize: value } ) }
+							step="1"
+							min="0"
+							max="10"
+						/>
 
-				<TagNameControl
-					blockName="generateblocks/query-page-numbers"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-					} }
-				/>
+						<TagNameControl
+							blockName="generateblocks/query-page-numbers"
+							value={ tagName }
+							onChange={ ( value ) => {
+								setAttributes( { tagName: value } );
+							} }
+						/>
+					</>
+				) }
 			</OpenPanel>
 		</ApplyFilters>
 	);

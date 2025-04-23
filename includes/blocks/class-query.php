@@ -25,6 +25,13 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 	protected static $block_ids = [];
 
 	/**
+	 * Store our block name.
+	 *
+	 * @var string $block_name The block name.
+	 */
+	public static $block_name = 'generateblocks/query';
+
+	/**
 	 * Get the query data based on the type.
 	 *
 	 * @param string $query_type The type of query (WP_Query, post_meta, etc).
@@ -117,7 +124,15 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 
 		if ( $instant_pagination ) {
 			if ( ! wp_script_is( 'generateblocks-looper', 'enqueued' ) ) {
-				self::enqueue_assets();
+				$asset_info = generateblocks_get_enqueue_assets( 'generateblocks-looper' );
+
+				wp_enqueue_script(
+					'generateblocks-looper',
+					GENERATEBLOCKS_DIR_URL . 'dist/looper.js',
+					$asset_info['dependencies'],
+					$asset_info['version'],
+					true
+				);
 			}
 		}
 
@@ -163,27 +178,5 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 		$output .= $parsed_content;
 
 		return $output;
-	}
-
-	/**
-	 * Enqueue block scripts.
-	 */
-	private static function enqueue_scripts() {
-		$asset_info = generateblocks_get_enqueue_assets( 'generateblocks-looper' );
-
-		wp_enqueue_script(
-			'generateblocks-looper',
-			GENERATEBLOCKS_DIR_URL . 'dist/looper.js',
-			$asset_info['dependencies'],
-			$asset_info['version'],
-			true
-		);
-	}
-
-	/**
-	 * Enqueue block assets.
-	 */
-	public static function enqueue_assets() {
-		self::enqueue_scripts();
 	}
 }

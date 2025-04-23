@@ -61,18 +61,22 @@ function EditBlock( props ) {
 			},
 		};
 
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
+		const visibleSelectors = [];
+
+		if ( 'a' !== tagName ) {
+			visibleSelectors.push(
+				{
+					label: __( 'Links', 'generateblocks' ),
+					value: 'a',
+				}
+			);
+		}
 
 		return {
 			selectorShortcuts,
 			visibleShortcuts: visibleSelectors,
 		};
-	}, [] );
+	}, [ tagName ] );
 
 	return (
 		<>
