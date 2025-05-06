@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,7 +102,7 @@ In GenerateBlocks Pro, you can create as many custom media queries as you need.
 
 = Documentation =
 
-Check out our [documentation](https://docs.generateblocks.com) for more information on the individual blocks and how to use them.
+Check out our [documentation](https://learn.generatepress.com/) for more information on the individual blocks and how to use them.
 
 == Installation ==
 
