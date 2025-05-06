@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "2.0.2",
+	"version": "2.1.0",
 	"private": true,
 	"description": "A small collection of lightweight WordPress blocks that can accomplish nearly anything.",
 	"author": "Tom Usborne",
@@ -18,9 +18,9 @@
 		"url": "https://generateblocks.com/support"
 	},
 	"dependencies": {
-		"@edge22/block-styles": "^1.1.39",
-		"@edge22/components": "^1.1.52",
-		"@edge22/styles-builder": "^1.2.68",
+		"@edge22/block-styles": "^1.2.6",
+		"@edge22/components": "^1.2.0",
+		"@edge22/styles-builder": "^1.3.14",
 		"@tanstack/react-query": "^5.62.11",
 		"@wordpress/block-editor": "^12.12.0",
 		"@wordpress/blocks": "^12.21.0",

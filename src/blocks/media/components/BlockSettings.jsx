@@ -49,14 +49,14 @@ export function BlockSettings( {
 	} = attributes;
 
 	const {
-		currentAtRule,
+		atRule,
 	} = useBlockStyles();
 	const [ imageData, setImageData ] = useState( null );
 	const [ hasResolved, setHasResolved ] = useState( false );
 
 	const debouncedOnStyleChange = useCallback(
-		debounce( ( property, value, atRule ) => {
-			onStyleChange( property, value, atRule );
+		debounce( ( property, value, atRuleValue ) => {
+			onStyleChange( property, value, atRuleValue );
 		}, 250 ),
 		[ onStyleChange ]
 	);
@@ -136,6 +136,8 @@ export function BlockSettings( {
 		name,
 		attributes,
 		setAttributes,
+		getStyleValue,
+		onStyleChange,
 	};
 
 	return (
@@ -144,86 +146,89 @@ export function BlockSettings( {
 			blockName={ name }
 			getStyleValue={ getStyleValue }
 			onStyleChange={ onStyleChange }
-			currentAtRule={ currentAtRule }
+			currentAtRule={ atRule }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
 				{ ...panelProps }
-				shouldRender={ '' === currentAtRule }
 				panelId="settings"
 			>
-				<ImageUpload
-					context={ context }
-					value={ htmlAttributes?.src ?? '' }
-					onInsert={ ( value ) => {
-						const newHtmlAttributes = {
-							...htmlAttributes,
-							src: value,
-						};
-
-						setAttributes( {
-							htmlAttributes: newHtmlAttributes,
-						} );
-					} }
-					onSelectImage={ onSelectImage }
-					allowDynamicTags={ true }
-					onInsertDynamicTag={ ( value ) => {
-						const newHtmlAttributes = {
-							...htmlAttributes,
-							src: value,
-						};
-
-						setAttributes( {
-							htmlAttributes: newHtmlAttributes,
-							mediaId: 0,
-						} );
-					} }
-				/>
-
-				<URLControls
-					setAttributes={ setAttributes }
-					htmlAttributes={ linkHtmlAttributes }
-					attributesName="linkHtmlAttributes"
-					context={ context }
-					tagName={ tagName }
-				/>
-
-				{ applyFilters(
-					'generateblocks.blockSettings.afterImageUrlControls',
-					null,
-					panelProps
-				) }
-
-				{ !! sizes?.length && (
-					<SelectControl
-						label={ __( 'Size', 'generateblocks' ) }
-						options={ sizes }
-						value={ imageSizeValue }
-						onChange={ ( value ) => {
-							if ( '' === value ) {
-								setAttributes( {
-									htmlAttributes: {
-										...htmlAttributes,
-										src: imageData?.full_url ?? '',
-										width: imageData?.width ?? '',
-										height: imageData?.height ?? '',
-									},
-								} );
-
-								return;
-							}
-
-							setAttributes( {
-								htmlAttributes: {
+				{ '' === atRule && (
+					<>
+						<ImageUpload
+							context={ context }
+							value={ htmlAttributes?.src ?? '' }
+							onInsert={ ( value ) => {
+								const newHtmlAttributes = {
 									...htmlAttributes,
-									src: imageData?.sizes[ value ]?.url ?? '',
-									width: imageData?.sizes[ value ]?.width ?? '',
-									height: imageData?.sizes[ value ]?.height ?? '',
-								},
-							} );
-						} }
-					/>
+									src: value,
+								};
+
+								setAttributes( {
+									htmlAttributes: newHtmlAttributes,
+								} );
+							} }
+							onSelectImage={ onSelectImage }
+							allowDynamicTags={ true }
+							onInsertDynamicTag={ ( value ) => {
+								const newHtmlAttributes = {
+									...htmlAttributes,
+									src: value,
+								};
+
+								setAttributes( {
+									htmlAttributes: newHtmlAttributes,
+									mediaId: 0,
+								} );
+							} }
+						/>
+
+						<URLControls
+							setAttributes={ setAttributes }
+							htmlAttributes={ linkHtmlAttributes }
+							attributesName="linkHtmlAttributes"
+							context={ context }
+							tagName={ tagName }
+						/>
+
+						{ applyFilters(
+							'generateblocks.blockSettings.afterImageUrlControls',
+							null,
+							panelProps
+						) }
+
+						{ !! sizes?.length && (
+							<SelectControl
+								label={ __( 'Size', 'generateblocks' ) }
+								options={ sizes }
+								value={ imageSizeValue }
+								onChange={ ( value ) => {
+									if ( '' === value ) {
+										setAttributes( {
+											htmlAttributes: {
+												...htmlAttributes,
+												src: imageData?.full_url ?? '',
+												width: imageData?.width ?? '',
+												height: imageData?.height ?? '',
+											},
+										} );
+
+										return;
+									}
+
+									setAttributes( {
+										htmlAttributes: {
+											...htmlAttributes,
+											src: imageData?.sizes[ value ]?.url ?? '',
+											width: imageData?.sizes[ value ]?.width ?? '',
+											height: imageData?.sizes[ value ]?.height ?? '',
+										},
+									} );
+								} }
+							/>
+						) }
+					</>
 				) }
 
 				<Flex>
@@ -231,8 +236,8 @@ export function BlockSettings( {
 						<UnitControl
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
-							value={ getStyleValue( 'width', currentAtRule ) }
-							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, currentAtRule ) }
+							value={ getStyleValue( 'width', atRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'width', value, atRule ) }
 						/>
 					</FlexBlock>
 
@@ -240,24 +245,26 @@ export function BlockSettings( {
 						<UnitControl
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
-							value={ getStyleValue( 'height', currentAtRule ) }
-							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, currentAtRule ) }
+							value={ getStyleValue( 'height', atRule ) }
+							onChange={ ( value ) => debouncedOnStyleChange( 'height', value, atRule ) }
 						/>
 					</FlexBlock>
 				</Flex>
 
-				<TextControl
-					label={ __( 'Alt text', 'generateblocks' ) }
-					value={ htmlAttributes?.alt ?? '' }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								alt: value,
-							},
-						} );
-					} }
-				/>
+				{ '' === atRule && (
+					<TextControl
+						label={ __( 'Alt text', 'generateblocks' ) }
+						value={ htmlAttributes?.alt ?? '' }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									alt: value,
+								},
+							} );
+						} }
+					/>
+				) }
 			</OpenPanel>
 
 			<DynamicTagsOnboarder />

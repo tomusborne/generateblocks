@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,7 +102,7 @@ In GenerateBlocks Pro, you can create as many custom media queries as you need.
 
 = Documentation =
 
-Check out our [documentation](https://docs.generateblocks.com) for more information on the individual blocks and how to use them.
+Check out our [documentation](https://learn.generatepress.com/) for more information on the individual blocks and how to use them.
 
 == Installation ==
 
@@ -127,6 +127,43 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 2.1.0 =
+* Feature: Enable full iframe editor
+* Feature: Improve styles builder indicator dot system
+* Feature: Add `static` value to the "Position" control
+* Feature: Add `aria-label` field to all blocks
+* Feature: Add `inline-grid` option
+* Feature: Add inherited values as placeholders
+* Fix: Missing "current parent" query parameter
+* Fix: Fallback preview support in color picker
+* Fix: Inability to type some units in the `UnitControl`
+* Fix: Block/pattern preview styles
+* Fix: IME issues with multi-select component
+* Fix: Border sync button alignment in v1 blocks
+* Fix: Single comment count option key in dynamic tags
+* Fix: Custom at-rule switching in the editor
+* Fix: Font family filter in the styles builder
+* Fix: `UnitControl` values starting with a dash
+* Fix: Image block selection in WP 6.8
+* Fix: Dynamic tag parsing all blocks in Container at once
+* Fix: Allow 0 as nested post meta key
+* Fix: Ensure block style assets load in wp_head
+* Fix: Dimension control tab order
+* Fix: Conditional loading of instant pagination script
+* Tweak: Improve editor performance
+* Tweak: Always show popular user meta fields in dropdown
+* Tweak: Add support for device visibility feature in Pro
+* Tweak: Add `generateblocks_use_v1_blocks` filter
+* Tweak: Improve default styles builder selectors/shortcuts
+* Tweak: Load permissions earlier in the editor
+* Tweak: Improve block keywords
+* Tweak: Sanitize block ID attribute value
+* Tweak: Allow the `download` attribute to have a value
+* Tweak: Add searching notice to styles builder
+* Tweak: Add `generateblocks_block_css` filter
+* Tweak: Add `generateblocks_process_block_css` action
+* Tweak: Add default `alt` tag to images
 
 = 2.0.2 =
 * Fix: Image block selection in WP 6.8
