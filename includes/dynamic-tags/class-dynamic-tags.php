@@ -139,6 +139,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 							'alt',
 						],
 					],
+					'fallback' => [
+						'type'    => 'number',
+						'label'   => __('Fallback Image ID', 'generateblocks'),
+						'help'    => __('Enter the ID of the image to use if the post does not have a featured image.', 'generateblocks'),
+					],
 				],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image' ],
 			]

@@ -318,7 +318,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		$image_id = get_post_thumbnail_id( $id );
+		if (! has_post_thumbnail($id)) {
+			$image_id = $options['fallback'] ?? '';
+		} else {
+			$image_id = get_post_thumbnail_id($id);
+		}
 
 		if ( ! $image_id ) {
 			return self::output( '', $options, $instance );
