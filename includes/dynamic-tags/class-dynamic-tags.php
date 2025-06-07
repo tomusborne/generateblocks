@@ -340,6 +340,36 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_media' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'       => __( 'URL Query Parameter', 'generateblocks' ),
+				'tag'         => 'url_param',
+				'type'        => 'site',
+				'supports'    => [],
+				'description' => __( 'Get a value from the URL query parameters.', 'generateblocks' ),
+				'options'     => [
+					'key' => [
+						'type'        => 'text',
+						'label'       => __( 'Parameter Key', 'generateblocks' ),
+						'help'        => __( 'Enter the query parameter key to retrieve.', 'generateblocks' ),
+						'required'    => true,
+					],
+					'default' => [
+						'type'        => 'text',
+						'label'       => __( 'Default Value', 'generateblocks' ),
+						'help'        => __( 'Value to show if the parameter is not present.', 'generateblocks' ),
+					],
+					'delimiter' => [
+						'type'        => 'text',
+						'label'       => __( 'Delimiter', 'generateblocks' ),
+						'help'        => __( 'Enter the delimiter for array values.', 'generateblocks' ),
+						'default'     => ',',
+					],
+				],
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_url_param' ],
+			]
+		);
 	}
 
 	/**
