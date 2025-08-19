@@ -114,7 +114,7 @@ export function Image( {
 					{ linkHtmlAttributes.href ? (
 						<a
 							{ ...linkHtmlAttributes }
-							href="#"
+							href={ undefined }
 						>
 							{ image }
 						</a>
