@@ -2172,6 +2172,7 @@ function generateblocks_with_escaped_attributes( $content, $args = [] ) {
 
 		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
 			$attribute_value = $processor->get_attribute( $name );
+			$attribute_value = do_shortcode( $attribute_value ); // Do shortcodes before we escape the value.
 			$escaped_value   = generateblocks_get_escaped_html_attribute( $name, $attribute_value );
 
 			// WordPress strips out the `download` value by default, even though it's acceptable to give it a value.
