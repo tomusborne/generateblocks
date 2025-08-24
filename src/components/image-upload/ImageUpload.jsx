@@ -15,6 +15,7 @@ export function ImageUpload( {
 	allowDynamicTags = false,
 	onInsertDynamicTag,
 	context,
+	sizeSlug = null,
 } ) {
 	const { baseControlProps, controlProps } = useBaseControlProps( {
 		label,
@@ -48,7 +49,7 @@ export function ImageUpload( {
 
 				<MediaUploadCheck>
 					<MediaUpload
-						onSelect={ ( media ) => onSelectImage( media ) }
+						onSelect={ ( media ) => onSelectImage( media, sizeSlug ) }
 						allowedTypes={ [ 'image' ] }
 						render={ ( { open } ) => (
 							<Button
