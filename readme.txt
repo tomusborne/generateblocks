@@ -129,6 +129,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 2.1.1 =
+* Fix: Disable image links in the editor
+* Fix: Parse shortcodes in URL HTML attribute fields
+* Fix: Keep existing image size when changing image in block
+* Tweak: Improve image size field loading UI
 
 = 2.1.0 =
 * Feature: Enable full iframe editor
