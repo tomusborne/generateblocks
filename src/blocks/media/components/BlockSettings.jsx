@@ -182,6 +182,7 @@ export function BlockSettings( {
 									mediaId: 0,
 								} );
 							} }
+							sizeSlug={ imageSizeValue }
 						/>
 
 						<URLControls
