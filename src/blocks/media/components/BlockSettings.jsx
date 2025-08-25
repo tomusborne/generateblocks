@@ -98,7 +98,7 @@ export function BlockSettings( {
 			: [];
 
 		if ( ! hasResolved ) {
-			return [ { label: __( 'Loading sizes...', 'generateblocks' ), value: '' } ];
+			return [ { label: __( 'Loading sizes…', 'generateblocks' ), value: '' } ];
 		}
 
 		if ( ! imageSizes.length ) {
