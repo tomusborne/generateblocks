@@ -63,6 +63,8 @@ export function BlockSettings( {
 
 	useEffect( () => {
 		if ( ! isURL( htmlAttributes?.src ) ) {
+			setImageData( null );
+			setHasResolved( true );
 			return;
 		}
 
@@ -77,6 +79,7 @@ export function BlockSettings( {
 				setHasResolved( true );
 			} catch ( error ) {
 				console.info( 'Error fetching image:', error ); // eslint-disable-line no-console
+				setImageData( null );
 				setHasResolved( true );
 			}
 		}() );
