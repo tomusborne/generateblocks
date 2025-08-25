@@ -637,6 +637,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			ARRAY_FILTER_USE_KEY
 		);
 
+		// Also remove disallowed keys from the main data object.
+		foreach ( GenerateBlocks_Meta_Handler::DISALLOWED_KEYS as $key ) {
+			unset( $user->data->$key );
+		}
+
 		return $user;
 	}
 

@@ -20,6 +20,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		'post_password',
 		'password',
 		'user_pass',
+		'user_activation_key',
 	];
 
 	/**
