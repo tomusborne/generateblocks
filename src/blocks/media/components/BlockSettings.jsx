@@ -63,6 +63,8 @@ export function BlockSettings( {
 
 	useEffect( () => {
 		if ( ! isURL( htmlAttributes?.src ) ) {
+			setImageData( null );
+			setHasResolved( true );
 			return;
 		}
 
@@ -77,6 +79,7 @@ export function BlockSettings( {
 				setHasResolved( true );
 			} catch ( error ) {
 				console.info( 'Error fetching image:', error ); // eslint-disable-line no-console
+				setImageData( null );
 				setHasResolved( true );
 			}
 		}() );
@@ -97,8 +100,12 @@ export function BlockSettings( {
 			? Object.keys( imageData?.sizes )
 			: [];
 
+		if ( ! hasResolved ) {
+			return [ { label: __( 'Loading sizes…', 'generateblocks' ), value: '' } ];
+		}
+
 		if ( ! imageSizes.length ) {
-			return [];
+			return [ { label: __( 'No sizes available', 'generateblocks' ), value: '' } ];
 		}
 
 		const options = imageSizes.map( ( imageSize ) => {
@@ -111,7 +118,7 @@ export function BlockSettings( {
 		options.unshift( { label: __( 'Full', 'generateblocks-pro' ), value: '' } );
 
 		return options;
-	}, [ imageData?.sizes ] );
+	}, [ imageData?.sizes, hasResolved ] );
 
 	const imageSizeValue = useMemo( () => {
 		const imageSizes = imageData?.sizes
@@ -182,6 +189,7 @@ export function BlockSettings( {
 									mediaId: 0,
 								} );
 							} }
+							sizeSlug={ imageSizeValue }
 						/>
 
 						<URLControls
@@ -198,36 +206,35 @@ export function BlockSettings( {
 							panelProps
 						) }
 
-						{ !! sizes?.length && (
-							<SelectControl
-								label={ __( 'Size', 'generateblocks' ) }
-								options={ sizes }
-								value={ imageSizeValue }
-								onChange={ ( value ) => {
-									if ( '' === value ) {
-										setAttributes( {
-											htmlAttributes: {
-												...htmlAttributes,
-												src: imageData?.full_url ?? '',
-												width: imageData?.width ?? '',
-												height: imageData?.height ?? '',
-											},
-										} );
-
-										return;
-									}
-
+						<SelectControl
+							label={ __( 'Size', 'generateblocks' ) }
+							options={ sizes }
+							value={ imageSizeValue }
+							disabled={ ! hasResolved || ( hasResolved && ! imageData?.sizes ) }
+							onChange={ ( value ) => {
+								if ( '' === value ) {
 									setAttributes( {
 										htmlAttributes: {
 											...htmlAttributes,
-											src: imageData?.sizes[ value ]?.url ?? '',
-											width: imageData?.sizes[ value ]?.width ?? '',
-											height: imageData?.sizes[ value ]?.height ?? '',
+											src: imageData?.full_url ?? '',
+											width: imageData?.width ?? '',
+											height: imageData?.height ?? '',
 										},
 									} );
-								} }
-							/>
-						) }
+
+									return;
+								}
+
+								setAttributes( {
+									htmlAttributes: {
+										...htmlAttributes,
+										src: imageData?.sizes[ value ]?.url ?? '',
+										width: imageData?.sizes[ value ]?.width ?? '',
+										height: imageData?.sizes[ value ]?.height ?? '',
+									},
+								} );
+							} }
+						/>
 					</>
 				) }
 

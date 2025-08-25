@@ -2128,9 +2128,14 @@ function generateblocks_get_processed_html_attributes( $html ) {
  * @param string $value The raw attribute value.
  */
 function generateblocks_get_escaped_html_attribute( $name, $value ) {
-	$url_fields = [ 'src', 'href' ];
+	$url_fields   = [ 'src', 'href' ];
+	$is_url_field = in_array( $name, $url_fields, true );
 
-	return in_array( $name, $url_fields, true )
+	if ( $is_url_field && ! empty( $value ) ) {
+		$value = do_shortcode( $value ); // esc_url() escapes shortcodes, so we need to do this first.
+	}
+
+	return $is_url_field
 		? esc_url( $value )
 		: esc_attr( $value );
 }
