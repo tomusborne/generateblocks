@@ -82,6 +82,12 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				unset( $user->data->user_pass );
 				unset( $user->data->user_activation_key );
 
+				if ( ! current_user_can( 'manage_options' ) ) {
+					// Remove sensitive values for non-admin users.
+					unset( $user->data->user_login );
+					unset( $user->data->user_email );
+				}
+
 				return $user;
 			},
 			$query->get_results()
