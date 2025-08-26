@@ -129,6 +129,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 2.1.1 =
+* Security: Remove sensitive values from REST API response for logged in users
 * Fix: Disable image links in the editor
 * Fix: Parse shortcodes in URL HTML attribute fields
 * Fix: Keep existing image size when changing image in block
