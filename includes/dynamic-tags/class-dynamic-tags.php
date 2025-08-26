@@ -632,10 +632,25 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			function( $key ) {
 				$disallowed = in_array( $key, GenerateBlocks_Meta_Handler::DISALLOWED_KEYS, true );
 
+				if ( 'user_login' === $key || 'user_email' === $key ) {
+					$disallowed = ! current_user_can( 'manage_options' );
+				}
+
 				return ! $disallowed;
 			},
 			ARRAY_FILTER_USE_KEY
 		);
+
+		// Also remove disallowed keys from the main data object.
+		foreach ( GenerateBlocks_Meta_Handler::DISALLOWED_KEYS as $key ) {
+			unset( $user->data->$key );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// Remove sensitive values for non-admin users.
+			unset( $user->data->user_login );
+			unset( $user->data->user_email );
+		}
 
 		return $user;
 	}

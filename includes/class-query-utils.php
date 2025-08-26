@@ -75,9 +75,27 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 		$query     = new WP_User_Query( $args );
 		$max_pages = round( $query->get_total() / $number );
 
+		// Filter sensitive data from user objects while maintaining structure.
+		$users = array_map(
+			function( $user ) {
+				// Always remove critical security fields.
+				unset( $user->data->user_pass );
+				unset( $user->data->user_activation_key );
+
+				if ( ! current_user_can( 'manage_options' ) ) {
+					// Remove sensitive values for non-admin users.
+					unset( $user->data->user_login );
+					unset( $user->data->user_email );
+				}
+
+				return $user;
+			},
+			$query->get_results()
+		);
+
 		return rest_ensure_response(
 			[
-				'users'     => $query->get_results(),
+				'users'     => $users,
 				'total'     => $query->get_total(),
 				'max_pages' => $max_pages,
 			]

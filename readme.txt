@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,6 +127,13 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 2.1.1 =
+* Security: Remove sensitive values from REST API response for logged in users
+* Fix: Disable image links in the editor
+* Fix: Parse shortcodes in URL HTML attribute fields
+* Fix: Keep existing image size when changing image in block
+* Tweak: Improve image size field loading UI
 
 = 2.1.0 =
 * Feature: Enable full iframe editor

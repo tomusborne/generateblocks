@@ -63,7 +63,7 @@ function EditBlock( props ) {
 	};
 	const TagName = tagName || 'img';
 
-	function onSelectImage( image ) {
+	function onSelectImage( image, sizeSlug = null ) {
 		if ( ! image || ! image.url ) {
 			onResetImage();
 			return;
@@ -76,9 +76,11 @@ function EditBlock( props ) {
 		setTemporaryURL();
 
 		if ( !! image ) {
+			const imageUrl = ( image?.sizes && image?.sizes[ sizeSlug ]?.url ) || image?.url;
+
 			const newAttributes = {
 				...htmlAttributes,
-				src: image.url,
+				src: imageUrl,
 				alt: image.alt,
 				title: image.title,
 				height: image.height,

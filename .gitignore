@@ -8,3 +8,4 @@ composer.lock
 # dist/
 .phpunit.result.cache
 .npmrc
+CLAUDE.md
