@@ -159,7 +159,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			);
 
 			// If this tag is required for the block to render and there is no replacement, bail.
-			if ( $required && ! $replacement ) {
+			if ( $required && empty( $replacement ) && '0' !== $replacement ) {
 				return '';
 			}
 
