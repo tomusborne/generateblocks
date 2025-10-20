@@ -723,3 +723,20 @@ function generateblocks_do_html_attributes_escaping( $content, $block ) {
 
 	return $content;
 }
+
+add_filter( 'generateblocks_allowed_option_keys_rest_api', 'generateblocks_allow_additional_option_keys_rest_api' );
+/**
+ * Allow additional option keys to be accessible via the REST API.
+ *
+ * @param array $allowed_keys Existing allowed keys.
+ */
+function generateblocks_allow_additional_option_keys_rest_api( $allowed_keys ) {
+	if ( ! is_array( $allowed_keys ) ) {
+		$allowed_keys = [];
+	}
+
+	$acf_option_keys = generateblocks_get_acf_option_field_keys();
+	$allowed_keys    = array_merge( $allowed_keys, $acf_option_keys );
+
+	return $allowed_keys;
+}
