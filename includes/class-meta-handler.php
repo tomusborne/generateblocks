@@ -108,11 +108,20 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 						return false;
 					}
 
-					$key = $request->get_param( 'key' );
+					$key = $request->get_param( 'key' ) ?? '';
 
 					// Allow access to allowed keys.
 					if ( in_array( $key, $allowed_keys, true ) ) {
 						return true;
+					}
+
+					// Fallback: check parent key for dot notation.
+					if ( strpos( $key, '.' ) !== false ) {
+						$parent_key = trim( explode( '.', $key )[0] );
+
+						if ( '' !== $parent_key && in_array( $parent_key, $allowed_keys, true ) ) {
+							return true;
+						}
 					}
 
 					return false;
