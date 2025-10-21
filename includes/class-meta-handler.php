@@ -110,6 +110,10 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 
 					$key = $request->get_param( 'key' ) ?? '';
 
+					if ( ! is_string( $key ) ) {
+						return false;
+					}
+
 					// Allow access to allowed keys.
 					if ( in_array( $key, $allowed_keys, true ) ) {
 						return true;
