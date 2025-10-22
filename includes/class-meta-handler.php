@@ -81,8 +81,54 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_option_rest' ],
-				'permission_callback' => function() {
-					return current_user_can( 'edit_posts' );
+				'permission_callback' => function( $request ) {
+					// Only allow users who can edit posts to access options.
+					if ( ! current_user_can( 'edit_posts' ) ) {
+						return false;
+					}
+
+					// Admins can access all options.
+					if ( current_user_can( 'manage_options' ) ) {
+						return true;
+					}
+
+					$allowed_keys = apply_filters(
+						'generateblocks_allowed_option_keys_rest_api',
+						[
+							'siteurl',
+							'blogname',
+							'blogdescription',
+							'home',
+							'time_format',
+							'user_count',
+						]
+					);
+
+					if ( ! is_array( $allowed_keys ) ) {
+						return false;
+					}
+
+					$key = $request->get_param( 'key' ) ?? '';
+
+					if ( ! is_string( $key ) ) {
+						return false;
+					}
+
+					// Allow access to allowed keys.
+					if ( in_array( $key, $allowed_keys, true ) ) {
+						return true;
+					}
+
+					// Fallback: check parent key for dot notation.
+					if ( strpos( $key, '.' ) !== false ) {
+						$parent_key = trim( explode( '.', $key )[0] );
+
+						if ( '' !== $parent_key && in_array( $parent_key, $allowed_keys, true ) ) {
+							return true;
+						}
+					}
+
+					return false;
 				},
 			]
 		);
